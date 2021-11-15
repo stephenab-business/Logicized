@@ -18,12 +18,14 @@ import { PartsMenu } from './PartsMenu';
 import AndGateNode from './Parts/AndGate/AndGateNode';
 import InputGateNode from './Parts/InputNode/InputNode';
 import OutputGateNode from './Parts/OutputNode/OutputNode';
+import NotGateNode from './Parts/NotGate/NotGateNode';
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
 import './canvas.css';
 
 // Any type of Node that is created must be passed as a type here
 const nodeTypes = {
     andGate: AndGateNode,
+    notGate: NotGateNode,
     inputGate: InputGateNode,
     outputGate: OutputGateNode
 };
@@ -115,6 +117,24 @@ const CanvasEditor = () => {
                     type,
                     position,
                     data: data,
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'not') {
+                const id = getId();
+                const type = 'notGate';
+                const data = {
+                    id,
+                    input: 0,
+                    output: 0,
+                };
+                const sourcePosition = Position.Top;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
                 };
                 setElements((elements) => elements.concat(newNode));
             }
