@@ -15,7 +15,9 @@ import ReactFlow, {
     useStoreState,
     XYPosition,
     isNode,
-    useStoreActions
+    useStoreActions,
+    FlowElement,
+    ReactFlowState
 } from 'inputs-and-outputs-renderer';
 import { PartsMenu } from './PartsMenu';
 import AndGateNode from './Parts/AndGate/AndGateNode';
@@ -50,7 +52,7 @@ const getId = (): ElementId => `dndnode_${id++}`;
 const CanvasEditor = () => {
     const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
     const [elements, setElements] = useState<Elements>(initialElements);
-    const storeSelected = useStoreState((state) => state.selectedElements);
+    const storeSelected = useStoreState((state: ReactFlowState) => state.selectedElements);
     const setStoreSelected = useStoreActions((actions) => actions.setSelectedElements);
     // const [currentSelection, setCurrentSelection] = useState<Elements | null>(storeSelected);
     const nodeCommentOffset: number = 42;
@@ -379,7 +381,7 @@ const CanvasEditor = () => {
         // Helper Function
         const removeStoreSelection = (id: ElementId) => {
             const currentStoreSelection = storeSelected;
-            const index = currentStoreSelection?.findIndex((element) => element.id === id);
+            const index = currentStoreSelection?.findIndex((element: FlowElement) => element.id === id);
             const editedStoreSelection: Elements | null = [];
             if (currentStoreSelection) {
                 for (let i = 0; i < currentStoreSelection.length; i++) {

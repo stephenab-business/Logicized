@@ -1,14 +1,14 @@
 import React, { memo, FC, useEffect } from 'react';
 
-import { Handle, Position, NodeProps, Connection, Edge, useStoreState, } from 'inputs-and-outputs-renderer';
+import { Handle, Position, NodeProps, Connection, Edge, useStoreState, ReactFlowState, Node, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../Functions/gateFunctions';
 import './AndGateNode.css';
 
 const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const inputPosition = getInputPosition(sourcePosition);
     const outputPosition = getOutputPosition(sourcePosition);
-    const nodes = useStoreState((state) => state.nodes);
-    const thisNode = nodes.find((node) => node.id === data.id);
+    const nodes = useStoreState((state: ReactFlowState) => state.nodes);
+    const thisNode = nodes.find((node: Node) => node.id === data.id);
 
     // Function that computes the actual output value of the AND gate
     useEffect(() => {
