@@ -4,6 +4,8 @@
   height: 100%;
 }
 
+/* .react-flow__edge__wrapper-path to edit the bounding box */
+
 .canvas-editor aside {
   border-right: 1px solid #eee;
   padding: 15px 10px;

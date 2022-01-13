@@ -1,6 +1,6 @@
 import { ReactFlowProvider, useStore } from 'inputs-and-outputs-renderer';
 
-import './App.css';
+import './App.scss';
 import CanvasEditor from './CanvasEditor/CanvasEditor';
 
 function App() {

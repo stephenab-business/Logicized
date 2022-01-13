@@ -1,4 +1,4 @@
-import React, { memo, FC, useEffect, useState } from 'react';
+import React, { memo, FC, } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import './OutputNode.css';
 

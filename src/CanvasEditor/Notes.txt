@@ -1,0 +1,53 @@
+Things to Do:
+=== Upon Node deletion, Node Comment must be deleted as well
+=== Upon Node Comment deletion, Node properties must be set
+=== If Comment is empty, and is no longer selected/focused, delete
+=== If Comment is being edited and is no longer selected/focused on, set back to previously submitted Comment
+=== Focus on Comment Creation or edit
+=== If Comment is empty but previously submitted, set back to previous Comment
+- Fix Clipboard shortcuts selection bug
+- Finalize Clipboard shortcuts
+
+
+KEY NOTES FOR CLIPBOARD/SELECTION:
+- currentSelection will need to be renamed to CommentSelection, since that is really all it's doing
+- passedSelection can be renamed currentSelection
+- onSelectionChange, since it retrieves the actual selected elements, will set currentSelection
+- commentSelection is only used with comments, so if there is something in the commentSelection array, it means a comment is currently selected
+- onSelectionChange will set the currentSelection, and then compare the currentSelection to the commentSelection to ensure that it is not different
+- pass currentSelection to useClipboardShortcuts
+
+
+- Make Comment textboxes reponsive
+- Finish Updating Edge Function
+- Edit Edge connect zone
+- Output Display not updating
+--------------
+END OF BUGS
+--------------
+- Create Block Comments
+- Clock Inputs
+    - Rising Edge: low-to-high (starts at 0)
+    - Falling Edge: high-to-low (starts at 1)
+    - Clock Period
+- Simulation Mode
+    - To reduce computation
+        - Save static nodes in array
+        - Save dynamic nodes in array
+        - Only update dynamic nodes each clock cycle
+    - Simulate (if indefinite, run on time multiplier)
+    - Step (starting the clock, stepping through each node)
+    - Clock Step (running one clock cycle)
+- Implement Basic Nodes
+- Create SVGs of the Nodes
+- Redo and Undo Shortcuts
+
+
+
+Comment Nodes:
+**** On Comment Node deletion, set all the necessary variables
+** Add focus on Comment Node creation
+** Add focus on Comment Node edit 
+** Fix formatting of text box when long comment is added
+* Make responsive when size of viewport changes
+

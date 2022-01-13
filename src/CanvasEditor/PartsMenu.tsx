@@ -27,6 +27,9 @@ export const PartsMenu = () => {
       <div className="dndnode-input" onDragStart={(event: DragEvent) => onDragStart(event, 'inputgate')} draggable>
         Input
       </div>
+      <div className = "dndnode-ground" onDragStart={(event: DragEvent) => onDragStart(event, 'inputGround')} draggable>
+        Input Ground
+      </div>
       <div className="dndnode-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'outputgate')} draggable>
         Output
       </div>

@@ -27,6 +27,7 @@ const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
 
     const onConnect = (params: Connection | Edge) => {
         console.log(thisNode);
+        console.log(params);
     }
 
     return(
