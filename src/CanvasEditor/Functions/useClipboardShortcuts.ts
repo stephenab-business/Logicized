@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { isEdge, getConnectedEdges, Node, Edge, Elements, ElementId, FlowElement, isNode } from 'inputs-and-outputs-renderer';
-
-
+import React, { useEffect, useState } from 'react';
+import { isEdge, getConnectedEdges, Node, Edge, Elements, ElementId, FlowElement, isNode, useStoreActions, useStoreState, XYPosition } from 'inputs-and-outputs-renderer';
 
 function getSelectedGraph(selectedElements: Elements, elements: Elements) {
   const selectedNodes: Node[] = [];
@@ -53,7 +51,11 @@ function getSelectedGraph(selectedElements: Elements, elements: Elements) {
 
 const Format = 'application/react-flow-format';
 
-export function useClipboardShortcuts(elements: Elements | null, selectedElements: Elements | null, onElementsRemove: (elementsToRemove: Elements) => void, setElements: React.Dispatch<React.SetStateAction<Elements<any>>>) {
+const nodeOffset: number = 200;
+
+export function useClipboardShortcuts(elements: Elements | null, selectedElements: Elements | null, setSelected: React.Dispatch<React.SetStateAction<Elements<any>>>, onElementsRemove: (elementsToRemove: Elements) => void, setElements: React.Dispatch<React.SetStateAction<Elements<any>>>, getId: () => ElementId) {
+  // const setSelectedElements = useStoreActions((actions) => actions.setSelectedElements);
+
   useEffect(() => {
     const cut = (event: ClipboardEvent) => {
       if (elements !== null && selectedElements) {
@@ -75,24 +77,49 @@ export function useClipboardShortcuts(elements: Elements | null, selectedElement
       }
     };
 
+
+      // NOTES FOR STEPHEN:
+      /*
+      
+      * Need to set the User Selection box around the pasted nodes
+      * Need to redefine the copy function to where it will save the exact positions
+      * Need to paste in the exact same positions but with a pre-defined offset
+        * Offset will only apply if there is an Element that is currently in that position 
+      * Need to set the selected values
+        * I will need to pass in the setSelectedElements function
+      
+      */
+
+
     const paste = (event: ClipboardEvent) => {
       try {
         if (event.clipboardData) {
           const elementsToAdd = JSON.parse(event.clipboardData.getData(Format));
-          const now = Date.now();
-          // change id/source/target of new elements
-          // NOTE: CHANGE THIS FOR GOD'S SAKE, JUST PASS ID FROM CANVASEDITOR AND USE IT
+          const nodeMap: { [id: ElementId] : Node } = {};
+          const pastedElements: Elements = [];
+          // Edges are only pasted if their source and target Nodes are pasted
           elementsToAdd.forEach((element: FlowElement) => {
             if (isEdge(element)) {
-              element.id = `${element.id}_${now}`;
-              element.source = `${element.source}_${now}`;
-              element.target = `${element.target}_${now}`;
+
+              element.id = getId();
+              element.source = nodeMap[element.source].id;
+              element.target = nodeMap[element.target].id;
+              // element.className = element.className + ' selected';
+              
             } else {
-              element.id = `${element.id}_${now}`;
+              const originalId = element.id;
+              element.id = getId();
+              nodeMap[originalId] = element;
+              // element.className = element.className + ' selected';
+              element.position = { x: element.position.x + nodeOffset, y: element.position.y };
             }
+            pastedElements.push(element);
           });
           event.preventDefault();
-          setElements((elements) => [...elements, ...elementsToAdd]); 
+          setElements((elements) => [...elements, ...elementsToAdd]);
+          // Show User Selection bounding box
+          // Set the pasted elements as the selection
+          // setSelectedElements(pastedElements.map((element) => ({ id: element.id, type: element.type })))
         }
       } catch (error) {
         console.error(error);
@@ -108,5 +135,5 @@ export function useClipboardShortcuts(elements: Elements | null, selectedElement
       document.removeEventListener('copy', copy as EventListenerOrEventListenerObject);
       document.removeEventListener('paste', paste as EventListenerOrEventListenerObject);
     }
-  }, [elements, onElementsRemove, selectedElements, setElements]);
+  }, [elements, onElementsRemove, selectedElements, setElements, getId]);
 }

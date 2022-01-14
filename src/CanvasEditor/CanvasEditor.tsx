@@ -20,11 +20,11 @@ import ReactFlow, {
     ReactFlowState
 } from 'inputs-and-outputs-renderer';
 import { PartsMenu } from './PartsMenu';
-import AndGateNode from './Parts/AndGate/AndGateNode';
 import InputGateNode from './Parts/InputNode/InputNode';
 import OutputGateNode from './Parts/OutputNode/OutputNode';
 import FreeCommentNode from './Parts/Comments/FreeComment/FreeCommentNode';
 import NodeCommentNode from './Parts/Comments/NodeComment/NodeCommentNode';
+import AndGateNode from './Parts/AndGate/AndGateNode';
 import NotGateNode from './Parts/NotGate/NotGateNode';
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
 import './canvas.css';
@@ -51,12 +51,9 @@ const getId = (): ElementId => `dndnode_${id++}`;
 const CanvasEditor = () => {
     const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
     const [elements, setElements] = useState<Elements>(initialElements);
-    // const storeSelected = useStoreState((state: ReactFlowState) => state.selectedElements);
-    // const setStoreSelected = useStoreActions((actions) => actions.setSelectedElements);
-    // const [currentSelection, setCurrentSelection] = useState<Elements | null>(storeSelected);
     const nodeCommentOffset: number = 42;
-    // let currentSelection: Elements = [];
     const [selected, setSelected] = useState<Elements>([]);
+    const storeSelected = useStoreState((state) => state.selectedElements);
 
     const onConnect = (params: Edge | Connection) => {
         setElements((elements) => addEdge(params, elements));
@@ -89,6 +86,7 @@ const CanvasEditor = () => {
         setElements((elements) => removeElements(elementsToRemove, elements));
         console.log(elements);
     }
+
     const onLoad = (_reactFlowInstance: OnLoadParams) => {
         setReactFlowInstance(_reactFlowInstance);
     }
@@ -287,6 +285,7 @@ const CanvasEditor = () => {
             setElements((elements) => elements.concat(newNode));
             node.data.comment = true;
             node.data.commentId = id;
+            
             // Set the only selected element to be the Node Comment
             commentSelection = [newNode];
         }
@@ -381,6 +380,7 @@ const CanvasEditor = () => {
         if (passedElements !== null) {
             currentSelection = passedElements;
             setSelected(currentSelection);
+            console.log(currentSelection);
 
             if (commentSelection.length !== 0) {
                 if (currentSelection.length !== 0) {
@@ -394,8 +394,12 @@ const CanvasEditor = () => {
         }
     }
 
+    useClipboardShortcuts(elements, currentSelection, setSelected, onElementsRemove, setElements, getId);
 
-    useClipboardShortcuts(elements, currentSelection, onElementsRemove, setElements);
+    // This handles the changes that are made to the selected elements by the clipboard shortcuts
+    // useEffect(() => {
+    //     onSelectionChange(storeSelected);
+    // }, [storeSelected]);
 
     return(
         <div className = "canvas-editor">

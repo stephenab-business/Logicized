@@ -5,19 +5,8 @@ Things to Do:
 === If Comment is being edited and is no longer selected/focused on, set back to previously submitted Comment
 === Focus on Comment Creation or edit
 === If Comment is empty but previously submitted, set back to previous Comment
-- Fix Clipboard shortcuts selection bug
+=== Fix Clipboard shortcuts selection bug
 - Finalize Clipboard shortcuts
-
-
-KEY NOTES FOR CLIPBOARD/SELECTION:
-- currentSelection will need to be renamed to CommentSelection, since that is really all it's doing
-- passedSelection can be renamed currentSelection
-- onSelectionChange, since it retrieves the actual selected elements, will set currentSelection
-- commentSelection is only used with comments, so if there is something in the commentSelection array, it means a comment is currently selected
-- onSelectionChange will set the currentSelection, and then compare the currentSelection to the commentSelection to ensure that it is not different
-- pass currentSelection to useClipboardShortcuts
-
-
 - Make Comment textboxes reponsive
 - Finish Updating Edge Function
 - Edit Edge connect zone
