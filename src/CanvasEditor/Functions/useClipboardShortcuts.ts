@@ -3,7 +3,7 @@ import { isEdge, getConnectedEdges, Node, Edge, Elements, ElementId, FlowElement
 
 
 
-async function getSelectedGraph(selectedElements: Elements, elements: Elements) {
+function getSelectedGraph(selectedElements: Elements, elements: Elements) {
   const selectedNodes: Node[] = [];
   const selectedNodeIds: ElementId[] = [];
   const allEdges: Edge[] = [];
@@ -11,22 +11,27 @@ async function getSelectedGraph(selectedElements: Elements, elements: Elements) 
   
   // Get all of the edges, and get only the selected nodes
   // Note: With multi-selection, only Nodes are selected
-  for (const element of elements) {
+  console.log(selectedElements);
+  elements.forEach((element) => {
     if (isEdge(element)) {
       allEdges.push(element);
-    } else if (selectedElements.includes(element)) {
-      selectedNodes.push(element);
-      selectedNodeIds.push(element.id);
+    } else {
+      selectedElements.forEach((node) => {
+        if (element.id === node.id) {
+          selectedNodes.push(element);
+          selectedNodeIds.push(element.id);
+        }
+      });
     }
-  }
+  });
   
   // Get all edges connected to the selected Nodes
-  for (const element of selectedNodes) {
+  selectedNodes.forEach((element) => {
     const connectedEdges = getConnectedEdges([element], allEdges);
-    for (const edge of connectedEdges) {
+    connectedEdges.forEach((edge) => {
       edgeMap[edge.id] = edge;
-    }
-  }
+    });
+  });
   
   const graph: Elements = selectedNodes;
   
@@ -35,11 +40,12 @@ async function getSelectedGraph(selectedElements: Elements, elements: Elements) 
   // since each edge has a source/target identifier that corresponds
   // to the id of the parent/child Node
   const possiblySelectedEdges = Object.values(edgeMap);
-  for (const edge of possiblySelectedEdges) {
+
+  possiblySelectedEdges.forEach((edge) => {
     if (selectedNodeIds.includes(edge.source) && selectedNodeIds.includes(edge.target)) {
       graph.push(edge);
     }
-  }
+  });
 
   return graph;
 
@@ -50,26 +56,47 @@ const Format = 'application/react-flow-format';
 export function useClipboardShortcuts(elements: Elements | null, selectedElements: Elements | null, onElementsRemove: (elementsToRemove: Elements) => void, setElements: React.Dispatch<React.SetStateAction<Elements<any>>>) {
   useEffect(() => {
     const cut = (event: ClipboardEvent) => {
-
+      if (elements !== null && selectedElements) {
+        const data = JSON.stringify(getSelectedGraph(selectedElements, elements));
+        event.clipboardData?.setData(Format, data);
+        event.preventDefault();
+        onElementsRemove(selectedElements);
+      }
     };
 
     const copy = (event: ClipboardEvent) => {
-      if (!(event.target as Element)?.closest('.react-flow')) {
-        console.log('poop1');
-        return;
-      }
-      console.log(!(event.target as Element)?.closest('.react-flow'));
-      if (elements !== null) {
-        console.log('not null');
-        if (selectedElements) {
-          console.log(selectedElements);
-          console.log(selectedElements.length);
-        }
+      if (elements !== null && selectedElements) {
+        console.log(getSelectedGraph(selectedElements, elements));
+        const data = JSON.stringify(
+          getSelectedGraph(selectedElements, elements)
+        );
+        event.clipboardData?.setData(Format, data);
+        event.preventDefault();
       }
     };
 
     const paste = (event: ClipboardEvent) => {
-
+      try {
+        if (event.clipboardData) {
+          const elementsToAdd = JSON.parse(event.clipboardData.getData(Format));
+          const now = Date.now();
+          // change id/source/target of new elements
+          // NOTE: CHANGE THIS FOR GOD'S SAKE, JUST PASS ID FROM CANVASEDITOR AND USE IT
+          elementsToAdd.forEach((element: FlowElement) => {
+            if (isEdge(element)) {
+              element.id = `${element.id}_${now}`;
+              element.source = `${element.source}_${now}`;
+              element.target = `${element.target}_${now}`;
+            } else {
+              element.id = `${element.id}_${now}`;
+            }
+          });
+          event.preventDefault();
+          setElements((elements) => [...elements, ...elementsToAdd]); 
+        }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     document.addEventListener('cut', cut as  EventListenerOrEventListenerObject);
@@ -81,5 +108,5 @@ export function useClipboardShortcuts(elements: Elements | null, selectedElement
       document.removeEventListener('copy', copy as EventListenerOrEventListenerObject);
       document.removeEventListener('paste', paste as EventListenerOrEventListenerObject);
     }
-  });
+  }, [elements, onElementsRemove, selectedElements, setElements]);
 }

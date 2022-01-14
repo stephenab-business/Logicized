@@ -28,7 +28,6 @@ import NodeCommentNode from './Parts/Comments/NodeComment/NodeCommentNode';
 import NotGateNode from './Parts/NotGate/NotGateNode';
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
 import './canvas.css';
-import { setSelectedElements } from 'inputs-and-outputs-renderer/dist/store/actions';
 
 // Any type of Node that is created must be passed as a type here
 const nodeTypes = {
@@ -42,8 +41,8 @@ const nodeTypes = {
 
 const initialElements: Elements = [];
 
-let passedSelection: Elements = [];
 let currentSelection: Elements = [];
+let commentSelection: Node[] = [];
 
 // DEFINE MORE ID FUNCTIONS SO THAT WE DON'T GET THESE BLAND ID'S FOR OUR NODES AND CAN ACTUALLY SEE WHICH IS WHICH
 let id = 0;
@@ -52,12 +51,12 @@ const getId = (): ElementId => `dndnode_${id++}`;
 const CanvasEditor = () => {
     const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
     const [elements, setElements] = useState<Elements>(initialElements);
-    const storeSelected = useStoreState((state: ReactFlowState) => state.selectedElements);
-    const setStoreSelected = useStoreActions((actions) => actions.setSelectedElements);
+    // const storeSelected = useStoreState((state: ReactFlowState) => state.selectedElements);
+    // const setStoreSelected = useStoreActions((actions) => actions.setSelectedElements);
     // const [currentSelection, setCurrentSelection] = useState<Elements | null>(storeSelected);
     const nodeCommentOffset: number = 42;
     // let currentSelection: Elements = [];
-    const [selectedElements, setSelectedElements] = useState<Elements>([]);
+    const [selected, setSelected] = useState<Elements>([]);
 
     const onConnect = (params: Edge | Connection) => {
         setElements((elements) => addEdge(params, elements));
@@ -259,6 +258,7 @@ const CanvasEditor = () => {
     // }
 
     // Creates a Node Comment if a node is clicked, enters Comment editing if a Comment is clicked
+
     const onNodeDoubleClick = (event: React.MouseEvent<Element, MouseEvent>, node: Node) => {
         if (node.type === 'freeComment' || node.type === 'nodeComment') {
             node.data.edit = true;
@@ -288,8 +288,7 @@ const CanvasEditor = () => {
             node.data.comment = true;
             node.data.commentId = id;
             // Set the only selected element to be the Node Comment
-            setStoreSelected([newNode]);
-            currentSelection = [newNode];
+            commentSelection = [newNode];
         }
     }
 
@@ -324,7 +323,6 @@ const CanvasEditor = () => {
     // Function removes all selected elements whenever the canvas is just clicked
     const onPaneClick = (event: React.MouseEvent<Element, MouseEvent>) => {
         if (reactFlowInstance) {
-            setStoreSelected([]);
             onSelectionChange([]);
         }
     }
@@ -356,8 +354,7 @@ const CanvasEditor = () => {
                 setElements((elements) => elements.concat(newNode));
                 
                 // Set the only selected element to be the Node Comment
-                setStoreSelected([newNode]);
-                currentSelection = [newNode];   
+                commentSelection = [newNode]; 
             }
         }
     }
@@ -365,70 +362,40 @@ const CanvasEditor = () => {
     // On any selection change, it unsets all of the previously selected values and will add only the newly selected elements
     const onSelectionChange = (passedElements: Elements | null) => {
 
-        if (passedElements !== null && passedElements !== selectedElements) {
-            console.log(currentSelection);
-            console.log(passedElements);
-            console.log(selectedElements);
-            passedSelection = [];
-            passedSelection = passedElements;
-            console.log(passedSelection);
-        } else {
-
-        
-
-        console.log(selectedElements);
-
-        // Helper Function
-        const removeStoreSelection = (id: ElementId) => {
-            const currentStoreSelection = storeSelected;
-            const index = currentStoreSelection?.findIndex((element: FlowElement) => element.id === id);
-            const editedStoreSelection: Elements | null = [];
-            if (currentStoreSelection) {
-                for (let i = 0; i < currentStoreSelection.length; i++) {
-                    if (i === index) {
-                        continue;
-                    } else {
-                        editedStoreSelection.push(currentStoreSelection[i]);
-                    }
+        const deleteNode = () => {
+            const comment: Node = commentSelection[0];
+            if (!comment.data.initialized && !comment.data.typing) {
+                if (comment.type === 'nodeComment') {
+                    const parentNode: Node = elements.find((element) => element.data.commentId === comment.data.id) as Node;
+                    parentNode.data.comment = false;
+                    parentNode.data.commentId = '';
                 }
-                setStoreSelected(editedStoreSelection);
+                commentSelection = [];
+                setElements((elements) => removeElements([comment], elements));
+            } else if (comment.data.edit && !comment.data.typing) {
+                comment.data.edit = false;
+                commentSelection = [];
             }
-        } 
+        }
 
-        if (passedElements !== null && currentSelection !== null) {
-            if (currentSelection.length === 1 && isNode(currentSelection[0])) {
-                if (currentSelection[0].type === 'nodeComment') {
-                    const nodeComment: Node = currentSelection[0];
-                    if (!nodeComment.data.initialized && nodeComment.data.content.length === 0) {
-                        const parentNode: Node = elements.find((element) => element.data.commentId === nodeComment.id) as Node;
-                        parentNode.data.comment = false;
-                        parentNode.data.commentId = '';
-                        currentSelection = [];
-                        setElements((elements) => removeElements([nodeComment], elements));
-                        removeStoreSelection(nodeComment.id);
-                    } else if (nodeComment.data.edit && !nodeComment.data.typing) {
-                        nodeComment.data.edit = false;
-                    }
-                    // CAN ADD A FEATURE HERE WHERE IF YOU CLICK OFF OF COMMENT, IT AUTOMATICALLY SUBMITS IT
-                } else if (currentSelection[0].type === 'freeComment') {
-                    const freeComment: Node = currentSelection[0];
-                    if (!freeComment.data.initialized && !freeComment.data.typing) {
-                        setElements((elements) => removeElements([freeComment], elements));
-                        currentSelection = [];
-                        removeStoreSelection(freeComment.id);
-                    } else if (freeComment.data.edit && !freeComment.data.typing) {
-                        freeComment.data.edit = false;
-                    }
-                }
-            }
+        if (passedElements !== null) {
             currentSelection = passedElements;
+            setSelected(currentSelection);
+
+            if (commentSelection.length !== 0) {
+                if (currentSelection.length !== 0) {
+                    if (commentSelection[0].id !== currentSelection[0].id) {
+                        deleteNode();
+                    }
+                } else {
+                    deleteNode();
+                }
+            }
         }
     }
-    }
 
 
-
-    useClipboardShortcuts(elements, storeSelected, onElementsRemove, setElements);
+    useClipboardShortcuts(elements, currentSelection, onElementsRemove, setElements);
 
     return(
         <div className = "canvas-editor">
