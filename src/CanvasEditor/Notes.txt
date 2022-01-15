@@ -6,9 +6,12 @@ Things to Do:
 === Focus on Comment Creation or edit
 === If Comment is empty but previously submitted, set back to previous Comment
 === Fix Clipboard shortcuts selection bug
-- Finalize Clipboard shortcuts
+=== Finalize Clipboard shortcuts
+    - Notes for the Future:
+        - Eventually, create a way to deselect all other nodes and edges and select the pasted items
+        - When pasted, the selection will create a bounding rectangle, such as if you were to normally select multiple items
 - Make Comment textboxes reponsive
-- Finish Updating Edge Function
+=== Finish Updating Edge Function
 - Edit Edge connect zone
 - Output Display not updating
 --------------
@@ -40,3 +43,6 @@ Comment Nodes:
 ** Fix formatting of text box when long comment is added
 * Make responsive when size of viewport changes
 
+
+(event.target as Element).closest('.react-flow') --> this is for confirming copy, cut, paste
+getBoundingClientRect --> possibly for node width and height

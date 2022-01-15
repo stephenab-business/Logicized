@@ -2,9 +2,9 @@ import React, { memo, FC, useEffect } from 'react';
 
 import { Handle, Position, NodeProps, Connection, Edge, useStoreState, ReactFlowState, Node, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../Functions/gateFunctions'
-import './NorGateNode.css';
+import './XnorGateNode.css';
 
-const NorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
+const XnorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const inputPosition = getInputPosition(sourcePosition);
     const outputPosition = getOutputPosition(sourcePosition);
     const nodes = useStoreState((state: ReactFlowState) => state.nodes);
@@ -18,7 +18,7 @@ const NorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
             if (thisNode.data.inputOneConnected && thisNode.data.inputTwoConnected) {
                 inputOne = thisNode.data.inputOne;
                 inputTwo = thisNode.data.inputTwo;
-                const actualOutput = !(!!inputOne) && !(!!inputTwo);
+                const actualOutput = (!!inputOne && !!inputTwo) || (!(!!inputOne) && !(!!inputTwo));
                 const output = +actualOutput;
                 thisNode.data.output = output;
             }
@@ -32,14 +32,14 @@ const NorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
 
     return(
         <>
-            <div className = 'nor__gate'>
-                <Handle id = 'nor__input__one' className = 'nor__input__one' type = 'source' position = {sourcePosition} onConnect = {onConnect} />
-                <Handle id = 'nor__input__two' className = 'nor__input__two' type = 'source' position = {inputPosition} onConnect = {onConnect}/>
+            <div className = 'or__gate'>
+                <Handle id = 'or__input__one' className = 'or__input__one' type = 'source' position = {sourcePosition} onConnect = {onConnect} />
+                <Handle id = 'or__input__two' className = 'or__input__two' type = 'source' position = {inputPosition} onConnect = {onConnect}/>
                 { data.label }
-                <Handle id = 'nor__output' className = 'nor__output' type = 'target' position = {outputPosition} onConnect = {onConnect} />
+                <Handle id = 'or__output' className = 'or__output' type = 'target' position = {outputPosition} onConnect = {onConnect} />
             </div>
         </>
     );
 }
 
-export default memo(NorGateNode);
+export default memo(XnorGateNode);

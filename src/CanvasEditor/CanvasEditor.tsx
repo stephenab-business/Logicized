@@ -20,21 +20,34 @@ import ReactFlow, {
     ReactFlowState
 } from 'inputs-and-outputs-renderer';
 import { PartsMenu } from './PartsMenu';
-import InputGateNode from './Parts/InputNode/InputNode';
-import OutputGateNode from './Parts/OutputNode/OutputNode';
+
+import InputGateNode from "./Parts/InputNode/InputNode";
+import OutputGateNode from "./Parts/OutputNode/OutputNode";
+import NotGateNode from "./Parts/NotGate/NotGateNode";
+import OrGateNode from "./Parts/OrGate/OrGateNode";
+import AndGateNode from "./Parts/AndGate/AndGateNode";
+import NorGateNode from "./Parts/NorGate/NorGateNode";
+import NandGateNode from "./Parts/NandGate/NandGateNode";
+import XorGateNode from "./Parts/XorGate/XorGateNode";
+import XnorGateNode from "./Parts/XnorGate/XnorGateNode";
 import FreeCommentNode from './Parts/Comments/FreeComment/FreeCommentNode';
 import NodeCommentNode from './Parts/Comments/NodeComment/NodeCommentNode';
-import AndGateNode from './Parts/AndGate/AndGateNode';
-import NotGateNode from './Parts/NotGate/NotGateNode';
+import BlockCommentNode from './Parts/Comments/BlockComment/BlockCommentNode';
+
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
 import './canvas.css';
 
 // Any type of Node that is created must be passed as a type here
 const nodeTypes = {
-    andGate: AndGateNode,
-    notGate: NotGateNode,
     inputGate: InputGateNode,
     outputGate: OutputGateNode,
+    notGate: NotGateNode,
+    orGate: OrGateNode,
+    andGate: AndGateNode,
+    norGate: NorGateNode,
+    nandGate: NandGateNode,
+    xorGate: XorGateNode,
+    xnorGate: XnorGateNode,
     freeComment: FreeCommentNode,
     nodeComment: NodeCommentNode
 };
@@ -91,11 +104,8 @@ const CanvasEditor = () => {
         setReactFlowInstance(_reactFlowInstance);
     }
 
-    // THIS ISN'T FINISHED
     const onEdgeUpdate = (oldEdge: Edge, newConnection: Connection) => {
         setElements((els) => updateEdge(oldEdge, newConnection, els));
-        // Update the old path variables
-        // Update the new connection variables
     }
 
     const onDragOver = (event: DragEvent) => {
@@ -105,6 +115,10 @@ const CanvasEditor = () => {
 
     const onDrop = (event: DragEvent) => {
         event.preventDefault();
+
+        interface onConnect {
+            onConnect: Function;
+        }
         
         //THIS IS WHERE NEW NODES WILL BE ADDED TO ENABLE DRAG AND DROP
         if (reactFlowInstance) {
@@ -168,6 +182,115 @@ const CanvasEditor = () => {
                     data,
                 };
                 setElements((elements) => elements.concat(newNode));
+            } else if (passedType === 'or') {
+                const id = getId();
+                const type = 'orGate';
+                const data = {
+                    id,
+                    label: 'OR',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    output: 0,
+                    comment: false,
+                    commentId: ''
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'nor') {
+                const id = getId();
+                const type = 'norGate';
+                const data = {
+                    id,
+                    label: 'NOR',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    output: 0,
+                    comment: false,
+                    commentId: ''
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'nand') {
+                const id = getId();
+                const type = 'nandGate';
+                const data = {
+                    id,
+                    label: 'NAND',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    output: 1,
+                    comment: false,
+                    commentId: ''
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'xor') {
+                const id = getId();
+                const type = 'xorGate';
+                const data = {
+                    id,
+                    label: 'XOR',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    output: 0,
+                    comment: false,
+                    commentId: ''
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'xnor') {
+                const id = getId();
+                const type = 'xnorGate';
+                const data = {
+                    id,
+                    label: 'XNOR',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    output: 1,
+                    comment: false,
+                    commentId: ''
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
             }
             else if (passedType === 'not') {
                 const id = getId();
@@ -179,7 +302,7 @@ const CanvasEditor = () => {
                     comment: false,
                     commentId: ''
                 };
-                const sourcePosition = Position.Top;
+                const sourcePosition = Position.Left;
                 const newNode = {
                     id,
                     type,
@@ -399,6 +522,7 @@ const CanvasEditor = () => {
     // This handles the changes that are made to the selected elements by the clipboard shortcuts
     // useEffect(() => {
     //     onSelectionChange(storeSelected);
+    //     console.log(currentSelection);
     // }, [storeSelected]);
 
     return(

@@ -1,12 +1,20 @@
-import React, { memo, FC, } from 'react';
-import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
+import React, { memo, FC, useState, useEffect, useRef } from 'react';
+import { Handle, Position, NodeProps, Connection, Edge } from 'inputs-and-outputs-renderer';
 import './OutputNode.css';
 
 const OutputNodeGate: FC<NodeProps> = ({ data }) => {
+    const [input, setInput] = useState<number>(data.input);
+
+
+    const onConnect = (params: Connection | Edge) => {
+        console.log('this worked')
+    }
+
+
     return(
         <>
             <div className = "output__gate">
-                <Handle id ='input__a' type = 'source' position = {Position.Left} />
+                <Handle id ='input__a' type = 'source' position = {Position.Left} onConnect={onConnect}/>
                 {data.input}
             </div>
         </>

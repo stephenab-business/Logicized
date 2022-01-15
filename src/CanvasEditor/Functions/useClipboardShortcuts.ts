@@ -55,6 +55,8 @@ const nodeOffset: number = 200;
 
 export function useClipboardShortcuts(elements: Elements | null, selectedElements: Elements | null, setSelected: React.Dispatch<React.SetStateAction<Elements<any>>>, onElementsRemove: (elementsToRemove: Elements) => void, setElements: React.Dispatch<React.SetStateAction<Elements<any>>>, getId: () => ElementId) {
   // const setSelectedElements = useStoreActions((actions) => actions.setSelectedElements);
+  // const unsetNodesSelection = useStoreActions((actions) => actions.unsetNodesSelection);
+
 
   useEffect(() => {
     const cut = (event: ClipboardEvent) => {
@@ -119,7 +121,9 @@ export function useClipboardShortcuts(elements: Elements | null, selectedElement
           setElements((elements) => [...elements, ...elementsToAdd]);
           // Show User Selection bounding box
           // Set the pasted elements as the selection
-          // setSelectedElements(pastedElements.map((element) => ({ id: element.id, type: element.type })))
+          // if (selectedElements && selectedElements.length === 0) {
+          //   setSelectedElements(pastedElements.map((element) => ({ id: element.id, type: element.type })));
+          // }
         }
       } catch (error) {
         console.error(error);
