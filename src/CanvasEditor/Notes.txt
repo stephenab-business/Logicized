@@ -8,8 +8,16 @@ Things to Do:
 === Fix Clipboard shortcuts selection bug
 === Finalize Clipboard shortcuts
     - Notes for the Future:
-        - Eventually, create a way to deselect all other nodes and edges and select the pasted items
-        - When pasted, the selection will create a bounding rectangle, such as if you were to normally select multiple items
+        - Set the key for multi-selection and see if that fixes the Mac bug
+        - Do not create bounding rectangle when there is multi-selection, simply make all the nodes show selected and move together
+        - When there is a multi-selection, all of the nodes styles show that they are selected
+        - When a paste happens, if any nodes are selected, are deselected and their styles are edited to show that they are no longer selected
+        - When pasted:
+            - the pasted nodes are selected and their styles are also edited to show that they are selected
+            - the nodes will move together if one of nodes is grabbed and moved
+            - when any of the nodes are clicked individually, not dragged, then selection returns to the normal selection
+            - when the canvas is clicked, the above line applies here
+        - If a paste happens and no nodes are selected, the above behavior holds true
 - Make Comment textboxes reponsive
 === Finish Updating Edge Function
 - Edit Edge connect zone
