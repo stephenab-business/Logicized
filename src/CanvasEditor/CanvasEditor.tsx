@@ -295,11 +295,12 @@ const CanvasEditor = () => {
                         onDragOver = {onDragOver}
                         style = {{height: window.innerHeight}}
                         nodeTypes = {nodeTypes}
-                        className = "flow-canvas"
+                        className = 'flow-canvas'
                         nodesConnectable = {true}
                         onSelectionChange = {onSelectionChange}
                         onNodeDoubleClick = {onNodeDoubleClick}
-                        // onClick = {onCanvasClick}
+                        multiSelectionKeyCode={['MetaLeft', 'ControlLeft', 'ControlRight']} // This is for multiple, individual selections
+                        selectionKeyCode={'ShiftLeft'} // This is for drag selecting
                         onPaneClick={onPaneClick}
                         onDoubleClick = {onCanvasDoubleClick}
                         onNodeDrag = {onNodeDrag}
