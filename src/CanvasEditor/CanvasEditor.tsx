@@ -21,37 +21,11 @@ import ReactFlow, {
 } from 'inputs-and-outputs-renderer';
 import { PartsMenu } from './PartsMenu';
 
-import InputGateNode from "./Parts/InputNode/InputNode";
-import OutputGateNode from "./Parts/OutputNode/OutputNode";
-import NotGateNode from "./Parts/NotGate/NotGateNode";
-import OrGateNode from "./Parts/OrGate/OrGateNode";
-import AndGateNode from "./Parts/AndGate/AndGateNode";
-import NorGateNode from "./Parts/NorGate/NorGateNode";
-import NandGateNode from "./Parts/NandGate/NandGateNode";
-import XorGateNode from "./Parts/XorGate/XorGateNode";
-import XnorGateNode from "./Parts/XnorGate/XnorGateNode";
-import FreeCommentNode from './Parts/Comments/FreeComment/FreeCommentNode';
-import NodeCommentNode from './Parts/Comments/NodeComment/NodeCommentNode';
-import BlockCommentNode from './Parts/Comments/BlockComment/BlockCommentNode';
+import { nodeTypes } from './Parts';
 
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
 import './canvas.css';
 import { createNode } from './Functions/createNode';
-
-// Any type of Node that is created must be passed as a type here
-const nodeTypes = {
-    inputGate: InputGateNode,
-    outputGate: OutputGateNode,
-    notGate: NotGateNode,
-    orGate: OrGateNode,
-    andGate: AndGateNode,
-    norGate: NorGateNode,
-    nandGate: NandGateNode,
-    xorGate: XorGateNode,
-    xnorGate: XnorGateNode,
-    freeComment: FreeCommentNode,
-    nodeComment: NodeCommentNode
-};
 
 const initialElements: Elements = [];
 
@@ -73,12 +47,13 @@ const CanvasEditor = () => {
         setElements((elements) => addEdge(params, elements));
         console.log(elements);
     }
+
     const onElementsRemove = (elementsToRemove: Elements) => {
         // If element is Node, and that Node has a Node Comment
         for (let i = 0; i < elementsToRemove.length; i++) {
             if (isNode(elementsToRemove[i])) {
                 const node: Node = elementsToRemove[i] as Node;
-                // If element is normal Node
+                // If element is any node type besides a Node Comment
                 if (node.type !== 'nodeComment') {
                     if (node.data.comment === true) {
                         const id = node.data.commentId;
@@ -94,8 +69,6 @@ const CanvasEditor = () => {
                     parentNode.data.commentId = '';
                 }
             }
-            
-            // Else
         }
         setElements((elements) => removeElements(elementsToRemove, elements));
         console.log(elements);
@@ -299,7 +272,7 @@ const CanvasEditor = () => {
                         nodesConnectable = {true}
                         onSelectionChange = {onSelectionChange}
                         onNodeDoubleClick = {onNodeDoubleClick}
-                        multiSelectionKeyCode={['MetaLeft', 'ControlLeft', 'ControlRight']} // This is for multiple, individual selections
+                        multiSelectionKeyCode={['ControlLeft', 'ControlRight']} // This is for multiple, individual selections
                         selectionKeyCode={'ShiftLeft'} // This is for drag selecting
                         onPaneClick={onPaneClick}
                         onDoubleClick = {onCanvasDoubleClick}
