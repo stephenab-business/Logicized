@@ -28,8 +28,8 @@ import './canvas.css';
 import { createNode } from './Functions/createNode';
 
 const initialElements: Elements = [];
+const initialSelected: Elements = [];
 
-let currentSelection: Elements = [];
 let commentSelection: Node[] = [];
 
 // DEFINE MORE ID FUNCTIONS SO THAT WE DON'T GET THESE BLAND ID'S FOR OUR NODES AND CAN ACTUALLY SEE WHICH IS WHICH
@@ -39,9 +39,9 @@ const getId = (): ElementId => `dndnode_${id++}`;
 const CanvasEditor = () => {
     const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
     const [elements, setElements] = useState<Elements>(initialElements);
+    const [selected, setSelected] = useState<Elements>(initialSelected);
     const nodeCommentOffset: number = 42;
-    const [selected, setSelected] = useState<Elements>([]);
-    const storeSelected = useStoreState((state) => state.selectedElements);
+
 
     const onConnect = (params: Edge | Connection) => {
         setElements((elements) => addEdge(params, elements));
@@ -212,7 +212,7 @@ const CanvasEditor = () => {
     // On any selection change, it unsets all of the previously selected values and will add only the newly selected elements
     const onSelectionChange = (passedElements: Elements | null) => {
 
-        const deleteNode = () => {
+        const deleteCommentNode = () => {
             const comment: Node = commentSelection[0];
             if (!comment.data.initialized && !comment.data.typing) {
                 if (comment.type === 'nodeComment') {
@@ -229,23 +229,22 @@ const CanvasEditor = () => {
         }
 
         if (passedElements !== null) {
-            currentSelection = passedElements;
-            setSelected(currentSelection);
-            console.log(currentSelection);
+            setSelected(passedElements);
+            console.log(passedElements);
 
             if (commentSelection.length !== 0) {
-                if (currentSelection.length !== 0) {
-                    if (commentSelection[0].id !== currentSelection[0].id) {
-                        deleteNode();
+                if (passedElements.length !== 0) {
+                    if (commentSelection[0].id !== passedElements[0].id) {
+                        deleteCommentNode();
                     }
                 } else {
-                    deleteNode();
+                    deleteCommentNode();
                 }
             }
         }
     }
 
-    useClipboardShortcuts(elements, currentSelection, setSelected, onElementsRemove, setElements, getId);
+    useClipboardShortcuts(elements, selected, setSelected, onElementsRemove, setElements, getId);
 
     // This handles the changes that are made to the selected elements by the clipboard shortcuts
     // useEffect(() => {

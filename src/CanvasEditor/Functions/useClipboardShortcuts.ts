@@ -119,6 +119,7 @@ export function useClipboardShortcuts(elements: Elements | null, selectedElement
           });
           event.preventDefault();
           setElements((elements) => [...elements, ...elementsToAdd]);
+          setSelected(elementsToAdd);
           // Show User Selection bounding box
           // Set the pasted elements as the selection
           // if (selectedElements && selectedElements.length === 0) {
