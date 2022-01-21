@@ -276,7 +276,7 @@ const CanvasEditor = () => {
                         onPaneClick={onPaneClick}
                         onDoubleClick = {onCanvasDoubleClick}
                         onNodeDrag = {onNodeDrag}
-                        deleteKeyCode={['Backspace', 'x']}
+                        deleteKeyCode={['Backspace', 'Delete']}
                     >
                         <Background 
                             gap = {12}
