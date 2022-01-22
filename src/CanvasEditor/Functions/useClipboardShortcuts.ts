@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { isEdge, getConnectedEdges, Node, Edge, Elements, ElementId, FlowElement, isNode, useStoreActions, useStoreState, XYPosition } from 'inputs-and-outputs-renderer';
-
-function combineLists(firstList: NodeListOf<Element>, secondList: NodeListOf<Element>) {
-  const combinedList: Element[] = [];
-  
-  firstList.forEach((element) => {
-    combinedList.push(element);
-  });
-  secondList.forEach((element) => {
-    combinedList.push(element);
-  })
-
-  return combinedList;
-}
+import { undoNodesSelection, setNodeStyles } from './domFunctions';
 
 function getAllSelectedElements(selectedElements: Elements, elements: Elements) {
   const allEdges: Edge[] = [];
@@ -109,7 +97,6 @@ export function useClipboardShortcuts(elements: Elements, selectedElements: Elem
         if (event.clipboardData) {
           const elementsToAdd = JSON.parse(event.clipboardData.getData(Format));
           const nodeMap: { [id: ElementId] : Node } = {};
-          const pastedElements: Elements = [];
           // Edges are only pasted if their source and target Nodes are pasted
           elementsToAdd.forEach((element: FlowElement) => {
             if (isEdge(element)) {
@@ -121,10 +108,12 @@ export function useClipboardShortcuts(elements: Elements, selectedElements: Elem
               const originalId = element.id;
               element.id = getId();
               nodeMap[originalId] = element;
-              
               element.position = { x: element.position.x + nodeOffset, y: element.position.y };
+              element.data = {
+                ...element.data,
+                pasted: true
+              }
             }
-            pastedElements.push(element);
           });
           event.preventDefault();
 
@@ -135,21 +124,16 @@ export function useClipboardShortcuts(elements: Elements, selectedElements: Elem
           // If there is currently selected elements
           if (selectedElements.length !== 0) {
             // Delete Node Selection DOM Element
-            const rectangleElements = document.getElementsByClassName('react-flow__nodesselection-rect react-draggable');
-            const rectangle: Element = rectangleElements[0];
-            if (rectangle) {
-              rectangle.remove();
-            }
-            // Unset Node Selection
-            unsetNodesSelection([]);
-            // Remove the styling of the previously selected Nodes and Edges
-            const allEdges = document.querySelectorAll('g[class^="react-flow__edge react-flow"]');
-            const allNodes = document.querySelectorAll('div[class^="react-flow__node react-flow"]')
-            const allElements = combineLists(allNodes, allEdges);
-            allElements.forEach((element) => {
-              element.classList.remove('selected');
-            });
+            undoNodesSelection(unsetNodesSelection);
           }
+
+          // Set the styles
+          setNodeStyles(elementsToAdd);
+
+          // If pane click
+          // If node click
+          // If node drag
+          
         }
       } catch (error) {
         console.error(error);
@@ -165,5 +149,5 @@ export function useClipboardShortcuts(elements: Elements, selectedElements: Elem
       document.removeEventListener('copy', copy as EventListenerOrEventListenerObject);
       document.removeEventListener('paste', paste as EventListenerOrEventListenerObject);
     }
-  }, [elements, onElementsRemove, selectedElements, setElements, getId]);
+  }, [elements, onElementsRemove, selectedElements, setElements, getId, allSelectedElements, setSelected, unsetNodesSelection]);
 }

@@ -26,6 +26,7 @@ import { nodeTypes } from './Parts';
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
 import './canvas.css';
 import { createNode } from './Functions/createNode';
+import { setNodeStyles, undoNodeSelection, undoNormalSelection } from './Functions/domFunctions';
 
 const initialElements: Elements = [];
 const initialSelected: Elements = [];
@@ -174,6 +175,7 @@ const CanvasEditor = () => {
     const onPaneClick = (event: React.MouseEvent<Element, MouseEvent>) => {
         if (reactFlowInstance) {
             onSelectionChange([]);
+            undoNormalSelection();
         }
     }
 
@@ -212,6 +214,23 @@ const CanvasEditor = () => {
     // On any selection change, it unsets all of the previously selected values and will add only the newly selected elements
     const onSelectionChange = (passedElements: Elements | null) => {
 
+        // if (passedElements === selected) {
+        //     return;
+        // }
+
+        // This fixes the forced styling from pasting
+        elements.forEach((element) => {
+            if (isNode(element) 
+            && element.data.pasted !== undefined 
+            && element.data.pasted === true
+            && !passedElements?.includes(element)) {
+                undoNodeSelection(element);
+                delete element.data.pasted;
+            } else if (isNode(element) && element.data.pasted !== undefined && element.data.pasted === true) {
+                delete element.data.pasted;
+            }
+        });
+
         const deleteCommentNode = () => {
             const comment: Node = commentSelection[0];
             if (!comment.data.initialized && !comment.data.typing) {
@@ -229,8 +248,8 @@ const CanvasEditor = () => {
         }
 
         if (passedElements !== null) {
-            setSelected(passedElements);
             console.log(passedElements);
+            setSelected(passedElements);
 
             if (commentSelection.length !== 0) {
                 if (passedElements.length !== 0) {
@@ -247,10 +266,9 @@ const CanvasEditor = () => {
     useClipboardShortcuts(elements, selected, setSelected, onElementsRemove, setElements, getId);
 
     // This handles the changes that are made to the selected elements by the clipboard shortcuts
-    // useEffect(() => {
-    //     onSelectionChange(storeSelected);
-    //     console.log(currentSelection);
-    // }, [storeSelected]);
+    useEffect(() => {
+        console.log(selected);
+    }, [selected]);
 
     return(
         <div className = "canvas-editor">
