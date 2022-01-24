@@ -28,7 +28,7 @@ export function undoNodesSelection(unsetNodesSelection: any) {
     const rectangleElements = document.getElementsByClassName('react-flow__nodesselection-rect react-draggable');
     const rectangle: Element = rectangleElements[0];
     if (rectangle) {
-    rectangle.remove();
+        rectangle.remove();
     }
     // Unset Node Selection
     unsetNodesSelection([]);

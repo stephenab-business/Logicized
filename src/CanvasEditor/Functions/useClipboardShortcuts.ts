@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { isEdge, getConnectedEdges, Node, Edge, Elements, ElementId, FlowElement, isNode, useStoreActions, useStoreState, XYPosition } from 'inputs-and-outputs-renderer';
+import React, { useEffect } from 'react';
+import { isEdge, getConnectedEdges, Node, Edge, Elements, ElementId, FlowElement, useStoreActions, useStoreState, XYPosition } from 'inputs-and-outputs-renderer';
 import { undoNodesSelection, setNodeStyles } from './domFunctions';
 
 function getAllSelectedElements(selectedElements: Elements, elements: Elements) {
@@ -65,6 +65,7 @@ export function useClipboardShortcuts(elements: Elements, selectedElements: Elem
         event.clipboardData?.setData(Format, data);
         event.preventDefault();
         onElementsRemove(selectedElements);
+        undoNodesSelection(unsetNodesSelection);
       }
     };
 
@@ -140,7 +141,7 @@ export function useClipboardShortcuts(elements: Elements, selectedElements: Elem
       }
     };
 
-    document.addEventListener('cut', cut as  EventListenerOrEventListenerObject);
+    document.addEventListener('cut', cut as EventListenerOrEventListenerObject);
     document.addEventListener('copy', copy as EventListenerOrEventListenerObject);
     document.addEventListener('paste', paste as EventListenerOrEventListenerObject);
   

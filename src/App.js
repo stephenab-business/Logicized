@@ -4,10 +4,12 @@ import './App.scss';
 import CanvasEditor from './CanvasEditor/CanvasEditor';
 
 function App() {
+  const defaultMode = 'editing';
+
   return (
     <div className="App">
       <ReactFlowProvider store={useStore}>
-        <CanvasEditor />
+        <CanvasEditor mode={defaultMode} />
       </ReactFlowProvider>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, DragEvent, useEffect } from 'react';
+import React, { useState, DragEvent, useEffect, useRef, useCallback, FC } from 'react';
 import ReactFlow, {
     Background,
     addEdge,
@@ -9,15 +9,12 @@ import ReactFlow, {
     Edge,
     OnLoadParams,
     ElementId,
-    Position,
     Node,
     updateEdge,
     useStoreState,
     XYPosition,
     isNode,
     useStoreActions,
-    FlowElement,
-    ReactFlowState
 } from 'inputs-and-outputs-renderer';
 import { PartsMenu } from './PartsMenu';
 
@@ -31,18 +28,25 @@ import { setNodeStyles, undoNodeSelection, undoNormalSelection } from './Functio
 const initialElements: Elements = [];
 const initialSelected: Elements = [];
 
+let localSelection: Elements = [];
 let commentSelection: Node[] = [];
 
 // DEFINE MORE ID FUNCTIONS SO THAT WE DON'T GET THESE BLAND ID'S FOR OUR NODES AND CAN ACTUALLY SEE WHICH IS WHICH
 let id = 0;
 const getId = (): ElementId => `dndnode_${id++}`;
 
-const CanvasEditor = () => {
+interface CanvasEditorProps {
+    mode: string;
+}
+
+// Mode will be either Editing or Simulating 
+const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
     const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
     const [elements, setElements] = useState<Elements>(initialElements);
     const [selected, setSelected] = useState<Elements>(initialSelected);
+    const [editing, setEditing] = useState<boolean>(mode === 'editing');
+    const onGoingEdgeUpdate = useRef(false);
     const nodeCommentOffset: number = 42;
-
 
     const onConnect = (params: Edge | Connection) => {
         setElements((elements) => addEdge(params, elements));
@@ -79,9 +83,20 @@ const CanvasEditor = () => {
         setReactFlowInstance(_reactFlowInstance);
     }
 
-    const onEdgeUpdate = (oldEdge: Edge, newConnection: Connection) => {
+    const onEdgeUpdateStart = useCallback(() => {
+        onGoingEdgeUpdate.current = true;
+    }, []);
+
+    const onEdgeUpdate = useCallback((oldEdge: Edge, newConnection: Connection) => {
+        onGoingEdgeUpdate.current = false;
         setElements((els) => updateEdge(oldEdge, newConnection, els));
-    }
+    }, []);
+
+    const onEdgeUpdateEnd = useCallback((_, edge) => {
+        if (onGoingEdgeUpdate.current) {
+            setElements((elements) => elements.filter((element) => element.id !== edge.id));
+        }
+    }, []);
 
     const onDragOver = (event: DragEvent) => {
         event.preventDefault();
@@ -249,7 +264,7 @@ const CanvasEditor = () => {
 
         if (passedElements !== null) {
             console.log(passedElements);
-            setSelected(passedElements);
+            localSelection = passedElements;
 
             if (commentSelection.length !== 0) {
                 if (passedElements.length !== 0) {
@@ -265,21 +280,26 @@ const CanvasEditor = () => {
 
     useClipboardShortcuts(elements, selected, setSelected, onElementsRemove, setElements, getId);
 
-    // This handles the changes that are made to the selected elements by the clipboard shortcuts
+    // When using multi-selection on Mac, it will cause the setState hook to break in the onSelectionChange function
+    // To resolve this, I have created a local array that will serve as a local storage of elements.
+    // This useEffect hook detects any changes in the local array and will set the selected state
     useEffect(() => {
-        console.log(selected);
-    }, [selected]);
+        setSelected(localSelection);
+    }, [localSelection]);
 
     return(
         <div className = "canvas-editor">
+            { editing &&
             <ReactFlowProvider>
-            <PartsMenu />
+                <PartsMenu />
                 <div className = "reactflow-wrapper">
                     <ReactFlow 
                         elements = {elements}
                         onConnect = {onConnect}
                         onElementsRemove = {onElementsRemove}
+                        onEdgeUpdateStart={onEdgeUpdateStart}
                         onEdgeUpdate={onEdgeUpdate}
+                        onEdgeUpdateEnd={onEdgeUpdateEnd}
                         onLoad = {onLoad}
                         onDrop = {onDrop}
                         onDragOver = {onDragOver}
@@ -289,8 +309,8 @@ const CanvasEditor = () => {
                         nodesConnectable = {true}
                         onSelectionChange = {onSelectionChange}
                         onNodeDoubleClick = {onNodeDoubleClick}
-                        multiSelectionKeyCode={['ControlLeft', 'ControlRight']} // This is for multiple, individual selections
-                        selectionKeyCode={'ShiftLeft'} // This is for drag selecting
+                        multiSelectionKeyCode={['Control', 'Meta']} // This is for multiple, individual selections
+                        selectionKeyCode={['ShiftLeft', 'ShiftRight', 'Shift']} // This is for drag selecting
                         onPaneClick={onPaneClick}
                         onDoubleClick = {onCanvasDoubleClick}
                         onNodeDrag = {onNodeDrag}
@@ -303,6 +323,42 @@ const CanvasEditor = () => {
                     </ReactFlow>
                 </div>
             </ReactFlowProvider>
+            }
+            {!editing &&
+            <ReactFlowProvider>
+                {/* <PartsMenu /> */}
+                <div className = "reactflow-wrapper">
+                    <ReactFlow 
+                        elements = {elements}
+                        onConnect = {onConnect}
+                        onElementsRemove = {onElementsRemove}
+                        onEdgeUpdateStart={onEdgeUpdateStart}
+                        onEdgeUpdate={onEdgeUpdate}
+                        onEdgeUpdateEnd={onEdgeUpdateEnd}
+                        onLoad = {onLoad}
+                        onDrop = {onDrop}
+                        onDragOver = {onDragOver}
+                        style = {{height: window.innerHeight}}
+                        nodeTypes = {nodeTypes}
+                        className = 'flow-canvas'
+                        nodesConnectable = {true}
+                        onSelectionChange = {onSelectionChange}
+                        onNodeDoubleClick = {onNodeDoubleClick}
+                        multiSelectionKeyCode={['Control', 'Meta']} // This is for multiple, individual selections
+                        selectionKeyCode={['ShiftLeft', 'ShiftRight', 'Shift']} // This is for drag selecting
+                        onPaneClick={onPaneClick}
+                        onDoubleClick = {onCanvasDoubleClick}
+                        onNodeDrag = {onNodeDrag}
+                        deleteKeyCode={['Backspace', 'Delete']}
+                    >
+                        <Background 
+                            gap = {12}
+                            size = {1}
+                        />
+                    </ReactFlow>
+                </div>
+            </ReactFlowProvider>
+            }
         </div>
     );
 
