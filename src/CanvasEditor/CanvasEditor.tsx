@@ -1,4 +1,4 @@
-import React, { useState, DragEvent, useEffect, useRef, useCallback, FC } from 'react';
+import React, { useState, DragEvent, useEffect, useRef, useCallback, FC, useMemo } from 'react';
 import ReactFlow, {
     Background,
     addEdge,
@@ -15,6 +15,7 @@ import ReactFlow, {
     XYPosition,
     isNode,
     useStoreActions,
+    
 } from 'inputs-and-outputs-renderer';
 import { PartsMenu } from './PartsMenu';
 
@@ -47,6 +48,8 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
     const [editing, setEditing] = useState<boolean>(mode === 'editing');
     const onGoingEdgeUpdate = useRef(false);
     const nodeCommentOffset: number = 42;
+    const selectionKeys = ['ShiftLeft', 'ShiftRight', 'Shift'];
+    const selecting = useRef(false);
 
     const onConnect = (params: Edge | Connection) => {
         setElements((elements) => addEdge(params, elements));
@@ -224,14 +227,43 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                 commentSelection = [newNode]; 
             }
         }
+    } 
+
+    const onSelectionDown = (event: KeyboardEvent) => {
+        if (selectionKeys.includes(event.key) || selectionKeys.includes(event.code)) {
+            console.log('true');
+            selecting.current = true;
+        }
     }
+
+    const onSelectionUp = (event: KeyboardEvent) => {
+        if (selectionKeys.includes(event.key) || selectionKeys.includes(event.code)) {
+            console.log('false');
+            selecting.current = false;
+            if (localSelection.length !== 0) {
+                setSelected(localSelection);
+                console.log(localSelection);
+            }
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('keydown', onSelectionDown as EventListenerOrEventListenerObject);
+        document.addEventListener('keyup', onSelectionUp as EventListenerOrEventListenerObject);
+
+        return () => {
+            document.removeEventListener('keydown', onSelectionDown as EventListenerOrEventListenerObject);
+            document.removeEventListener('keyup', onSelectionUp as EventListenerOrEventListenerObject);
+        }
+    });
 
     // On any selection change, it unsets all of the previously selected values and will add only the newly selected elements
     const onSelectionChange = (passedElements: Elements | null) => {
 
-        // if (passedElements === selected) {
-        //     return;
-        // }
+        if (selecting.current && passedElements) {
+            localSelection = passedElements;
+            return;
+        }
 
         // This fixes the forced styling from pasting
         elements.forEach((element) => {
@@ -264,7 +296,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
 
         if (passedElements !== null) {
             console.log(passedElements);
-            localSelection = passedElements;
+            setSelected(passedElements);
 
             if (commentSelection.length !== 0) {
                 if (passedElements.length !== 0) {
@@ -276,6 +308,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                 }
             }
         }
+
     }
 
     useClipboardShortcuts(elements, selected, setSelected, onElementsRemove, setElements, getId);
@@ -283,9 +316,10 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
     // When using multi-selection on Mac, it will cause the setState hook to break in the onSelectionChange function
     // To resolve this, I have created a local array that will serve as a local storage of elements.
     // This useEffect hook detects any changes in the local array and will set the selected state
-    useEffect(() => {
-        setSelected(localSelection);
-    }, [localSelection]);
+    // useEffect(() => {
+    //     setSelected(localSelection);
+    //     console.log(localSelection);
+    // }, [localSelection]);
 
     return(
         <div className = "canvas-editor">
@@ -310,7 +344,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                         onSelectionChange = {onSelectionChange}
                         onNodeDoubleClick = {onNodeDoubleClick}
                         multiSelectionKeyCode={['Control', 'Meta']} // This is for multiple, individual selections
-                        selectionKeyCode={['ShiftLeft', 'ShiftRight', 'Shift']} // This is for drag selecting
+                        selectionKeyCode={selectionKeys} // This is for drag selecting
                         onPaneClick={onPaneClick}
                         onDoubleClick = {onCanvasDoubleClick}
                         onNodeDrag = {onNodeDrag}
@@ -345,7 +379,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                         onSelectionChange = {onSelectionChange}
                         onNodeDoubleClick = {onNodeDoubleClick}
                         multiSelectionKeyCode={['Control', 'Meta']} // This is for multiple, individual selections
-                        selectionKeyCode={['ShiftLeft', 'ShiftRight', 'Shift']} // This is for drag selecting
+                        selectionKeyCode={selectionKeys} // This is for drag selecting
                         onPaneClick={onPaneClick}
                         onDoubleClick = {onCanvasDoubleClick}
                         onNodeDrag = {onNodeDrag}

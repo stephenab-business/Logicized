@@ -9,6 +9,7 @@ import XorGateNode from './XorGate/XorGateNode';
 import XnorGateNode from './XnorGate/XnorGateNode';
 import FreeCommentNode from './Comments/FreeComment/FreeCommentNode';
 import NodeCommentNode from './Comments/NodeComment/NodeCommentNode';
+import ClockNode from './Clock/ClockNode';
 
 // Any type of Node that is created must be passed as a type here
 export const nodeTypes = {
@@ -22,5 +23,6 @@ export const nodeTypes = {
     xorGate: XorGateNode,
     xnorGate: XnorGateNode,
     freeComment: FreeCommentNode,
-    nodeComment: NodeCommentNode
+    nodeComment: NodeCommentNode,
+    clock: ClockNode, 
 };
