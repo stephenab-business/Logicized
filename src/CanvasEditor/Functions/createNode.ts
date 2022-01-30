@@ -1,7 +1,7 @@
 import { OnLoadParams, Position, ElementId, Elements } from "inputs-and-outputs-renderer";
 import React from "react";
 
-export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadParams<any> | undefined, getId: () => ElementId, setElements: React.Dispatch<React.SetStateAction<Elements<any>>>) {
+export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadParams<any> | undefined, getId: () => ElementId, setElements: React.Dispatch<React.SetStateAction<Elements<any>>>, modeIsEditing: boolean) {
         //THIS IS WHERE NEW NODES WILL BE ADDED TO ENABLE DRAG AND DROP
         if (reactFlowInstance) {
             const passedType = event.dataTransfer.getData('application/reactflow');
@@ -234,13 +234,33 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     output: 0,
                     comment: false,
                     commentId: ''
-                }
+                };
                 const newNode = {
                     id,
                     type,
                     data,
                     position
                 }
+                setElements((elements) => elements.concat(newNode));
+            } 
+            else if (passedType === 'clock') {
+                const id = getId();
+                const type = 'clock';
+                const data = {
+                    output: null,
+                    comment: false,
+                    commentId: '',
+                    clockTime: null,
+                    initialValue: null,
+                    modeIsEditing: modeIsEditing,
+                    initialized: false,
+                };
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                };
                 setElements((elements) => elements.concat(newNode));
             }
         }
