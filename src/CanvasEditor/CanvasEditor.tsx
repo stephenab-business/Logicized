@@ -1,4 +1,4 @@
-import React, { useState, DragEvent, useEffect, useRef, useCallback, FC, useMemo } from 'react';
+import React, { useState, DragEvent, useEffect, useRef, useCallback, FC } from 'react';
 import ReactFlow, {
     Background,
     addEdge,
@@ -11,11 +11,8 @@ import ReactFlow, {
     ElementId,
     Node,
     updateEdge,
-    useStoreState,
     XYPosition,
-    isNode,
-    useStoreActions,
-    
+    isEdge,
 } from 'inputs-and-outputs-renderer';
 import { PartsMenu } from './PartsMenu';
 
@@ -24,10 +21,44 @@ import { nodeTypes } from './Parts';
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
 import './canvas.css';
 import { createNode } from './Functions/createNode';
-import { setNodeStyles, undoNodeSelection, undoNormalSelection } from './Functions/domFunctions';
+import { undoNormalSelection } from './Functions/domFunctions';
+import { useSimulateLogic } from './Functions/useSimulateLogic';
+import { connectFunction } from './Functions/connectFunctions';
 
-const initialElements: Elements = [];
+
+interface CanvasEditorProps {
+    mode: string;
+}
+
+export type ConnectionMap = {
+    nodeId: string;
+    dataId: string;
+}
+
+export type TimeMap = Map<string, number>;
+
+const initialElements: Elements = [
+    // {
+    //     id: 'clockNode', 
+    //     position: {x: 146, y: 249}, 
+    //     type: 'clock', 
+    //     data: {
+    //         output: 0,
+    //         comment: false,
+    //         commentId: '',
+    //         clockInterval: 3000,
+    //         initialValue: 0,
+    //         modeIsEditing: true,
+    //         initialized: true,
+    //         children: []
+    //     }
+    // }
+];
+
 const initialSelected: Elements = [];
+// const initialNodeConnections: NodeConnection[] = [];
+const initialTimeMapping: TimeMap = new Map();
+// const initialClockIntervals: number[] = [];
 
 let localSelection: Elements = [];
 let commentSelection: Node[] = [];
@@ -36,50 +67,79 @@ let commentSelection: Node[] = [];
 let id = 0;
 const getId = (): ElementId => `dndnode_${id++}`;
 
-interface CanvasEditorProps {
-    mode: string;
-}
-
 // Mode will be either Editing or Simulating 
 const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
     const [reactFlowInstance, setReactFlowInstance] = useState<OnLoadParams>();
     const [elements, setElements] = useState<Elements>(initialElements);
     const [selected, setSelected] = useState<Elements>(initialSelected);
     const [editing, setEditing] = useState<boolean>(mode === 'editing');
+    const [timeMapping, setTimeMapping] = useState<TimeMap>(initialTimeMapping);
     const onGoingEdgeUpdate = useRef(false);
     const nodeCommentOffset: number = 42;
     const selectionKeys = ['ShiftLeft', 'ShiftRight', 'Shift'];
     const selecting = useRef(false);
 
     const onConnect = (params: Edge | Connection) => {
+        let sourceNodeId = params.source;
+        let sourceHandleId = params.sourceHandle;
+        let targetNodeId = params.target;
+        let targetHandleId = params.targetHandle;
+        if (sourceNodeId && sourceHandleId && targetNodeId && targetHandleId) {
+            if (sourceHandleId?.includes('input')) {
+                [sourceNodeId, targetNodeId] = [targetNodeId, sourceNodeId];
+                [sourceHandleId, targetHandleId] = [targetHandleId, sourceHandleId];
+                connectFunction(sourceNodeId, targetNodeId, targetHandleId, elements, timeMapping, setTimeMapping);
+            } else {
+                connectFunction(sourceNodeId, targetNodeId, targetHandleId, elements, timeMapping, setTimeMapping);
+            }
+        }
+        // setElements((elements) => removeElements(elements, elements));
+        // setElements((elements) => elements.concat(newElements));
         setElements((elements) => addEdge(params, elements));
-        console.log(elements);
     }
 
+
+
     const onElementsRemove = (elementsToRemove: Elements) => {
-        // If element is Node, and that Node has a Node Comment
-        for (let i = 0; i < elementsToRemove.length; i++) {
-            if (isNode(elementsToRemove[i])) {
-                const node: Node = elementsToRemove[i] as Node;
-                // If element is any node type besides a Node Comment
-                if (node.type !== 'nodeComment') {
-                    if (node.data.comment === true) {
-                        const id = node.data.commentId;
-                        const commentNode = elements.find((element) => element.id === id) as Node;
-                        elementsToRemove.push(commentNode);
+        const timeKeys = Array.from(timeMapping.keys());
+        elementsToRemove.forEach((element) => {
+            // if the element is an edge, then it means we have either deleted just the edge or the childNode, which includes the edge
+            if (isEdge(element)) {
+                const parentNodeId = element.source;
+                const childNodeId = element.target;
+                const parentNode = elements.find((element) => element.id === parentNodeId) as Node;
+                // We cut the child out of the parent's children array if and only if the parentNode is not included in the elements to remove 
+                // We do this because the parentNode is being removed, so it has no need for its data to be set
+                // Otherwise, there are useless computations
+                if (elementsToRemove.find((node) => node.id === parentNodeId) === undefined) {
+                    const parentNodeChildren: ConnectionMap[] = parentNode.data.children;
+                    if (parentNodeChildren !== undefined) {
+                        const index = parentNodeChildren.findIndex((child) => child.nodeId === childNodeId);
+                        parentNodeChildren.splice(index, 1);
+                        parentNode.data.children = parentNodeChildren;
                     }
                 }
-                // Else if element is Node Comment
-                else if (node.type === 'nodeComment') {
-                    const id = node.data.id;
-                    const parentNode: Node = elements.find((element) => element.data.commentId === id) as Node;
+            } else {
+                if (timeKeys.includes(element.id)) {
+                    timeMapping.delete(element.id);
+                }
+                // If element is Node, and that Node has a Node Comment
+                if (element.type !== 'nodeComment' && element.data.comment === true) {
+                    const commentId = element.data.commentId;
+                    const commentNode = elements.find((element) => element.id === commentId) as Node;
+                    elementsToRemove.push(commentNode);
+                } 
+                // If element is Node, and that Node is a Node Comment
+                else if (element.type === 'nodeComment') {
+                    const commentId = element.data.id;
+                    const parentNode = elements.find((element) => element.id === commentId) as Node;
                     parentNode.data.comment = false;
                     parentNode.data.commentId = '';
                 }
             }
-        }
+        });
+
         setElements((elements) => removeElements(elementsToRemove, elements));
-        console.log(elements);
     }
 
     const onLoad = (_reactFlowInstance: OnLoadParams) => {
@@ -111,6 +171,11 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
         createNode(event, reactFlowInstance, getId, setElements, editing);
     }
 
+    const onMoveStart = () => {
+        onSelectionChange([]);
+        undoNormalSelection();
+    }
+
     // const blockComment = (event: React.MouseEvent<Element, MouseEvent>, selectedElements: Elements) => {
     //     if (selectedElements.length > 1) {
     //         // Press c
@@ -130,6 +195,8 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
     const onNodeDoubleClick = (event: React.MouseEvent<Element, MouseEvent>, node: Node) => {
         if (node.type === 'freeComment' || node.type === 'nodeComment') {
             node.data.edit = true;
+        } else if (node.type === 'clock' && !node.data.initialized) {
+
         } else if (node.data.comment !== true) {
             const divElement = document.elementFromPoint(event.clientX, event.clientY) as HTMLDivElement;
             const width = divElement.offsetWidth;
@@ -189,6 +256,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
         }
     }
 
+
     // Function removes all selected elements whenever the canvas is just clicked
     const onPaneClick = (event: React.MouseEvent<Element, MouseEvent>) => {
         if (reactFlowInstance) {
@@ -224,7 +292,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                 setElements((elements) => elements.concat(newNode));
                 
                 // Set the only selected element to be the Node Comment
-                commentSelection = [newNode]; 
+                commentSelection = [newNode];
             }
         }
     } 
@@ -265,18 +333,19 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
             return;
         }
 
-        // This fixes the forced styling from pasting
-        elements.forEach((element) => {
-            if (isNode(element) 
-            && element.data.pasted !== undefined 
-            && element.data.pasted === true
-            && !passedElements?.includes(element)) {
-                undoNodeSelection(element);
-                delete element.data.pasted;
-            } else if (isNode(element) && element.data.pasted !== undefined && element.data.pasted === true) {
-                delete element.data.pasted;
-            }
-        });
+        // // This fixes the forced styling from pasting
+        // elements.forEach((element) => {
+        //     if (isNode(element) 
+        //     && element.data.pasted !== undefined 
+        //     && element.data.pasted === true
+        //     && !passedElements?.includes(element)) {
+        //         undoNodeSelection(element);
+        //         delete element.data.pasted;
+        //     } else if (isNode(element) && element.data.pasted !== undefined && element.data.pasted === true && passedElements?.includes(element)) {
+        //         delete element.data.pasted;
+        //         setNodeStyles([element]);
+        //     }
+        // });
 
         const deleteCommentNode = () => {
             const comment: Node = commentSelection[0];
@@ -311,23 +380,21 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
 
     }
 
-    useEffect(() => {
-        if (editing) {
-            console.log('editing');
-        } else {
-            console.log('simulating');
-        }
-    }, [editing]);
+    useSimulateLogic(elements, editing, timeMapping, setElements);
 
     useClipboardShortcuts(elements, selected, setSelected, onElementsRemove, setElements, getId);
 
-    // When using multi-selection on Mac, it will cause the setState hook to break in the onSelectionChange function
-    // To resolve this, I have created a local array that will serve as a local storage of elements.
-    // This useEffect hook detects any changes in the local array and will set the selected state
+    useEffect(() => {
+        console.log(elements);
+    }, [elements]);
+
     // useEffect(() => {
-    //     setSelected(localSelection);
-    //     console.log(localSelection);
-    // }, [localSelection]);
+    //     console.log(connectionMapping);
+    // }, [connectionMapping]);
+
+    useEffect(() => {
+        console.log(timeMapping);
+    }, [timeMapping])
 
     return(
         <div className = "canvas-editor">
@@ -350,12 +417,14 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                         nodesConnectable = {true}
                         onSelectionChange = {onSelectionChange}
                         onNodeDoubleClick = {onNodeDoubleClick}
-                        multiSelectionKeyCode={['Control', 'Meta']} // This is for multiple, individual selections
+                        multiSelectionKeyCode={['Control', 'MetaLeft']} // This is for multiple, individual selections
                         selectionKeyCode={selectionKeys} // This is for drag selecting
                         onPaneClick={onPaneClick}
                         onDoubleClick = {onCanvasDoubleClick}
                         onNodeDrag = {onNodeDrag}
                         deleteKeyCode={['Backspace', 'Delete']}
+                        // onMove={onMove}
+                        onMoveStart={onMoveStart}
                     >
                         <Background 
                             gap = {12}

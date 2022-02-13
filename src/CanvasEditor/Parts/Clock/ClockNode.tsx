@@ -1,22 +1,22 @@
-import { Handle, NodeProps, Position } from 'inputs-and-outputs-renderer';
+import { Handle, NodeProps, Position, useStoreState, Node } from 'inputs-and-outputs-renderer';
 import React, { useState, useEffect, FC } from 'react';
+import { ConnectionMap } from '../../CanvasEditor';
 
 import './ClockNode.css';
 
 const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => {
-    const [modeIsEditing, setModeIsEditing] = useState<boolean>(data.modeIsEditing);
     const [initialized, setInitialized] = useState<boolean>(data.initialized);
     const [rising, setRising] = useState<boolean>();
-    const [clockTime, setClockTime] = useState<number>();
+    const [clockTime, setClockTime] = useState<number>(data.clockInterval);
     const [output, setOutput] = useState<boolean>(!!data.initialValue);
+    // const nodes = useStoreState((state) => state.nodes);
+    // const childNodes: Node[] = [];
 
     const onRisingClick = () => {
-        console.log('rising');
         setRising(true);
     }
 
     const onFallingClick = () => {
-        console.log('falling');
         setRising(false);
     }
 
@@ -26,7 +26,7 @@ const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => 
 
     const submit = (event: React.FormEvent) => {
         event.preventDefault();
-        data.clockTime = clockTime;
+        data.clockInterval = clockTime;
         if (rising) {
             data.initialValue = 0;
             data.output = 0;
@@ -39,34 +39,64 @@ const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => 
     }
 
     useEffect(() => {
-        if (data.modeIsEditing !== modeIsEditing) {
-            console.log('yo');
-            console.log(data.modeIsEditing);
-            setModeIsEditing(data.modeIsEditing);
+        let clock: NodeJS.Timer;
+        if (!data.modeIsEditing && data.initialized) {
+            clock = setInterval(() => {
+                // data.output = +(!(!!data.output));
+                data.output = +!!!data.output;
+                setOutput(!!data.output);
+                // console.log(data.output);
+            }, data.clockInterval);
         }
-    }, [data, modeIsEditing]);
 
-    useEffect(() => {
-        if (!modeIsEditing && initialized) {
-            setTimeout(() => {
-                data.output = !output;
-                setOutput(!output);
-            }, data.clockTime);
-        } else if (modeIsEditing && data.initialized) {
+        else if (data.modeIsEditing && data.initialized) {
             data.output = data.initialValue;
             setOutput(!!data.initialValue);
         }
-    }, [initialized, output, data]);
 
-    // BUG:
-    // Double clicking the increment button creates a comment node, which is should not do
+        return () => {
+            clearInterval(clock);
+        }
+        // nodes.forEach((node) => {
+        //     const children = data.children;
+        //     children.forEach((child: ConnectionMap) => {
+        //         if (child.nodeId === node.id) {
+        //             childNodes.push(node);
+        //         }
+        //     });
+        // });
+        // let clock: NodeJS.Timer;
+        // if (!data.modeIsEditing && data.initialized) {
+        //     let start = new Date().getTime();
+        //     let time = 0;
+
+        //     const instan = () => {
+        //         time += (+data.clockInterval);
+        //         data.output = +(!(!!data.output));
+        //         console.log(data.output);
+        //         setOutput(!!data.output);
+        //         let diff = (new Date().getTime() - start) - time;
+        //         childNodes.forEach((node) => {
+        //             node.data.delay = diff;
+        //         });
+        //         clock = setTimeout(instan, data.clockInterval - diff);
+        //     }
+
+        //     clock = setTimeout(instan, data.clockInterval);
+        // }
+
+        // return () => {
+        //     clearTimeout(clock);
+        // }
+
+    }, [data]);
 
     return(
         <>
             <div className = 'clock-node'>
                 {initialized && 
                 <div>
-                    <div>{+output}</div>
+                    <div>{data.output}</div>
                     <Handle id = 'clock__handle' className = 'clock__handle' type = 'source' position = {sourcePosition} />
                 </div>
                 }

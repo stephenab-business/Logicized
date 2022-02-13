@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { isEdge, getConnectedEdges, Node, Edge, Elements, ElementId, FlowElement, useStoreActions, useStoreState, XYPosition } from 'inputs-and-outputs-renderer';
-import { undoNodesSelection, setNodeStyles } from './domFunctions';
+import { isEdge, getConnectedEdges, Node, Edge, Elements, ElementId, FlowElement, useStoreActions, } from 'inputs-and-outputs-renderer';
+import { undoNodesSelection } from './domFunctions';
 
 function getAllSelectedElements(selectedElements: Elements, elements: Elements) {
   const allEdges: Edge[] = [];
@@ -112,6 +112,7 @@ export function useClipboardShortcuts(elements: Elements, selectedElements: Elem
               element.position = { x: element.position.x + nodeOffset, y: element.position.y };
               element.data = {
                 ...element.data,
+                originalPosition: element.position,
                 pasted: true
               }
             }
@@ -129,7 +130,7 @@ export function useClipboardShortcuts(elements: Elements, selectedElements: Elem
           }
 
           // Set the styles
-          setNodeStyles(elementsToAdd);
+          // setNodeStyles(elementsToAdd);
 
           // If pane click
           // If node click

@@ -1,4 +1,4 @@
-import { Node, Elements } from 'inputs-and-outputs-renderer';
+import { Node, } from 'inputs-and-outputs-renderer';
 
 function combineLists(firstList: NodeListOf<Element>, secondList: NodeListOf<Element>) {
     const combinedList: Element[] = [];
@@ -50,18 +50,19 @@ export function undoNodeSelection(node: Node) {
         if (node.id === dataId) {
             element.classList.remove('selected');
         }
+        return;
     })
 }
 
-export function setNodeStyles(selectedElements: Elements) {
-    const allElements = getAllDOMNodesAndEdges();
+// export function setNodeStyles(selectedElements: Elements) {
+//     const allElements = getAllDOMNodesAndEdges();
     
-    allElements.forEach((element) => {
-        const dataId = element.getAttribute('data-id');
-        selectedElements.forEach((selected) => {
-            if (selected.id === dataId) {
-                element.classList.add('selected');
-            }
-        });
-    });
-}
+//     allElements.forEach((element) => {
+//         const dataId = element.getAttribute('data-id');
+//         selectedElements.forEach((selected) => {
+//             if (selected.id === dataId) {
+//                 element.classList.add('selected');
+//             }
+//         });
+//     });
+// }
