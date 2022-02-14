@@ -1,20 +1,31 @@
+<<<<<<< HEAD
 import { Elements, isNode, removeElements, } from 'inputs-and-outputs-renderer';
+=======
+>>>>>>> 07a57989e6bb039742a68357a009bb1a87d4b15d
 import React, { DragEvent, FC } from 'react';
 
 interface PartsMenuProps {
   editing: boolean;
+<<<<<<< HEAD
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
   elements: Elements;
   setElements: React.Dispatch<React.SetStateAction<Elements>>;
 }
 
 export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, setElements}) => {
+=======
+  setEditing: React.Dispatch<React.SetStateAction<boolean>>; 
+}
+
+export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing}) => {
+>>>>>>> 07a57989e6bb039742a68357a009bb1a87d4b15d
   const onDragStart = (event: DragEvent, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType); 
     event.dataTransfer.effectAllowed = 'move';
   };
 
   const changeMode = () => {
+<<<<<<< HEAD
     elements.forEach((element) => {
       if (isNode(element) && element.data.modeIsEditing !== undefined) {
         const newElements = elements;
@@ -33,12 +44,21 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
 
   
 
+=======
+    setEditing(!editing);
+  }
+
+>>>>>>> 07a57989e6bb039742a68357a009bb1a87d4b15d
   return (
     <aside>
       {editing && 
       <div>
         <h3>Parts</h3>
+<<<<<<< HEAD
         {/* <div className="react-flow__node-input" onDragStart = {(event: DragEvent) => onDragStart(event, 'input')} draggable>
+=======
+        <div className="react-flow__node-input" onDragStart = {(event: DragEvent) => onDragStart(event, 'input')} draggable>
+>>>>>>> 07a57989e6bb039742a68357a009bb1a87d4b15d
           Input Node
         </div>
         <div className="react-flow__node-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'output')} draggable>
@@ -46,7 +66,11 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
         </div>
         <div className = "dndnode-horizontal-input" onDragStart = {(event: DragEvent) => onDragStart(event, 'horizontal-input')} draggable>
           Horizontal Input Node
+<<<<<<< HEAD
         </div> */}
+=======
+        </div>
+>>>>>>> 07a57989e6bb039742a68357a009bb1a87d4b15d
         <div className = 'dndnode-and' onDragStart = {(event: DragEvent) => onDragStart(event, 'and')} draggable>
           AND
         </div>
@@ -77,9 +101,12 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
         <div className="dndnode-xnor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xnor')} draggable>
           XNOR
         </div>
+<<<<<<< HEAD
         <div className="dndnode-clock" onDragStart = {(event: DragEvent) => onDragStart(event, 'clock')} draggable>
           Clock
         </div>
+=======
+>>>>>>> 07a57989e6bb039742a68357a009bb1a87d4b15d
       </div>
       }
       {!editing &&
@@ -88,7 +115,10 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
           <div className="dndnode-clock" onDragStart = {(event: DragEvent) => onDragStart(event, 'clock')} draggable>
             Clock
           </div>
+<<<<<<< HEAD
           <button></button>
+=======
+>>>>>>> 07a57989e6bb039742a68357a009bb1a87d4b15d
         </div>
       }
       <button onClick={changeMode}>Change Mode</button>
