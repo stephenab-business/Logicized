@@ -8,20 +8,65 @@
 
 .canvas-editor aside {
   border-right: 1px solid #eee;
-  padding: 15px 10px;
+  padding: 15px 15px;
   font-size: 12px;
   background: #fcfcfc;
 }
 
-.canvas-editor aside > * {
+/* .canvas-editor aside div > * {
   margin-bottom: 10px;
   cursor: grab;
+} */
+
+.gates-icon {
+  margin-top: 65%;
 }
 
-.dndnode-horizontal-input,
+.components-icon {
+  margin-top: 50%;
+}
+
+.displays-icon {
+  margin-top: 50%;
+}
+
+.custom-comp-icon {
+  margin-top: 50%;
+  margin-bottom: 50%;
+}
+
+.parts-menu-icons {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  
+}
+
+.parts-menu-background {
+  background-color: #c4c4c4;
+  position: fixed;
+  width: 6%;
+  height: 50%;
+  border-radius: 25px;
+}
+
+.canvas-editor aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .dndnode-and,
+.dndnode-not,
 .dndnode-input,
-.dndnode-output {
+.dndnode-ground,
+.dndnode-output,
+.dndnode-or,
+.dndnode-nor,
+.dndnode-nand,
+.dndnode-xor,
+.dndnode-xnor,
+.dndnode-clock {
     padding: 10px;
     border-radius: 3px;
     width: 150px;
@@ -63,8 +108,12 @@
   }
 
   .canvas-editor aside {
+    width: 8%;
+  }
+
+  .canvas-editor aside:hover {
     width: 20%;
-    max-width: 180px;
+    max-width: 384px;
   }
 }
 

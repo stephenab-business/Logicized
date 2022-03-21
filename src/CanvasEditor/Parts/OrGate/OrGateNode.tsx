@@ -3,6 +3,7 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../Functions/gateFunctions'
 import './OrGateNode.css';
+import OrSymbol from './Asset 3.png';
 
 const OrGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number>(data.output);
@@ -37,7 +38,8 @@ const OrGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
             <div className = 'or__gate'>
                 <Handle id = 'or__input__one' className = 'or__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'or__input__two' className = 'or__input__two' type = 'target' position = {inputPosition}/>
-                { data.label + ': ' + data.output }
+                {/* { data.label + ': ' + data.output } */}
+                <img className='or-image' src={OrSymbol}></img>
                 <Handle id = 'or__output' className = 'or__output' type = 'source' position = {outputPosition} />
             </div>
         </>

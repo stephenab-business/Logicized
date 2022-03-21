@@ -1,5 +1,10 @@
+import { useState } from 'react';
 import { Elements, isNode, removeElements, } from 'inputs-and-outputs-renderer';
 import React, { DragEvent, FC } from 'react';
+import GatesIcon from '../pictures/Gates.svg';
+import ComponentsIcon from '../pictures/Components.svg';
+import DisplaysIcon from '../pictures/Display.svg';
+import CustomComponentsIcon from '../pictures/Custom Component.svg';
 
 interface PartsMenuProps {
   editing: boolean;
@@ -9,6 +14,8 @@ interface PartsMenuProps {
 }
 
 export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, setElements}) => {
+  const [hovering, setHovering] = useState<boolean>(false);
+
   const onDragStart = (event: DragEvent, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType); 
     event.dataTransfer.effectAllowed = 'move';
@@ -31,10 +38,33 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
     setEditing(!editing);
   }
 
-  
+  const onMouseHover = () => {
+    setHovering(true);
+  }
+
+  const onMouseExit = () => {
+    setHovering(false);
+  }
 
   return (
-    <aside>
+    <aside className='parts-menu' onMouseEnter={onMouseHover} onMouseLeave={onMouseExit}>
+      <div className='parts-menu-background'>
+        <div className='parts-menu-icons'>
+          <div className='gates-icon'><img src = {GatesIcon}></img></div>
+          <div className='components-icon'><img src = {ComponentsIcon}></img></div>
+          <div className='displays-icon'><img src = {DisplaysIcon}></img></div>
+          <div className='custom-comp-icon'><img src = {CustomComponentsIcon}></img></div>
+        </div>
+      </div>
+    </aside>
+  );
+};
+
+
+/*
+ * 
+ * 
+ *     <aside>
       {editing && 
       <div>
         <h3>Parts</h3>
@@ -46,7 +76,7 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
         </div>
         <div className = "dndnode-horizontal-input" onDragStart = {(event: DragEvent) => onDragStart(event, 'horizontal-input')} draggable>
           Horizontal Input Node
-        </div> */}
+        </div>
         <div className = 'dndnode-and' onDragStart = {(event: DragEvent) => onDragStart(event, 'and')} draggable>
           AND
         </div>
@@ -93,5 +123,6 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
       }
       <button onClick={changeMode}>Change Mode</button>
     </aside>
-  );
-};
+ *  
+ * 
+ */
