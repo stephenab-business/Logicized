@@ -19,7 +19,7 @@ import { PartsMenu } from './PartsMenu';
 import { nodeTypes } from './Parts';
 
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
-import './canvas.css';
+import './canvas.scss';
 import { createNode } from './Functions/createNode';
 import { undoNormalSelection } from './Functions/domFunctions';
 import { useSimulateLogic } from './Functions/useSimulateLogic';

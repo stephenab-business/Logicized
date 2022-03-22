@@ -5,6 +5,7 @@ import GatesIcon from '../pictures/Gates.svg';
 import ComponentsIcon from '../pictures/Components.svg';
 import DisplaysIcon from '../pictures/Display.svg';
 import CustomComponentsIcon from '../pictures/Custom Component.svg';
+import { Stack, Container, Row, Col } from 'react-bootstrap';
 
 interface PartsMenuProps {
   editing: boolean;
@@ -15,6 +16,8 @@ interface PartsMenuProps {
 
 export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, setElements}) => {
   const [hovering, setHovering] = useState<boolean>(false);
+  const [tabClicked, setTabClicked] = useState<boolean[]>([true, false, false, false]);
+                                                // parts, components, displays, custom
 
   const onDragStart = (event: DragEvent, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType); 
@@ -46,16 +49,122 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
     setHovering(false);
   }
 
+  const onDragEnd = () => {
+    setHovering(false);
+  }
+
+  const onPartsClick = () => {
+    setTabClicked([true, false, false, false]);
+  }
+
+  const onCompClick = () => {
+    setTabClicked([false, true, false, false]);
+  }
+
+  const onDisplayClick = () => {
+    setTabClicked([false, false, true, false]);
+  }
+
+  const onCustomClick = () => {
+    setTabClicked([false, false, false, true]);
+  }
+
+  const getClassName = () => {
+    if (hovering) {
+      return 'parts-menu col-md-3';
+    }
+    else {
+      return 'parts-menu col-md-0';
+    }
+  }
+
   return (
-    <aside className='parts-menu' onMouseEnter={onMouseHover} onMouseLeave={onMouseExit}>
+    <aside className='parts-menu col-md-3' onMouseEnter={onMouseHover} onMouseLeave={onMouseExit}>
       <div className='parts-menu-background'>
-        <div className='parts-menu-icons'>
-          <div className='gates-icon'><img src = {GatesIcon}></img></div>
-          <div className='components-icon'><img src = {ComponentsIcon}></img></div>
-          <div className='displays-icon'><img src = {DisplaysIcon}></img></div>
-          <div className='custom-comp-icon'><img src = {CustomComponentsIcon}></img></div>
+        <div className='parts-menu-icons justify-content-center'>
+          <Container>
+            <Row>
+            <Col>
+              <Stack className='parts-stack justify-content-center' gap={4} style={{height: '100%'}}>
+                <div className='gates-icon' onClick={onPartsClick}><img src = {GatesIcon}></img></div>
+                <div className='components-icon' onClick={onCompClick}><img src = {ComponentsIcon}></img></div>
+                <div className='displays-icon' onClick={onDisplayClick}><img src = {DisplaysIcon}></img></div>
+                <div className='custom-comp-icon' onClick={onCustomClick}><img src = {CustomComponentsIcon}></img></div>
+              </Stack>
+            </Col>
+            {tabClicked[0] && 
+            <Col>
+              <div>
+                <h3>Parts</h3>
+                <div className = 'dndnode-and' onDragStart = {(event: DragEvent) => onDragStart(event, 'and')} draggable>
+                  AND
+                </div>
+                <div className="dndnode-not" onDragStart = {(event: DragEvent) => onDragStart(event, 'not')} draggable>
+                  NOT
+                </div>
+                <div className="dndnode-input" onDragStart={(event: DragEvent) => onDragStart(event, 'inputgate')} draggable>
+                  Input
+                </div>
+                <div className = "dndnode-ground" onDragStart={(event: DragEvent) => onDragStart(event, 'inputGround')} draggable>
+                  Input Ground
+                </div>
+                <div className="dndnode-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'outputgate')} draggable>
+                  Output
+                </div>
+                <div className="dndnode-or" onDragStart = {(event: DragEvent) => onDragStart(event, 'or')} draggable>
+                  OR
+                </div>
+                <div className="dndnode-nor" onDragStart = {(event: DragEvent) => onDragStart(event, 'nor')} draggable>
+                  NOR
+                </div>
+                <div className="dndnode-nand" onDragStart = {(event: DragEvent) => onDragStart(event, 'nand')} draggable>
+                  NAND
+                </div>
+                <div className="dndnode-xor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xor')} draggable>
+                  XOR
+                </div>
+                <div className="dndnode-xnor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xnor')} draggable>
+                  XNOR
+                </div>
+                <div className="dndnode-clock" onDragStart = {(event: DragEvent) => onDragStart(event, 'clock')} draggable>
+                  Clock
+                </div>
+              </div>
+            </Col>
+            }
+            {hovering && tabClicked[1] &&
+            <Col>
+              <div>Components</div>
+            </Col>
+            }
+            {hovering && tabClicked[2] && 
+            <Col>
+              <div>Displays</div>
+            </Col>
+            }
+            {hovering && tabClicked[3] && 
+            <Col>
+              <div>Custom</div>
+            </Col>
+            }
+            </Row>
+          </Container>
         </div>
       </div>
+{/* 
+      <Container>
+        <Row>
+          <Col></Col>
+          <Col>
+            <Row><div className='gates-icon'><img src = {GatesIcon}></img></div></Row>
+            <Row><div className='components-icon'><img src = {ComponentsIcon}></img></div></Row>
+            <Row><div className='displays-icon'><img src = {DisplaysIcon}></img></div></Row>
+            <Row><div className='custom-comp-icon'><img src = {CustomComponentsIcon}></img></div></Row>
+          </Col>
+          <Col></Col>
+        </Row>
+      </Container> */}
+
     </aside>
   );
 };

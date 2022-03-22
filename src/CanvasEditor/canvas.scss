@@ -1,5 +1,5 @@
 .canvas-editor {
-  flex-direction: column;
+  flex-direction: row;
   display: flex;
   height: 100%;
 }
@@ -7,7 +7,7 @@
 /* .react-flow__edge__wrapper-path to edit the bounding box */
 
 .canvas-editor aside {
-  border-right: 1px solid #eee;
+  // border-right: 1px solid #eee;
   padding: 15px 15px;
   font-size: 12px;
   background: #fcfcfc;
@@ -18,37 +18,41 @@
   cursor: grab;
 } */
 
-.gates-icon {
-  margin-top: 65%;
-}
+// .gates-icon {
+//   margin-top: 50%;
+// }
 
-.components-icon {
-  margin-top: 50%;
-}
+// .components-icon {
+//   margin-top: 50%;
+// }
 
-.displays-icon {
-  margin-top: 50%;
-}
+// .displays-icon {
+//   margin-top: 50%;
+// }
 
-.custom-comp-icon {
-  margin-top: 50%;
-  margin-bottom: 50%;
-}
+// .custom-comp-icon {
+//   margin-top: 50%;
+//   margin-bottom: 50%;
+// }
 
-.parts-menu-icons {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  
-}
+// .parts-menu-icons {
+//   // display: flex;
+//   // flex-direction: column;
+//   // align-content: center;
+//   height: 100%;
+// }
 
-.parts-menu-background {
-  background-color: #c4c4c4;
-  position: fixed;
-  width: 6%;
-  height: 50%;
-  border-radius: 25px;
-}
+// .parts-stack {
+//   background-color: #c4c4c4;
+//   // position: fixed;
+//   width: 100%;
+//   height: 100%;
+//   border-radius: 25px;
+// }
+
+// .canvas-editor aside:hover .parts-stack {
+//   width: 21.25%;
+// }
 
 .canvas-editor aside {
   display: flex;
@@ -102,20 +106,20 @@
   height: 100%;
 }
 
-@media screen and (min-width: 768px) {
-  .canvas-editor {
-    flex-direction: row;
-  }
+// .canvas-editor aside {
+//   width: 7%;
+// }
 
-  .canvas-editor aside {
-    width: 8%;
-  }
+// .canvas-editor aside:hover {
+//   width: 20%;
+//   max-width: 384px;
+// }
 
-  .canvas-editor aside:hover {
-    width: 20%;
-    max-width: 384px;
-  }
-}
+// @media screen and (min-width: 768px) {
+//   .canvas-editor {
+//     flex-direction: row;
+//   }
+// }
 
 /* 
 
