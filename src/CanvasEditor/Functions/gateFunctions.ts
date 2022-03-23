@@ -30,14 +30,27 @@ export const getInputPosition = (sourcePosition: Position) => {
     }
 }
 
-export const getOutputPosition = (sourcePosition: Position) => {
-    if (sourcePosition === Position.LeftTop || sourcePosition === Position.Left || sourcePosition === Position.LeftBottom) {
-        return Position.Right;
-    } else if (sourcePosition === Position.RightTop || sourcePosition === Position.Right || sourcePosition === Position.RightBottom) {
-        return Position.Left;
-    } else if (sourcePosition === Position.TopLeft || sourcePosition === Position.Top || sourcePosition === Position.TopRight) {
-        return Position.Bottom;
-    } else {
-        return Position.Top;
+export const getOutputPosition = (sourcePosition: Position, numOfOut?: number): Position | Position[] => {
+    if (numOfOut) {
+        if (sourcePosition === Position.LeftTop || sourcePosition === Position.Left || sourcePosition === Position.LeftBottom) {
+            return [Position.RightTop, Position.RightBottom];
+        } else if (sourcePosition === Position.RightTop || sourcePosition === Position.Right || sourcePosition === Position.RightBottom) {
+            return [Position.LeftTop, Position.LeftBottom];
+        } else if (sourcePosition === Position.TopLeft || sourcePosition === Position.Top || sourcePosition === Position.TopRight) {
+            return [Position.BottomLeft, Position.BottomRight];
+        } else {
+            return [Position.TopLeft, Position.TopRight];
+        }
+    }
+    else {
+        if (sourcePosition === Position.LeftTop || sourcePosition === Position.Left || sourcePosition === Position.LeftBottom) {
+            return Position.Right;
+        } else if (sourcePosition === Position.RightTop || sourcePosition === Position.Right || sourcePosition === Position.RightBottom) {
+            return Position.Left;
+        } else if (sourcePosition === Position.TopLeft || sourcePosition === Position.Top || sourcePosition === Position.TopRight) {
+            return Position.Bottom;
+        } else {
+            return Position.Top;
+        }
     }
 }

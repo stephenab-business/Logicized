@@ -31,6 +31,7 @@ interface CanvasEditorProps {
 }
 
 export type ConnectionMap = {
+    outputId: string;
     nodeId: string;
     dataId: string;
 }
@@ -88,9 +89,9 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
             if (sourceHandleId?.includes('input')) {
                 [sourceNodeId, targetNodeId] = [targetNodeId, sourceNodeId];
                 [sourceHandleId, targetHandleId] = [targetHandleId, sourceHandleId];
-                connectFunction(sourceNodeId, targetNodeId, targetHandleId, elements, timeMapping, setTimeMapping);
+                connectFunction(sourceNodeId, targetNodeId, sourceHandleId, targetHandleId, elements, timeMapping, setTimeMapping);
             } else {
-                connectFunction(sourceNodeId, targetNodeId, targetHandleId, elements, timeMapping, setTimeMapping);
+                connectFunction(sourceNodeId, targetNodeId, sourceHandleId, targetHandleId, elements, timeMapping, setTimeMapping);
             }
         }
         // setElements((elements) => removeElements(elements, elements));

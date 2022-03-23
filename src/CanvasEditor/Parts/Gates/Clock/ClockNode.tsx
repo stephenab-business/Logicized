@@ -1,6 +1,6 @@
 import { Handle, NodeProps, Position, useStoreState, Node } from 'inputs-and-outputs-renderer';
 import React, { useState, useEffect, FC } from 'react';
-import { ConnectionMap } from '../../CanvasEditor';
+import { ConnectionMap } from '../../../CanvasEditor';
 
 import './ClockNode.css';
 

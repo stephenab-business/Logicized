@@ -70,7 +70,33 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     data,
                 };
                 setElements((elements) => elements.concat(newNode));
-            } else if (passedType === 'or') {
+            } else if (passedType === 'srLatch') {
+                const id = getId();
+                const type = 'srLatch';
+                const data = {
+                    label: 'SR Latch',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    outputOne: 0,
+                    outputTwo: 1,
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            } 
+            else if (passedType === 'or') {
                 const id = getId();
                 const type = 'orGate';
                 const data = {
@@ -305,9 +331,6 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
     }
 
 export function getDataId(handleId: ElementId) {
-    if (handleId.includes('output')) {
-        return 'output';
-    }
     if (handleId.includes('one')) {
         return 'inputOne';
     }
@@ -357,5 +380,17 @@ export function getDataId(handleId: ElementId) {
         return 'inputSixteen';
     } else {
         return 'input';
+    }
+}
+
+export function getOutputDataId(handleId: string) {
+    if (handleId.includes('one')) {
+        return 'outputOne';
+    }
+    else if (handleId.includes('two')) {
+        return 'outputTwo';
+    }
+    else {
+        return 'output';
     }
 }

@@ -2,11 +2,11 @@ import React, { memo, FC, useEffect, useState } from 'react';
 
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import './NotGateNode.css';
-import { getOutputPosition } from '../../Functions/gateFunctions';
+import { getOutputPosition } from '../../../Functions/gateFunctions';
 
 const NotGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.Left }) => {
     const [output, setOutput] = useState<number>(data.output);
-    const outputPosition = getOutputPosition(sourcePosition);
+    const outputPosition = getOutputPosition(sourcePosition) as Position;
 
     // Function that computes the actual output value of the AND gate
     useEffect(() => {

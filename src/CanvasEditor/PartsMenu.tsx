@@ -79,7 +79,7 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
   }
 
   return (
-    <aside className='parts-menu col-md-3' onMouseEnter={onMouseHover} onMouseLeave={onMouseExit}>
+    <aside className='parts-menu col-md-2' onMouseEnter={onMouseHover} onMouseLeave={onMouseExit}>
       <div className='parts-menu-background'>
         <div className='parts-menu-icons justify-content-center'>
           <Container>
@@ -132,17 +132,20 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
               </div>
             </Col>
             }
-            {hovering && tabClicked[1] &&
+            {tabClicked[1] &&
             <Col>
-              <div>Components</div>
+              <h3>Components</h3>
+              <div className="dndnode-sr" onDragStart = {(event: DragEvent) => onDragStart(event, 'srLatch')} draggable>
+                  SR-Latch
+              </div>
             </Col>
             }
-            {hovering && tabClicked[2] && 
+            {tabClicked[2] && 
             <Col>
               <div>Displays</div>
             </Col>
             }
-            {hovering && tabClicked[3] && 
+            {tabClicked[3] && 
             <Col>
               <div>Custom</div>
             </Col>
@@ -164,7 +167,7 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
           <Col></Col>
         </Row>
       </Container> */}
-
+            <button onClick={changeMode}>Change Mode</button>
     </aside>
   );
 };
@@ -221,6 +224,7 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
         </div>
       </div>
       }
+
       {!editing &&
         <div>
           <h3>Simulation Parts</h3>
@@ -230,7 +234,6 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
           <button></button>
         </div>
       }
-      <button onClick={changeMode}>Change Mode</button>
     </aside>
  *  
  * 
