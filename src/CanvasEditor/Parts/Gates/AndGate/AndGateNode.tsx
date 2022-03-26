@@ -9,7 +9,7 @@ import { ConnectionMap } from '../../../CanvasEditor';
 
 const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number>(data.output);
-    const inputPosition = getInputPosition(sourcePosition);
+    const inputPosition = getInputPosition(sourcePosition) as Position;
     const outputPosition = getOutputPosition(sourcePosition) as Position;
     // const nodes = useStoreState((state) => state.nodes);
     // const childNodes: Node[] = [];

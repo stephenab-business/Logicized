@@ -77,8 +77,35 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     label: 'SR Latch',
                     inputOne: 0,
                     inputTwo: 0,
+                    inputThree: 0,
                     outputOne: 0,
-                    outputTwo: 1,
+                    outputTwo: 0,
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'srLatchEnable') {
+                const id = getId();
+                const type = 'srLatchEnable';
+                const data = {
+                    label: 'SR Latch Enable',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    outputOne: 0,
+                    outputTwo: 0,
                     comment: false,
                     commentId: '',
                     useClock: false,

@@ -6,7 +6,7 @@ import './XorGateNode.css';
 
 const XorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number>(data.output);
-    const inputPosition = getInputPosition(sourcePosition);
+    const inputPosition = getInputPosition(sourcePosition) as Position;
     const outputPosition = getOutputPosition(sourcePosition) as Position;
 
     // Function that computes the actual output value of the AND gate

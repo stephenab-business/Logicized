@@ -11,6 +11,7 @@ import FreeCommentNode from './Comments/FreeComment/FreeCommentNode';
 import NodeCommentNode from './Comments/NodeComment/NodeCommentNode';
 import ClockNode from './Gates/Clock/ClockNode';
 import SRLatch from './Components/Latches/SRLatch/SRLatch';
+import SRLatchEnable from './Components/Latches/SRLatchEnable/SRLatchEnable';
 
 // Any type of Node that is created must be passed as a type here
 export const nodeTypes = {
@@ -26,5 +27,6 @@ export const nodeTypes = {
     freeComment: FreeCommentNode,
     nodeComment: NodeCommentNode,
     clock: ClockNode,
-    srLatch: SRLatch
+    srLatch: SRLatch,
+    srLatchEnable: SRLatchEnable
 };
