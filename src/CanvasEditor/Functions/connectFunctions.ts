@@ -1,10 +1,12 @@
 import { Node, Elements } from "inputs-and-outputs-renderer";
 import { ConnectionMap, TimeMap } from "../CanvasEditor";
-import { getDataId } from "./createNode";
+import { getDataId, getOutputDataId } from "./createNode";
 
-export function createConnection(targetNodeId: string, targetHandleId: string) {
+export function createConnection(sourceHandleId: string, targetNodeId: string, targetHandleId: string) {
     const targetDataId = getDataId(targetHandleId);
+    const sourceDataId = getOutputDataId(sourceHandleId);
     const connection: ConnectionMap = {
+        outputId: sourceDataId,
         nodeId: targetNodeId,
         dataId: targetDataId
     }
@@ -39,7 +41,7 @@ function traceConnections(childNode: Node, timeMapping: TimeMap, clockInterval: 
     return newTimeMapping;
 }
 
-export function connectFunction(sourceNodeId: string, targetNodeId: string, targetHandleId: string, elements: Elements, timeMapping: TimeMap, setTimeMapping: React.Dispatch<React.SetStateAction<TimeMap>>) {
+export function connectFunction(sourceNodeId: string, targetNodeId: string, sourceHandleId: string, targetHandleId: string, elements: Elements, timeMapping: TimeMap, setTimeMapping: React.Dispatch<React.SetStateAction<TimeMap>>) {
 
     let newElements = elements;
     let newTimeMapping = timeMapping;
@@ -48,7 +50,7 @@ export function connectFunction(sourceNodeId: string, targetNodeId: string, targ
     const parentClock = timeMapping.get(sourceNodeId);
     const childNode: Node = elements.find((element) => element.id === targetNodeId) as Node;
     const timeKeys = Array.from(timeMapping.keys());
-    const connection = createConnection(targetNodeId, targetHandleId);
+    const connection = createConnection(sourceHandleId, targetNodeId, targetHandleId);
     
     // Set the parentNode's child to include this new node
     if (newElements[parentNodeIndex].data.children !== undefined) {

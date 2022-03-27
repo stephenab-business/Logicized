@@ -51,14 +51,14 @@ export function useSimulateLogic(elements: Elements, editing: boolean, timeMappi
                         node.data.children.forEach((child: ConnectionMap) => {
                             const childNode = sortedNodes.find((node) => node.id === child.nodeId);
                             if (childNode) {
-                                childNode.data[child.dataId] = node.data.output;
+                                childNode.data[child.dataId] = node.data[child.outputId];
                             }
                         });
                     } else {
                         node.data.children.forEach((child: ConnectionMap) => {
                             const childNode = sortedNodes.find((node) => node.id === child.nodeId);
                             if (childNode) {
-                                childNode.data[child.dataId] = node.data.output;
+                                childNode.data[child.dataId] = node.data[child.outputId];
                             }
                         })
                     }
@@ -73,7 +73,7 @@ export function useSimulateLogic(elements: Elements, editing: boolean, timeMappi
                             // console.log('parent')
                             // console.log(node.type);
                             // console.log(node.data.output);
-                            childNode.data[child.dataId] = node.data.output;
+                            childNode.data[child.dataId] = node.data[child.outputId];
                             // console.log(childNode.type)
                             // console.log(node.data.output);
                             // console.log(childNode.data[child.dataId]);

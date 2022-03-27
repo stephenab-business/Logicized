@@ -1,15 +1,17 @@
-import InputGateNode from './InputNode/InputNode';
-import OutputGateNode from './OutputNode/OutputNode';
-import NotGateNode from './NotGate/NotGateNode';
-import OrGateNode from './OrGate/OrGateNode';
-import AndGateNode from './AndGate/AndGateNode';
-import NorGateNode from './NorGate/NorGateNode';
-import NandGateNode from './NandGate/NandGateNode';
-import XorGateNode from './XorGate/XorGateNode';
-import XnorGateNode from './XnorGate/XnorGateNode';
+import InputGateNode from './Gates/InputNode/InputNode';
+import OutputGateNode from './Gates/OutputNode/OutputNode';
+import NotGateNode from './Gates/NotGate/NotGateNode';
+import OrGateNode from './Gates/OrGate/OrGateNode';
+import AndGateNode from './Gates/AndGate/AndGateNode';
+import NorGateNode from './Gates/NorGate/NorGateNode';
+import NandGateNode from './Gates/NandGate/NandGateNode';
+import XorGateNode from './Gates/XorGate/XorGateNode';
+import XnorGateNode from './Gates/XnorGate/XnorGateNode';
 import FreeCommentNode from './Comments/FreeComment/FreeCommentNode';
 import NodeCommentNode from './Comments/NodeComment/NodeCommentNode';
-import ClockNode from './Clock/ClockNode';
+import ClockNode from './Gates/Clock/ClockNode';
+import SRLatch from './Components/Latches/SRLatch/SRLatch';
+import SRLatchEnable from './Components/Latches/SRLatchEnable/SRLatchEnable';
 
 // Any type of Node that is created must be passed as a type here
 export const nodeTypes = {
@@ -24,5 +26,7 @@ export const nodeTypes = {
     xnorGate: XnorGateNode,
     freeComment: FreeCommentNode,
     nodeComment: NodeCommentNode,
-    clock: ClockNode, 
+    clock: ClockNode,
+    srLatch: SRLatch,
+    srLatchEnable: SRLatchEnable
 };

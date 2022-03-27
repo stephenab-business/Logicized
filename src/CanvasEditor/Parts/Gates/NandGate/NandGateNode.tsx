@@ -1,13 +1,13 @@
 import React, { memo, FC, useEffect, useState } from 'react';
 
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
-import { getInputPosition, getOutputPosition } from '../../Functions/gateFunctions'
+import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions'
 import './NandGateNode.css';
 
 const NandGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number>(data.output);
-    const inputPosition = getInputPosition(sourcePosition);
-    const outputPosition = getOutputPosition(sourcePosition);
+    const inputPosition = getInputPosition(sourcePosition) as Position;
+    const outputPosition = getOutputPosition(sourcePosition) as Position;
 
     // Function that computes the actual output value of the AND gate
     useEffect(() => {

@@ -1,0 +1,38 @@
+.or__gate {
+    background-color: transparent;
+    /* border: 1px solid #777; */
+    /* border-radius: 5px; */
+    text-align: center;
+    width: 79px;
+    height: 65px;
+    padding: 10px;
+}
+
+.or-image {
+    width: 79px;
+    height: 65px;
+        /* user-drag: none; */
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+}
+
+.or__input__one, .or__input__two, .or__output {
+    width: 10px;
+    height: 10px;
+}
+
+.or__input__one {
+
+}
+
+.or__input__two {
+
+}
+
+.or__output {
+    right: 5px;
+}
