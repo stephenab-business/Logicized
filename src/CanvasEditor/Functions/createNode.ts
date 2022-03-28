@@ -70,11 +70,11 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     data,
                 };
                 setElements((elements) => elements.concat(newNode));
-            } else if (passedType === 'srLatch') {
+            } else if (passedType === 'srLatchEnable') {
                 const id = getId();
-                const type = 'srLatch';
+                const type = 'srLatchEnable';
                 const data = {
-                    label: 'SR Latch',
+                    label: 'SR Latch Enable',
                     inputOne: 0,
                     inputTwo: 0,
                     inputThree: 0,
@@ -97,13 +97,115 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                 };
                 setElements((elements) => elements.concat(newNode));
             }
-            else if (passedType === 'srLatchEnable') {
+            else if (passedType === 'srLatch') {
                 const id = getId();
-                const type = 'srLatchEnable';
+                const type = 'srLatch';
                 const data = {
-                    label: 'SR Latch Enable',
+                    label: 'SR Latch',
                     inputOne: 0,
                     inputTwo: 0,
+                    outputOne: 'undefined',
+                    outputTwo: 'undefined',
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'dLatch') {
+                const id = getId();
+                const type = 'dLatch';
+                const data = {
+                    label: 'D Latch',
+                    input: 0,
+                    outputOne: 0,
+                    outputTwo: 0,
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            } 
+            else if (passedType === 'dLatchEnable') {
+                const id = getId();
+                const type = 'dLatchEnable';
+                const data = {
+                    label: 'D Latch Enable',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    outputOne: 0,
+                    outputTwo: 0,
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'jkLatch') {
+                const id = getId();
+                const type = 'jkLatch';
+                const data = {
+                    label: 'JK Latch',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    outputOne: 0,
+                    outputTwo: 1,
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            } 
+            else if (passedType === 'tLatch') {
+                const id = getId();
+                const type = 'tLatch';
+                const data = {
+                    label: 'T Latch',
+                    input: 0,
                     outputOne: 0,
                     outputTwo: 0,
                     comment: false,

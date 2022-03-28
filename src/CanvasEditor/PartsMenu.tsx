@@ -141,6 +141,18 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
               <div className="dndnode-sre" onDragStart = {(event: DragEvent) => onDragStart(event, 'srLatchEnable')} draggable>
                   SR-Latch-Enable
               </div>
+              <div className="dndnode-d" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatch')} draggable>
+                  D-Latch
+              </div>
+              <div className="dndnode-de" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatchEnable')} draggable>
+                  D-Latch-Enable
+              </div>
+              <div className="dndnode-t" onDragStart = {(event: DragEvent) => onDragStart(event, 'tLatch')} draggable>
+                  T-Latch
+              </div>
+              <div className="dndnode-jk" onDragStart = {(event: DragEvent) => onDragStart(event, 'jkLatch')} draggable>
+                  JK-Latch
+              </div>
             </Col>
             }
             {tabClicked[2] && 

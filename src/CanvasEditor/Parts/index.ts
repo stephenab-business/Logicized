@@ -12,6 +12,10 @@ import NodeCommentNode from './Comments/NodeComment/NodeCommentNode';
 import ClockNode from './Gates/Clock/ClockNode';
 import SRLatch from './Components/Latches/SRLatch/SRLatch';
 import SRLatchEnable from './Components/Latches/SRLatchEnable/SRLatchEnable';
+import DLatch from './Components/Latches/DLatch/DLatch';
+import DLatchEnable from './Components/Latches/DLatchEnable/DLatchEnable';
+import TLatch from './Components/Latches/TLatch/TLatch';
+import JKLatch from './Components/Latches/JKLatch/JKLatch';
 
 // Any type of Node that is created must be passed as a type here
 export const nodeTypes = {
@@ -28,5 +32,9 @@ export const nodeTypes = {
     nodeComment: NodeCommentNode,
     clock: ClockNode,
     srLatch: SRLatch,
-    srLatchEnable: SRLatchEnable
+    srLatchEnable: SRLatchEnable,
+    dLatch: DLatch,
+    dLatchEnable: DLatchEnable,
+    tLatch: TLatch,
+    jkLatch: JKLatch
 };

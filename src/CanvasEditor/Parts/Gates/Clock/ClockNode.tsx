@@ -1,7 +1,5 @@
-import { Handle, NodeProps, Position, useStoreState, Node } from 'inputs-and-outputs-renderer';
 import React, { useState, useEffect, FC } from 'react';
-import { ConnectionMap } from '../../../CanvasEditor';
-
+import { Handle, NodeProps, Position } from 'inputs-and-outputs-renderer';
 import './ClockNode.css';
 
 const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => {
@@ -9,8 +7,6 @@ const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => 
     const [rising, setRising] = useState<boolean>();
     const [clockTime, setClockTime] = useState<number>(data.clockInterval);
     const [output, setOutput] = useState<boolean>(!!data.initialValue);
-    // const nodes = useStoreState((state) => state.nodes);
-    // const childNodes: Node[] = [];
 
     const onRisingClick = () => {
         setRising(true);
@@ -42,10 +38,8 @@ const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => 
         let clock: NodeJS.Timer;
         if (!data.modeIsEditing && data.initialized) {
             clock = setInterval(() => {
-                // data.output = +(!(!!data.output));
                 data.output = +!!!data.output;
                 setOutput(!!data.output);
-                // console.log(data.output);
             }, data.clockInterval);
         }
 
@@ -57,38 +51,6 @@ const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => 
         return () => {
             clearInterval(clock);
         }
-        // nodes.forEach((node) => {
-        //     const children = data.children;
-        //     children.forEach((child: ConnectionMap) => {
-        //         if (child.nodeId === node.id) {
-        //             childNodes.push(node);
-        //         }
-        //     });
-        // });
-        // let clock: NodeJS.Timer;
-        // if (!data.modeIsEditing && data.initialized) {
-        //     let start = new Date().getTime();
-        //     let time = 0;
-
-        //     const instan = () => {
-        //         time += (+data.clockInterval);
-        //         data.output = +(!(!!data.output));
-        //         console.log(data.output);
-        //         setOutput(!!data.output);
-        //         let diff = (new Date().getTime() - start) - time;
-        //         childNodes.forEach((node) => {
-        //             node.data.delay = diff;
-        //         });
-        //         clock = setTimeout(instan, data.clockInterval - diff);
-        //     }
-
-        //     clock = setTimeout(instan, data.clockInterval);
-        // }
-
-        // return () => {
-        //     clearTimeout(clock);
-        // }
-
     }, [data]);
 
     return(

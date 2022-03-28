@@ -1,30 +1,35 @@
 import React, { memo, FC, useEffect, useState } from 'react';
-
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
-import './NotGateNode.css';
 import { getOutputPosition } from '../../../Functions/gateFunctions';
+import './NotGateNode.css';
 
 const NotGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.Left }) => {
-    const [output, setOutput] = useState<number>(data.output);
+    const [output, setOutput] = useState<number | string>(data.output);
     const outputPosition = getOutputPosition(sourcePosition) as Position;
 
-    // Function that computes the actual output value of the AND gate
     useEffect(() => {
         let clock: NodeJS.Timer;
         if (!data.modeIsEditing && data.useClock) {
             clock = setInterval(() => {
-                let input: number = data.input;
-                const boolOutput = !(!!input); // the calculated boolean output
-                const output = +boolOutput;
-                data.output = output;
-                setOutput(data.output);
+                if (data.input !== 'undefined') {
+                    let input: number = data.input;
+                    const boolOutput = !!!input;
+                    const output = +boolOutput;
+                    data.output = output;
+                    setOutput(data.output);
+                }
+                else {
+                    data.output = 'undefined';
+                    setOutput(data.output);
+                }
             }, 0);
+        } else if (data.modeIsEditing) {
+            data.input = 'undefined';
+            data.output = 'undefined';
+            setOutput(data.output);
         }
 
         return () => {
-            data.input = 0;
-            data.output = 0;
-            setOutput(0);
             clearInterval(clock);
         }
     }, [data]);
