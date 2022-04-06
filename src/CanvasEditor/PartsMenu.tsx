@@ -86,10 +86,10 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
             <Row>
             <Col>
               <Stack className='parts-stack justify-content-center' gap={4} style={{height: '100%'}}>
-                <div className='gates-icon' onClick={onPartsClick}><img src = {GatesIcon}></img></div>
-                <div className='components-icon' onClick={onCompClick}><img src = {ComponentsIcon}></img></div>
-                <div className='displays-icon' onClick={onDisplayClick}><img src = {DisplaysIcon}></img></div>
-                <div className='custom-comp-icon' onClick={onCustomClick}><img src = {CustomComponentsIcon}></img></div>
+                <div className='gates-icon' onClick={onPartsClick}><img src = {GatesIcon} draggable = {false}></img></div>
+                <div className='components-icon' onClick={onCompClick}><img src = {ComponentsIcon} draggable = {false}></img></div>
+                <div className='displays-icon' onClick={onDisplayClick}><img src = {DisplaysIcon} draggable = {false}></img></div>
+                <div className='custom-comp-icon' onClick={onCustomClick}><img src = {CustomComponentsIcon} draggable = {false}></img></div>
               </Stack>
             </Col>
             {tabClicked[0] && 
@@ -147,11 +147,17 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
               <div className="dndnode-de" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatchEnable')} draggable>
                   D-Latch-Enable
               </div>
-              <div className="dndnode-t" onDragStart = {(event: DragEvent) => onDragStart(event, 'tLatch')} draggable>
-                  T-Latch
+              <div className="dndnode-srff" onDragStart = {(event: DragEvent) => onDragStart(event, 'srFlipFlop')} draggable>
+                  SR-Flip-Flop
               </div>
-              <div className="dndnode-jk" onDragStart = {(event: DragEvent) => onDragStart(event, 'jkLatch')} draggable>
-                  JK-Latch
+              <div className="dndnode-jkff" onDragStart = {(event: DragEvent) => onDragStart(event, 'jkFlipFlop')} draggable>
+                  JK-Flip-Flop
+              </div>
+              <div className="dndnode-dff" onDragStart = {(event: DragEvent) => onDragStart(event, 'dFlipFlop')} draggable>
+                  D-Flip-Flop
+              </div>
+              <div className="dndnode-tff" onDragStart = {(event: DragEvent) => onDragStart(event, 'tFlipFlop')} draggable>
+                  T-Flip-Flop
               </div>
             </Col>
             }

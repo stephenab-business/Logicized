@@ -3,8 +3,6 @@ import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions';
 import './AndGateNode.css';
 
-
-
 const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.output);
     const inputPosition = getInputPosition(sourcePosition) as Position;

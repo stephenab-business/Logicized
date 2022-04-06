@@ -174,38 +174,65 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                 };
                 setElements((elements) => elements.concat(newNode));
             }
-            else if (passedType === 'jkLatch') {
+            // else if (passedType === 'jkLatch') {
+            //     const id = getId();
+            //     const type = 'jkLatch';
+            //     const data = {
+            //         label: 'JK Latch',
+            //         inputOne: 0,
+            //         inputTwo: 0,
+            //         outputOne: 0,
+            //         outputTwo: 1,
+            //         comment: false,
+            //         commentId: '',
+            //         useClock: false,
+            //         clockInterval: 0,
+            //         children: children,
+            //         modeIsEditing: modeIsEditing
+            //     }
+            //     const sourcePosition = Position.LeftTop;
+            //     const newNode = {
+            //         id,
+            //         type,
+            //         data,
+            //         position,
+            //         sourcePosition
+            //     };
+            //     setElements((elements) => elements.concat(newNode));
+            // } 
+            // else if (passedType === 'tLatch') {
+            //     const id = getId();
+            //     const type = 'tLatch';
+            //     const data = {
+            //         label: 'T Latch',
+            //         input: 0,
+            //         outputOne: 0,
+            //         outputTwo: 0,
+            //         comment: false,
+            //         commentId: '',
+            //         useClock: false,
+            //         clockInterval: 0,
+            //         children: children,
+            //         modeIsEditing: modeIsEditing
+            //     }
+            //     const sourcePosition = Position.LeftTop;
+            //     const newNode = {
+            //         id,
+            //         type,
+            //         data,
+            //         position,
+            //         sourcePosition
+            //     };
+            //     setElements((elements) => elements.concat(newNode));
+            // } 
+            else if (passedType === 'srFlipFlop') {
                 const id = getId();
-                const type = 'jkLatch';
+                const type = 'srFlipFlop';
                 const data = {
-                    label: 'JK Latch',
+                    label: 'SR Flip Flop',
                     inputOne: 0,
                     inputTwo: 0,
-                    outputOne: 0,
-                    outputTwo: 1,
-                    comment: false,
-                    commentId: '',
-                    useClock: false,
-                    clockInterval: 0,
-                    children: children,
-                    modeIsEditing: modeIsEditing
-                }
-                const sourcePosition = Position.LeftTop;
-                const newNode = {
-                    id,
-                    type,
-                    data,
-                    position,
-                    sourcePosition
-                };
-                setElements((elements) => elements.concat(newNode));
-            } 
-            else if (passedType === 'tLatch') {
-                const id = getId();
-                const type = 'tLatch';
-                const data = {
-                    label: 'T Latch',
-                    input: 0,
+                    inputThree: 0,
                     outputOne: 0,
                     outputTwo: 0,
                     comment: false,
@@ -224,7 +251,89 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     sourcePosition
                 };
                 setElements((elements) => elements.concat(newNode));
-            } 
+            }
+            else if (passedType === 'jkFlipFlop') {
+                const id = getId();
+                const type = 'jkFlipFlop';
+                const data = {
+                    label: 'JK Flip Flop',
+                    id: id,
+                    inputOne: 0,
+                    inputTwo: 0,
+                    inputThree: 0,
+                    outputOne: 0,
+                    outputTwo: 0,
+                    level: false,
+                    negative: false,
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'dFlipFlop') {
+                const id = getId();
+                const type = 'dFlipFlop';
+                const data = {
+                    label: 'D Flip Flop',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    outputOne: 0,
+                    outputTwo: 0,
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
+            else if (passedType === 'tFlipFlop') {
+                const id = getId();
+                const type = 'tFlipFlop';
+                const data = {
+                    label: 'T Flip Flop',
+                    inputOne: 0,
+                    inputTwo: 0,
+                    outputOne: 0,
+                    outputTwo: 0,
+                    comment: false,
+                    commentId: '',
+                    useClock: false,
+                    clockInterval: 0,
+                    children: children,
+                    modeIsEditing: modeIsEditing
+                }
+                const sourcePosition = Position.LeftTop;
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position,
+                    sourcePosition
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
             else if (passedType === 'or') {
                 const id = getId();
                 const type = 'orGate';

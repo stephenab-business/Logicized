@@ -1,4 +1,4 @@
-import { Node, Elements } from "inputs-and-outputs-renderer";
+import { Node, Elements, Connection } from "inputs-and-outputs-renderer";
 import { ConnectionMap, TimeMap } from "../CanvasEditor";
 import { getDataId, getOutputDataId } from "./createNode";
 
@@ -15,24 +15,40 @@ export function createConnection(sourceHandleId: string, targetNodeId: string, t
 }
 
 // This function will return an edited timeMapping
-function traceConnections(childNode: Node, timeMapping: TimeMap, clockInterval: number, elements: Elements) {
+function traceConnections(parentNode: Node, childNode: Node, timeMapping: TimeMap, clockInterval: number, elements: Elements) {
     let newTimeMapping = timeMapping;
     const timeKeys = Array.from(timeMapping.keys());
-    newTimeMapping.set(childNode.id, clockInterval);
+    // if the childNode is a flip-flop, then the clockInterval must be the same as the clock
+    // plugged into the second input
+    if (childNode.type?.includes('FlipFlop')) {
+        let found: boolean = false;
+        parentNode.data.children.forEach((child: ConnectionMap) => {
+            if (child.nodeId === childNode.id && child.dataId === 'inputTwo') {
+                newTimeMapping.set(childNode.id, clockInterval);
+                childNode.data.initialClock = parentNode.data[child.outputId];
+                found = true;
+            }
+        });
+        if (!found) {
+            return newTimeMapping;
+        }
+    } else {
+        newTimeMapping.set(childNode.id, clockInterval);
+    }
     if (childNode.data.children.length !== 0) {
         const dataChildren: ConnectionMap[] = childNode.data.children;
         dataChildren.forEach((child) => {
-            console.log(child);
+            // console.log(child);
             // If the node's id is already in the timeMapping, then we need to set a custom timing for node and all of its children
             if (timeKeys.includes(child.nodeId)) {
                 const customClockInterval = 1000; // --> might need to add this as an easily accessed constant
                 newTimeMapping.set(childNode.id, customClockInterval);
                 const newChildNode: Node = elements.find((element) => element.id === child.nodeId) as Node;
-                const childrenMap = traceConnections(newChildNode, timeMapping, customClockInterval, elements);
+                const childrenMap = traceConnections(childNode, newChildNode, timeMapping, customClockInterval, elements);
                 newTimeMapping = new Map([...timeMapping, ...childrenMap]);
             } else {
                 const newChildNode: Node = elements.find((element) => element.id === child.nodeId) as Node;
-                const childrenMap = traceConnections(newChildNode, timeMapping, clockInterval, elements);
+                const childrenMap = traceConnections(childNode, newChildNode, timeMapping, clockInterval, elements);
                 newTimeMapping = new Map([...timeMapping, ...childrenMap]);
             }
         });
@@ -62,10 +78,10 @@ export function connectFunction(sourceNodeId: string, targetNodeId: string, sour
     }
 
     if (parentClock) {
-        newTimeMapping = traceConnections(childNode, newTimeMapping, parentClock, newElements);
+        newTimeMapping = traceConnections(parentNode, childNode, newTimeMapping, parentClock, newElements);
     } else if (!parentClock && parentNode.type === 'clock') {
         const parentNodeClock = parentNode.data.clockInterval;
-        newTimeMapping = traceConnections(childNode, newTimeMapping, parentNodeClock, newElements);
+        newTimeMapping = traceConnections(parentNode, childNode, newTimeMapping, parentNodeClock, newElements);
     }
 
     setTimeMapping(newTimeMapping);

@@ -14,8 +14,10 @@ import SRLatch from './Components/Latches/SRLatch/SRLatch';
 import SRLatchEnable from './Components/Latches/SRLatchEnable/SRLatchEnable';
 import DLatch from './Components/Latches/DLatch/DLatch';
 import DLatchEnable from './Components/Latches/DLatchEnable/DLatchEnable';
-import TLatch from './Components/Latches/TLatch/TLatch';
-import JKLatch from './Components/Latches/JKLatch/JKLatch';
+import SRFlipFlop from './Components/FlipFlops/SRFlipFlop/SRFlipFlop';
+import JKFlipFlop from './Components/FlipFlops/JKFlipFlop/JKFlipFlop';
+import DFlipFlop from './Components/FlipFlops/DFlipFlop/DFlipFlop';
+import TFlipFlop from './Components/FlipFlops/TFlipFlop/TFlipFlop';
 
 // Any type of Node that is created must be passed as a type here
 export const nodeTypes = {
@@ -35,6 +37,8 @@ export const nodeTypes = {
     srLatchEnable: SRLatchEnable,
     dLatch: DLatch,
     dLatchEnable: DLatchEnable,
-    tLatch: TLatch,
-    jkLatch: JKLatch
+    srFlipFlop: SRFlipFlop,
+    jkFlipFlop: JKFlipFlop,
+    dFlipFlop: DFlipFlop,
+    tFlipFlop: TFlipFlop
 };

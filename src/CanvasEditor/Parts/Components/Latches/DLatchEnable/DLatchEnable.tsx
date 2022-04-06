@@ -19,12 +19,22 @@ const DLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }
                 if (data.inputOne !== 'undefined' && data.inputTwo !== 'undefined') {
                     let d: boolean = !!data.inputOne;
                     let enable: boolean = !!data.inputTwo;
-                    const enableD: boolean = d && enable;
-                    const enableNotD: boolean = !d && enable;
-                    let stateBool: boolean | string;
-                    let notStateBool: boolean | string;
-                    stateBool = enableNotD ? false : (enableD ? true : (notOutput === 'undefined' ? 'undefined' : !!notOutput));
-                    notStateBool = enableD ? false : (enableNotD ? true : (output === 'undefined' ? 'undefined' : !!output));
+                    // const enableD: boolean = d && enable;
+                    // const enableNotD: boolean = !d && enable;
+                    // let stateBool: boolean | string;
+                    // let notStateBool: boolean | string;
+                    // stateBool = enableNotD ? false : (enableD ? true : (notOutput === 'undefined' ? 'undefined' : !!notOutput));
+                    // notStateBool = enableD ? false : (enableNotD ? true : (output === 'undefined' ? 'undefined' : !!output));
+                    let stateBool : boolean | string;
+                    let notStateBool : boolean | string;
+                    if (enable) {
+                        stateBool = d;
+                        notStateBool = !d;
+                    }
+                    else {
+                        stateBool = !!output;
+                        notStateBool = !!data.notOutput;
+                    }
                     const state: number = +stateBool;
                     const notState: number = +notStateBool;
                     data.outputOne = state;

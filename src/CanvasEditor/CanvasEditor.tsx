@@ -121,8 +121,14 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                     }
                 }
             } else {
+                // If we delete a Node from the timeMapping, then we must also remove any children that it might have
                 if (timeKeys.includes(element.id)) {
                     timeMapping.delete(element.id);
+                    const thisNode: Node = elements.find((node) => node.id === element.id) as Node;
+                    thisNode.data.children.forEach((child: ConnectionMap) => {
+                        timeMapping.delete(child.nodeId);
+                    });
+                    console.log(timeMapping);
                 }
                 // If element is Node, and that Node has a Node Comment
                 if (element.type !== 'nodeComment' && element.data.comment === true) {

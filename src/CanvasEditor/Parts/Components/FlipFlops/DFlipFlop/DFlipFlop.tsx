@@ -1,12 +1,12 @@
-import React, { memo, FC, useEffect, useState } from 'react';
+import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
-import { getOutputPosition } from '../../../../Functions/gateFunctions';
-import './DLatch.scss';
+import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
+import './DFlipFlop.scss';
 
-
-const DLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
+const DFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.outputOne);
     const [notOutput, setNotOutput] = useState<number | string>(data.outputTwo);
+    const inputPosition: Position = getInputPosition(sourcePosition) as Position;
     const outputPosition = getOutputPosition(sourcePosition, 2);
     const outputOnePosition: Position = outputPosition[0] as Position;
     const outputTwoPosition: Position = outputPosition[1] as Position;
@@ -58,4 +58,4 @@ const DLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     );
 }
 
-export default memo(DLatch);
+export default memo(DFlipFlop);
