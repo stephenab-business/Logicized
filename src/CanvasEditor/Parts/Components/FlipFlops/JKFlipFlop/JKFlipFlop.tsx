@@ -16,15 +16,14 @@ const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
         if (data.inputOne !== 'undefined' && data.inputThree !== 'undefined') {
             const j: boolean = !!data.inputOne;
             const k: boolean = !!data.inputThree;
-            console.log(j)
-            console.log(k)
-            if (j && k) {
+            if (j && k && data.output !== 'undefined' && data.notOutput !== 'undefined') {
                 const state = data.outputTwo;
                 const notState = data.outputOne;
+                
                 data.outputOne = state;
                 data.outputTwo = notState;
-                setOutput(state);
-                setNotOutput(notState);
+                setOutput(data.outputOne);
+                setNotOutput(data.outputTwo);
             } else if (j || k) {
                 data.outputOne = +j;
                 data.outputTwo = +k;
@@ -43,6 +42,7 @@ const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
     useEffect(() => {
         let clock: NodeJS.Timer;
         let previousClock = +!!!data.initialClock;
+        let interval: number = Number(data.clockInterval);
         if (!data.modeIsEditing && data.useClock) {
             if (data.level) {
                 clock = setInterval(() => {
@@ -61,7 +61,7 @@ const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
                         logic();
                     }
                     previousClock = data.inputTwo;
-                }, data.clockInterval);
+                }, interval);
             }
         } else if (data.modeIsEditing) {
             data.inputOne = 'undefined';

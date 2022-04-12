@@ -24,6 +24,7 @@ import { createNode } from './Functions/createNode';
 import { undoNormalSelection } from './Functions/domFunctions';
 import { useSimulateLogic } from './Functions/useSimulateLogic';
 import { connectFunction } from './Functions/connectFunctions';
+import { PropertiesMenu } from './PropertiesMenu';
 
 
 interface CanvasEditorProps {
@@ -407,6 +408,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
         <div className = "canvas-editor">
             <ReactFlowProvider>
                 <PartsMenu editing = {editing} setEditing={setEditing} elements={elements} setElements={setElements} />
+                <PropertiesMenu selectedElements={selected} elements={elements} setElements={setElements} />
                 <div className = "reactflow-wrapper">
                     <ReactFlow 
                         elements = {elements}

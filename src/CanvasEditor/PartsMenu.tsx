@@ -80,7 +80,6 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
 
   return (
     <aside className='parts-menu col-md-2' onMouseEnter={onMouseHover} onMouseLeave={onMouseExit}>
-      <div className='parts-menu-background'>
         <div className='parts-menu-icons justify-content-center'>
           <Container>
             <Row>
@@ -174,7 +173,6 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
             </Row>
           </Container>
         </div>
-      </div>
 {/* 
       <Container>
         <Row>

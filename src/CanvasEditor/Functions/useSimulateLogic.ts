@@ -24,16 +24,6 @@ let set: boolean = false;
 export function useSimulateLogic(elements: Elements, editing: boolean, timeMapping: TimeMap, setElements: React.Dispatch<SetStateAction<Elements>>) {
     const timeKeys = Array.from(timeMapping.keys());
 
-    // elements.forEach((element) => {
-    //     if (timeKeys.includes(element.id)) {
-    //         timeMapElements.push(element);
-    //     } else if (isNode(element) && element.type === 'clock') {
-    //         clockElements.push(element);
-    //     } else {
-    //         normalElements.push(element);
-    //     }
-    // });
-
     useEffect(() => {
         let clock: NodeJS.Timer;
 
