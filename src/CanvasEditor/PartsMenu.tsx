@@ -107,6 +107,9 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
                 <div className = "dndnode-ground" onDragStart={(event: DragEvent) => onDragStart(event, 'inputGround')} draggable>
                   Input Ground
                 </div>
+                <div className = "dndnode-switch" onDragStart={(event: DragEvent) => onDragStart(event, 'switch')} draggable>
+                  Switch
+                </div>
                 <div className="dndnode-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'outputgate')} draggable>
                   Output
                 </div>

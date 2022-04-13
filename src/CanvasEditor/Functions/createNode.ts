@@ -541,9 +541,27 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     type,
                     data,
                     position
-                }
+                };
                 setElements((elements) => elements.concat(newNode));
-            } 
+            }
+            else if (passedType === 'switch') {
+                const id = getId();
+                const type = 'switch';
+                const data = {
+                    output: 0,
+                    comment: false,
+                    commentId: '',
+                    children: children,
+                    modeIsEditing: modeIsEditing,
+                };
+                const newNode = {
+                    id,
+                    type,
+                    data,
+                    position
+                };
+                setElements((elements) => elements.concat(newNode));
+            }
             else if (passedType === 'clock') {
                 const id = getId();
                 const type = 'clock';

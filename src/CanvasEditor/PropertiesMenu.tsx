@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react"
-import { FlowElement, Elements, isEdge } from "inputs-and-outputs-renderer";
+import { Elements, isEdge, Edge, Node, removeElements } from "inputs-and-outputs-renderer";
 import { Container, Row, Col } from "react-bootstrap";
 
 interface PropertiesMenuProps {
@@ -14,6 +14,54 @@ export const PropertiesMenu: FC<PropertiesMenuProps> = ({selectedElements, eleme
 
     const updateElements = () => {
 
+    }
+
+    const negateEdgeSource = () => {
+        if (selectedElements) {
+            const edge: Edge = selectedElements[0] as Edge;
+            let source = edge.sourceHandle;
+            let sourceNode = edge.source;
+            if (edge.sourceHandle?.includes('input')) {
+                source = edge.targetHandle;
+                sourceNode = edge.target;
+            }
+            const node: Node = elements.find((element) => element.id === sourceNode) as Node;
+            if (source?.includes('One')) {
+                node.data.negateOutputOne = true;
+            } else if (source?.includes('Two')) {
+                node.data.negateOutputTwo = true;
+            } else {
+                node.data.negateOutput = true;
+            }
+        }
+    }
+
+    const negateEdgeTarget = () => {
+        if (selectedElements) {
+            const edge: Edge = selectedElements[0] as Edge;
+            let target = edge.targetHandle;
+            let targetNode = edge.target;
+            if (edge.targetHandle?.includes('output')) {
+                target = edge.sourceHandle;
+                targetNode = edge.source;
+            }
+            const node: Node = elements.find((element) => element.id === targetNode) as Node;
+            if (target?.includes('One')) {
+                node.data.negateInputOne = true;
+            } else if (target?.includes('Two')) {
+                node.data.negateInputTwo = true;
+            } else if (target?.includes('Three')) {
+                node.data.negateInputThree = true;
+            } else {
+                node.data.negateInput = true;
+            }
+        }
+    }
+
+    const removeElement = () => {
+        if (selectedElements) {
+            setElements((elements) => removeElements(selectedElements, elements));
+        }
     }
 
     const setType = () => {
@@ -63,16 +111,15 @@ export const PropertiesMenu: FC<PropertiesMenuProps> = ({selectedElements, eleme
                 <div>
                     <p>No Selection</p>
                     <hr></hr>
-
                 </div>
             }
             {selected &&
                 <div>
                     {typeOfElement[0] &&
                         <div className = 'menu-edge'>
-                            <button>Negate Input</button>
-                            <button>Negate Output</button>
-                            <button>Delete</button>
+                            <button onClick = {negateEdgeSource}>Negate Input</button>
+                            <button onClick = {negateEdgeTarget}>Negate Output</button>
+                            <button onClick = {removeElement}>Delete</button>
                         </div>
                     }
                     {typeOfElement[1] &&

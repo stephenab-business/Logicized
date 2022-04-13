@@ -18,6 +18,7 @@ import SRFlipFlop from './Components/FlipFlops/SRFlipFlop/SRFlipFlop';
 import JKFlipFlop from './Components/FlipFlops/JKFlipFlop/JKFlipFlop';
 import DFlipFlop from './Components/FlipFlops/DFlipFlop/DFlipFlop';
 import TFlipFlop from './Components/FlipFlops/TFlipFlop/TFlipFlop';
+import Switch from './Gates/Switch/Switch';
 
 // Any type of Node that is created must be passed as a type here
 export const nodeTypes = {
@@ -40,5 +41,6 @@ export const nodeTypes = {
     srFlipFlop: SRFlipFlop,
     jkFlipFlop: JKFlipFlop,
     dFlipFlop: DFlipFlop,
-    tFlipFlop: TFlipFlop
+    tFlipFlop: TFlipFlop,
+    switch: Switch
 };
