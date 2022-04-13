@@ -17,22 +17,12 @@ Things that should be disabled for simulation:
 */
 
 let set: boolean = false;
-const timeMapElements: Elements = [];
-const normalElements: Elements = [];
-const clockElements: Node[] = [];
+// const timeMapElements: Elements = [];
+// const normalElements: Elements = [];
+// const clockElements: Node[] = [];
 
 export function useSimulateLogic(elements: Elements, editing: boolean, timeMapping: TimeMap, setElements: React.Dispatch<SetStateAction<Elements>>) {
     const timeKeys = Array.from(timeMapping.keys());
-
-    // elements.forEach((element) => {
-    //     if (timeKeys.includes(element.id)) {
-    //         timeMapElements.push(element);
-    //     } else if (isNode(element) && element.type === 'clock') {
-    //         clockElements.push(element);
-    //     } else {
-    //         normalElements.push(element);
-    //     }
-    // });
 
     useEffect(() => {
         let clock: NodeJS.Timer;
@@ -70,10 +60,10 @@ export function useSimulateLogic(elements: Elements, editing: boolean, timeMappi
                     node.data.children.forEach((child: ConnectionMap) => {
                         const childNode = sortedNodes.find((node) => node.id === child.nodeId);
                         if (childNode) {
+                            childNode.data[child.dataId] = node.data[child.outputId];
                             // console.log('parent')
                             // console.log(node.type);
                             // console.log(node.data.output);
-                            childNode.data[child.dataId] = node.data[child.outputId];
                             // console.log(childNode.type)
                             // console.log(node.data.output);
                             // console.log(childNode.data[child.dataId]);
@@ -84,22 +74,7 @@ export function useSimulateLogic(elements: Elements, editing: boolean, timeMappi
                     });
                 });
             }, 0);
-
-            // // Setting the clock to constantly update
-            // let start = new Date().getTime();
-            // let time = 0;
-
-            // const instan = () => {
-            //     let diff = (new Date().getTime() - start) - time;
- 
-            //     clock = setTimeout(instan, 0 - diff);
-            // }
-            // clock = setTimeout(instan, 0);
         }
-
-        // return () => {
-        //     clearTimeout(clock);
-        // }
 
         return () => {
             clearInterval(clock);
@@ -148,29 +123,6 @@ const topologicalSort = (elements: Elements): Node[] => {
     return sortedNodes;
 }
 
-/*
- * 
- * Looping Circuits:
- * Better alternative:
- * - Make a list of nodes that are allowed to loop to other Nodes
- *      - Nor
- *      - Nand
- * - Key thing:
- *      - The only way for loops to be initialized is whenever the state can be decided instantaneously
- *          - SR Latch (two nors) --> S = 1, R = 0; S = 0, R = 1
- *          - SR Latch (two nands) --> Same applies from above, though I don't know how
- *      - Thus, if the output is indeterminate, then there is an error and the logic simulation cannot be done
- * - Either:
- *      - the circuits must have some form of propogation delay
- *      - the circuits must be regulated by a clock
- *      - the circuits must be able to be determined asynchronously
- * - When the initital loop check is done and the branch is cut off
- *      - If there is no propogation delay OR clock OR the loop ends with indeterminate
- *          - Return an error
- * - When there is a propogation delay
- *      - The one with the shorter propogation delay must be computed first 
- *  
- */
 
 
 

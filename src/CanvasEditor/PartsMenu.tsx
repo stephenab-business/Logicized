@@ -80,16 +80,15 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
 
   return (
     <aside className='parts-menu col-md-2' onMouseEnter={onMouseHover} onMouseLeave={onMouseExit}>
-      <div className='parts-menu-background'>
         <div className='parts-menu-icons justify-content-center'>
           <Container>
             <Row>
             <Col>
               <Stack className='parts-stack justify-content-center' gap={4} style={{height: '100%'}}>
-                <div className='gates-icon' onClick={onPartsClick}><img src = {GatesIcon}></img></div>
-                <div className='components-icon' onClick={onCompClick}><img src = {ComponentsIcon}></img></div>
-                <div className='displays-icon' onClick={onDisplayClick}><img src = {DisplaysIcon}></img></div>
-                <div className='custom-comp-icon' onClick={onCustomClick}><img src = {CustomComponentsIcon}></img></div>
+                <div className='gates-icon' onClick={onPartsClick}><img src = {GatesIcon} draggable = {false}></img></div>
+                <div className='components-icon' onClick={onCompClick}><img src = {ComponentsIcon} draggable = {false}></img></div>
+                <div className='displays-icon' onClick={onDisplayClick}><img src = {DisplaysIcon} draggable = {false}></img></div>
+                <div className='custom-comp-icon' onClick={onCustomClick}><img src = {CustomComponentsIcon} draggable = {false}></img></div>
               </Stack>
             </Col>
             {tabClicked[0] && 
@@ -107,6 +106,9 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
                 </div>
                 <div className = "dndnode-ground" onDragStart={(event: DragEvent) => onDragStart(event, 'inputGround')} draggable>
                   Input Ground
+                </div>
+                <div className = "dndnode-switch" onDragStart={(event: DragEvent) => onDragStart(event, 'switch')} draggable>
+                  Switch
                 </div>
                 <div className="dndnode-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'outputgate')} draggable>
                   Output
@@ -141,6 +143,24 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
               <div className="dndnode-sre" onDragStart = {(event: DragEvent) => onDragStart(event, 'srLatchEnable')} draggable>
                   SR-Latch-Enable
               </div>
+              <div className="dndnode-d" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatch')} draggable>
+                  D-Latch
+              </div>
+              <div className="dndnode-de" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatchEnable')} draggable>
+                  D-Latch-Enable
+              </div>
+              <div className="dndnode-srff" onDragStart = {(event: DragEvent) => onDragStart(event, 'srFlipFlop')} draggable>
+                  SR-Flip-Flop
+              </div>
+              <div className="dndnode-jkff" onDragStart = {(event: DragEvent) => onDragStart(event, 'jkFlipFlop')} draggable>
+                  JK-Flip-Flop
+              </div>
+              <div className="dndnode-dff" onDragStart = {(event: DragEvent) => onDragStart(event, 'dFlipFlop')} draggable>
+                  D-Flip-Flop
+              </div>
+              <div className="dndnode-tff" onDragStart = {(event: DragEvent) => onDragStart(event, 'tFlipFlop')} draggable>
+                  T-Flip-Flop
+              </div>
             </Col>
             }
             {tabClicked[2] && 
@@ -156,7 +176,6 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
             </Row>
           </Container>
         </div>
-      </div>
 {/* 
       <Container>
         <Row>

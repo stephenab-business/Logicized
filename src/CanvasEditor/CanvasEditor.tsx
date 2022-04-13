@@ -24,6 +24,7 @@ import { createNode } from './Functions/createNode';
 import { undoNormalSelection } from './Functions/domFunctions';
 import { useSimulateLogic } from './Functions/useSimulateLogic';
 import { connectFunction } from './Functions/connectFunctions';
+import { PropertiesMenu } from './PropertiesMenu';
 
 
 interface CanvasEditorProps {
@@ -121,8 +122,14 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                     }
                 }
             } else {
+                // If we delete a Node from the timeMapping, then we must also remove any children that it might have
                 if (timeKeys.includes(element.id)) {
                     timeMapping.delete(element.id);
+                    const thisNode: Node = elements.find((node) => node.id === element.id) as Node;
+                    thisNode.data.children.forEach((child: ConnectionMap) => {
+                        timeMapping.delete(child.nodeId);
+                    });
+                    console.log(timeMapping);
                 }
                 // If element is Node, and that Node has a Node Comment
                 if (element.type !== 'nodeComment' && element.data.comment === true) {
@@ -401,6 +408,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
         <div className = "canvas-editor">
             <ReactFlowProvider>
                 <PartsMenu editing = {editing} setEditing={setEditing} elements={elements} setElements={setElements} />
+                <PropertiesMenu selectedElements={selected} elements={elements} setElements={setElements} />
                 <div className = "reactflow-wrapper">
                     <ReactFlow 
                         elements = {elements}

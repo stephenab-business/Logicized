@@ -1,5 +1,4 @@
 import React, { memo, FC, useEffect, useState } from 'react';
-
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions'
 import './XorGateNode.css';
@@ -9,7 +8,6 @@ const XorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
     const inputPosition = getInputPosition(sourcePosition) as Position;
     const outputPosition = getOutputPosition(sourcePosition) as Position;
 
-    // Function that computes the actual output value of the AND gate
     useEffect(() => {
         let clock: NodeJS.Timer;
         if (!data.modeIsEditing && data.useClock) {
@@ -21,13 +19,14 @@ const XorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
                 data.output = output;
                 setOutput(data.output);
             }, 0);
+        } else if (data.modeIsEditing) {
+            data.inputOne = 'undefined';
+            data.inputTwo = 'undefined';
+            data.output = 'undefined';
+            setOutput(data.output);
         }
 
         return () => {
-            data.inputOne = 0;
-            data.inputTwo = 0;
-            data.output = 0;
-            setOutput(0);
             clearInterval(clock);
         }
     }, [data]);

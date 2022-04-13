@@ -1,10 +1,9 @@
-import React, { memo, FC, useEffect, useState } from 'react';
+import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
-import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
-import './SRLatch.scss';
+import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions'
+import './TFlipFlop.scss';
 
-
-const SRLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
+const TFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.outputOne);
     const [notOutput, setNotOutput] = useState<number | string>(data.outputTwo);
     const inputPosition: Position = getInputPosition(sourcePosition) as Position;
@@ -16,17 +15,10 @@ const SRLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => 
         let clock: NodeJS.Timer;
         if (!data.modeIsEditing && data.useClock) {
             clock = setInterval(() => {
-                if (data.inputOne !== 'undefined' && data.inputTwo !== 'undefined') {
-                    let reset: boolean = !!data.inputOne;
-                    let set: boolean = !!data.inputTwo;
-                    let stateBool: boolean | string;
-                    let notStateBool: boolean | string;
-                    stateBool = reset ? false : (set ? true : (notOutput === 'undefined' ? 'undefined' : !!notOutput));
-                    notStateBool = set ? false : (reset ? true : (output === 'undefined' ? 'undefined' : !!output));
-                    if (reset === set && reset === false) {
-                        stateBool = 'undefined';
-                        notStateBool = 'undefined';   
-                    }
+                if (data.input !== 'undefined') {
+                    let d: boolean = !!data.input;
+                    const stateBool: boolean = d;
+                    const notStateBool: boolean = !d;
                     const state: number = +stateBool;
                     const notState: number = +notStateBool;
                     data.outputOne = state;
@@ -42,8 +34,7 @@ const SRLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => 
                 }
             }, 0);
         } else if (data.modeIsEditing) {
-            data.inputOne = 'undefined';
-            data.inputTwo = 'undefined';
+            data.input = 'undefined';
             data.outputOne = 'undefined';
             data.outputTwo = 'undefined';
             setOutput(data.output);
@@ -57,15 +48,14 @@ const SRLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => 
 
     return(
         <>
-            <div className = 'sr__latch'>
-                <Handle id = 'sr__input__one' className = 'sr__input__one' type = 'target' position = {sourcePosition} />
-                <Handle id = 'sr__input__two' className = 'sr__input__two' type = 'target' position = {inputPosition} />
+            <div className = 'd__latch'>
+                <Handle id = 'd__input' className = 'd__input__one' type = 'target' position = {sourcePosition} />
                 { data.label + ': ' + data.outputOne + ', ' + data.outputTwo}
-                <Handle id = 'sr__output__one' className = 'sr__output__one' type = 'source' position = {outputOnePosition} />
-                <Handle id = 'sr__output__two' className = 'sr__output__two' type = 'source' position = {outputTwoPosition} />
+                <Handle id = 'd__output__one' className = 'd__output__one' type = 'source' position = {outputOnePosition} />
+                <Handle id = 'd__output__two' className = 'd__output__two' type = 'source' position = {outputTwoPosition} />
             </div>
         </>
     );
 }
 
-export default memo(SRLatch);
+export default memo(TFlipFlop);
