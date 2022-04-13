@@ -1,8 +1,38 @@
 .xnor__gate {
-    background-color: white;
-    border: 1px solid #777;
-    border-radius: 5px;
+    background-color: transparent;
+    /* border: 1px solid #777; */
+    /* border-radius: 5px; */
     text-align: center;
-    width: 100px;
+    width: 79px;
+    height: 65px;
     padding: 10px;
+}
+
+.xnor-image {
+    width: 79px;
+    height: 65px;
+        /* user-drag: none; */
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+}
+
+.xnor__input__one, .xnor__input__two, .xnor__output {
+    width: 10px;
+    height: 10px;
+}
+
+/*.xnor__input__one {
+
+}
+
+.xnor__input__two {
+
+} */
+
+.xnor__output {
+    right: 5px;
 }

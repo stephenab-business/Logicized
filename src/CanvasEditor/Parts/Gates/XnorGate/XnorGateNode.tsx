@@ -34,11 +34,11 @@ const XnorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }
 
     return(
         <>
-            <div className = 'or__gate'>
-                <Handle id = 'or__input__one' className = 'or__input__one' type = 'target' position = {sourcePosition} />
-                <Handle id = 'or__input__two' className = 'or__input__two' type = 'target' position = {inputPosition} />
+            <div className = 'xnor__gate'>
+                <Handle id = 'xnor__input__one' className = 'xnor__input__one' type = 'target' position = {sourcePosition} />
+                <Handle id = 'xnor__input__two' className = 'xnor__input__two' type = 'target' position = {inputPosition} />
                 { data.label + ': ' + data.output}
-                <Handle id = 'or__output' className = 'or__output' type = 'source' position = {outputPosition} />
+                <Handle id = 'xnor__output' className = 'xnor__output' type = 'source' position = {outputPosition} />
             </div>
         </>
     );
