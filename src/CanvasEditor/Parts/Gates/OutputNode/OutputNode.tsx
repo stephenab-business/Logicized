@@ -7,7 +7,7 @@ const OutputNodeGate: FC<NodeProps> = ({ data, sourcePosition = Position.Left })
 
     useEffect(() => {
         let clock: NodeJS.Timer;
-        if (!data.modeIsEditing && data.useClock) {
+        if (!data.modeIsEditing) {
             clock = setInterval(() => {
                 setInput(data.input);
             }, 0);

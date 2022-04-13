@@ -7,7 +7,7 @@ const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
     const [output, setOutput] = useState<number | string>(data.output);
     const inputPosition = getInputPosition(sourcePosition) as Position;
     const outputPosition = getOutputPosition(sourcePosition) as Position;
-    
+
     useEffect(() => {
         let clock: NodeJS.Timer;
         if (!data.modeIsEditing && data.useClock) {
@@ -24,7 +24,7 @@ const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
                     data.output = 'undefined';
                     setOutput(data.output);
                 }
-            }, 0);
+            }, data.propDelay);
         } else if (data.modeIsEditing) {
             data.inputOne = 'undefined';
             data.inputTwo = 'undefined';

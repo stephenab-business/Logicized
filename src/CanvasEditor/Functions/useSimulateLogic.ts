@@ -65,11 +65,12 @@ export function useSimulateLogic(elements: Elements, editing: boolean, timeMappi
                             // console.log(node.type);
                             // console.log(node.data.output);
                             // console.log(childNode.type)
-                            // console.log(node.data.output);
+                            // console.log(node.data.input);
                             // console.log(childNode.data[child.dataId]);
                             // console.log('child')
                             // console.log(childNode.type)
                             // console.log(childNode.data[child.dataId]);
+                            // console.log(node.data[child.outputId]);
                         }
                     });
                 });

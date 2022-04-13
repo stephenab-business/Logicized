@@ -18,7 +18,7 @@ const XorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
                 const output = +boolOutput;
                 data.output = output;
                 setOutput(data.output);
-            }, 0);
+            }, data.propDelay);
         } else if (data.modeIsEditing) {
             data.inputOne = 'undefined';
             data.inputTwo = 'undefined';

@@ -22,7 +22,7 @@ const NotGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.Left }) =>
                     data.output = 'undefined';
                     setOutput(data.output);
                 }
-            }, 0);
+            }, data.propDelay);
         } else if (data.modeIsEditing) {
             data.input = 'undefined';
             data.output = 'undefined';
