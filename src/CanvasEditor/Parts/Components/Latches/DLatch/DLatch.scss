@@ -1,9 +1,38 @@
 .d__latch {
-    background-color: white;
-    border: 1px solid #777;
-    border-radius: 5px;
+    background-color: transparent;
+    /* border: 1px solid #777; */
+    /* border-radius: 5px; */
     text-align: center;
     width: 79px;
-    height: 65px;
+    height: 105px;
     padding: 10px;
+}
+
+.d-latch-image {
+    width: 85px;
+    height: 90px;
+        /* user-drag: none; */
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+}
+
+.d__input__one, .d__input__two, .d__output {
+    width: 10px;
+    height: 10px;
+}
+
+/*.d__input__one {
+
+}
+
+.d_input__two {
+
+} */
+
+.d__output {
+    right: 5px;
 }

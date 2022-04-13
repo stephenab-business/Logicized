@@ -2,6 +2,7 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions'
 import './NorGateNode.css';
+import NorSymbol from './Nor_Gate_Icon.png'
 
 const NorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.output);
@@ -42,7 +43,8 @@ const NorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
             <div className = 'nor__gate'>
                 <Handle id = 'nor__input__one' className = 'nor__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'nor__input__two' className = 'nor__input__two' type = 'target' position = {inputPosition} />
-                { data.label + ': ' + data.output }
+                { /*data.label + ': ' + data.output*/ }
+                <img className='nor-image' src={NorSymbol}></img>
                 <Handle id = 'nor__output' className = 'nor__output' type = 'source' position = {outputPosition} />
             </div>
         </>

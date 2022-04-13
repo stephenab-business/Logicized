@@ -1,8 +1,38 @@
 .xor__gate {
-    background-color: white;
-    border: 1px solid #777;
-    border-radius: 5px;
+    background-color: transparent;
+    /* border: 1px solid #777; */
+    /* border-radius: 5px; */
     text-align: center;
-    width: 100px;
+    width: 79px;
+    height: 65px;
     padding: 10px;
+}
+
+.xor-image {
+    width: 79px;
+    height: 65px;
+        /* user-drag: none; */
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+}
+
+.xor__input__one, .xor__input__two, .xor__output {
+    width: 10px;
+    height: 10px;
+}
+
+/*.xor__input__one {
+
+}
+
+.xor__input__two {
+
+} */
+
+.xor__output {
+    right: 5px;
 }

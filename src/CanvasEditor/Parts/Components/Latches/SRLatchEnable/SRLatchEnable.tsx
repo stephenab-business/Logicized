@@ -3,6 +3,7 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, useStoreState, Node } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
 import './SRLatchEnable.scss';
+import SRESymbol from './SR_Latch_Enable_Icon.png';
 
 
 const SRLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
@@ -51,7 +52,8 @@ const SRLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop 
                 <Handle id = 'sre__input__one' className = 'sre__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'sre__input__two' className = 'sre__input__two' type = 'target' position = {inputPosition[1] as Position} />
                 <Handle id = 'sre__input__three' className = 'sre__input__three' type = 'target' position = { inputPosition[0] as Position } />
-                { data.label + ': ' + data.outputOne + ', ' + data.outputTwo}
+                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/ }
+                <img className='sre-latch-image' src={SRESymbol}></img>
                 <Handle id = 'sre__output__one' className = 'sre__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'sre__output__two' className = 'sre__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

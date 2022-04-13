@@ -2,6 +2,7 @@ import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
 import './DFlipFlop.scss';
+import DFFSymbol from './D_FF_Icon.png';
 
 const DFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.outputOne);
@@ -50,7 +51,8 @@ const DFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) =
         <>
             <div className = 'd__latch'>
                 <Handle id = 'd__input' className = 'd__input__one' type = 'target' position = {sourcePosition} />
-                { data.label + ': ' + data.outputOne + ', ' + data.outputTwo}
+                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/ }
+                <img className='d-flip-flop-image' src={DFFSymbol}></img>
                 <Handle id = 'd__output__one' className = 'd__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'd__output__two' className = 'd__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

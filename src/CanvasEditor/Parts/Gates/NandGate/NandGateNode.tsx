@@ -1,6 +1,7 @@
 import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions'
+import NandSymbol from './Nand_Gate_Icon.png'
 import './NandGateNode.css';
 
 const NandGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
@@ -42,7 +43,8 @@ const NandGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }
             <div className = 'nand__gate'>
                 <Handle id = 'nand__input__one' className = 'nand__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'nand__input__two' className = 'nand__input__two' type = 'target' position = {inputPosition} />
-                { data.label + ': ' + data.output}
+                { /*data.label + ': ' + data.output*/}
+                <img className='nand-image' src={NandSymbol}></img>
                 <Handle id = 'nand__output' className = 'nand__output' type = 'source' position = {outputPosition} />
             </div>
         </>

@@ -1,8 +1,38 @@
 .not__gate {
-    background-color: white;
-    border: 1px solid #777;
-    border-radius: 5px;
+    background-color: transparent;
+    /* border: 1px solid #777; */
+    /* border-radius: 5px; */
     text-align: center;
-    width: 100px;
+    width: 79px;
+    height: 65px;
     padding: 10px;
+}
+
+.not-image {
+    width: 79px;
+    height: 65px;
+        /* user-drag: none; */
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+}
+
+.not__input__one, .not__input__two, .not__output {
+    width: 10px;
+    height: 10px;
+}
+
+/*.not__input__one {
+
+}
+
+.not_input__two {
+
+} */
+
+.not__output {
+    right: 5px;
 }

@@ -2,6 +2,8 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import { getOutputPosition } from '../../../Functions/gateFunctions';
 import './NotGateNode.css';
+import NotSymbol from './Not_Gate_Icon.png';
+
 
 const NotGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.Left }) => {
     const [output, setOutput] = useState<number | string>(data.output);
@@ -38,7 +40,8 @@ const NotGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.Left }) =>
         <>
             <div className = 'not__gate'>
                 <Handle id = 'not__input' className = 'not__input' type = 'target' position = {sourcePosition} />
-                {data.label + ': ' + data.output}
+                {/*data.label + ': ' + data.output*/}
+                <img className='not-image' src={NotSymbol}></img>
                 <Handle id = 'not__output' className = 'not__output' type = 'source' position = {outputPosition} />
             </div>
         </>

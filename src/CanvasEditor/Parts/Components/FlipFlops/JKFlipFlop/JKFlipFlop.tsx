@@ -2,6 +2,7 @@ import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
 import './JKFlipFlop.scss';
+import JKFFSymbol from './JK_FF_Icon.png';
 
 const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.outputOne);
@@ -84,7 +85,8 @@ const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
                 <Handle id = 'jkff__input__one' className = 'jkff__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'jkff__input__two' className = 'jkff__input__two' type = 'target' position = {inputPosition[1]} />
                 <Handle id = 'jkff__input__three' className = 'jkff__input__three' type = 'target' position = {inputPosition[0]} />
-                { data.label + ': ' + data.outputOne + ', ' + data.outputTwo}
+                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/ }
+                <img className='jk-flip-flop-image' src={JKFFSymbol}></img>
                 <Handle id = 'jkff__output__one' className = 'jkff__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'jkff__output__two' className = 'jkff__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

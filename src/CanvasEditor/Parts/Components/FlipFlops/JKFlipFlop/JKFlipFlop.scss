@@ -1,8 +1,38 @@
 .jk__flip__flop {
-    background-color: white;
-    border: 1px solid #777;
-    border-radius: 5px;
+    background-color: transparent;
+    /* border: 1px solid #777; */
+    /* border-radius: 5px; */
     text-align: center;
-    width: 100px;
+    width: 79px;
+    height: 105px;
     padding: 10px;
+}
+
+.jk-flip-flop-image {
+    width: 85px;
+    height: 90px;
+        /* user-drag: none; */
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+}
+
+.sr__input__one, .sr__input__two, .sr__output {
+    width: 10px;
+    height: 10px;
+}
+
+/*.jk__input__one {
+
+}
+
+.jk_input__two {
+
+} */
+
+.jk__output {
+    right: 5px;
 }

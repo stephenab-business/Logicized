@@ -2,6 +2,7 @@ import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions'
 import './SRFlipFlop.scss';
+import SRFFSymbol from './SR_FF_Icon.png';
 
 const SRFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.outputOne);
@@ -60,7 +61,8 @@ const SRFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
                 <Handle id = 'srff__input__one' className = 'srff__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'srff__input__two' className = 'srff__input__two' type = 'target' position = {inputPosition[1]} />
                 <Handle id = 'srff__input__three' className = 'srff__input__three' type = 'target' position = {inputPosition[0]} />
-                { data.label + ': ' + data.outputOne + ', ' + data.outputTwo}
+                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/ }
+                <img className='sr-flip-flop-image' src={SRFFSymbol}></img>
                 <Handle id = 'srff__output__one' className = 'srff__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'srff__output__two' className = 'srff__output__two' type = 'source' position = {outputTwoPosition} />
             </div>
