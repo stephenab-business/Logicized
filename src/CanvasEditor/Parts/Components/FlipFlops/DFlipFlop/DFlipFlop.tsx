@@ -11,28 +11,33 @@ const DFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) =
     const outputOnePosition: Position = outputPosition[0] as Position;
     const outputTwoPosition: Position = outputPosition[1] as Position;
 
+    const logic = () => {
+        if (data.inputOne !== 'undefined') {
+            let d: boolean = !!data.inputOne;
+            data.outputOne = +d;
+            data.outputTwo = +!d;
+            setOutput(data.outputOne);
+            setNotOutput(data.outputTwo);
+        } else {
+            data.outputOne = 'undefined';
+            data.outputTwo = 'undefined';
+            setOutput(data.outputOne);
+            setNotOutput(data.outputTwo);
+        }
+    }
+
     useEffect(() => {
         let clock: NodeJS.Timer;
+        let previousClock = +!!!data.initialClock;
         if (!data.modeIsEditing && data.useClock) {
             clock = setInterval(() => {
-                if (data.input !== 'undefined') {
-                    let d: boolean = !!data.input;
-                    const stateBool: boolean = d;
-                    const notStateBool: boolean = !d;
-                    const state: number = +stateBool;
-                    const notState: number = +notStateBool;
-                    data.outputOne = state;
-                    data.outputTwo = notState;
-                    setOutput(state);
-                    setNotOutput(notState);
+                if (data.falling && previousClock === 0 && data.inputTwo === 1) {
+                    logic();
+                } else if (!data.falling && previousClock === 1 && data.inputTwo === 0) {
+                    logic();
                 }
-                else {
-                    data.outputOne = 'undefined';
-                    data.outputTwo = 'undefined';
-                    setOutput(data.outputOne);
-                    setNotOutput(data.outputTwo);
-                }
-            }, 0);
+                previousClock = data.inputTwo;
+            }, Number(data.clockInterval) + Number(data.propDelay));
         } else if (data.modeIsEditing) {
             data.input = 'undefined';
             data.outputOne = 'undefined';
@@ -48,11 +53,12 @@ const DFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) =
 
     return(
         <>
-            <div className = 'd__latch'>
-                <Handle id = 'd__input' className = 'd__input__one' type = 'target' position = {sourcePosition} />
+            <div className = 'd__flip__flop'>
+                <Handle id = 'dff__input__one' className = 'dff__input__one' type = 'target' position = {sourcePosition} />
+                <Handle id = 'dff__input__two' className = 'dff__input__one' type = 'target' position = {inputPosition} />
                 { data.label + ': ' + data.outputOne + ', ' + data.outputTwo}
-                <Handle id = 'd__output__one' className = 'd__output__one' type = 'source' position = {outputOnePosition} />
-                <Handle id = 'd__output__two' className = 'd__output__two' type = 'source' position = {outputTwoPosition} />
+                <Handle id = 'dff__output__one' className = 'dff__output__one' type = 'source' position = {outputOnePosition} />
+                <Handle id = 'dff__output__two' className = 'dff__output__two' type = 'source' position = {outputTwoPosition} />
             </div>
         </>
     );

@@ -40,21 +40,144 @@ export type ConnectionMap = {
 export type TimeMap = Map<string, number>;
 
 const initialElements: Elements = [
-    // {
-    //     id: 'clockNode', 
-    //     position: {x: 146, y: 249}, 
-    //     type: 'clock', 
-    //     data: {
-    //         output: 0,
-    //         comment: false,
-    //         commentId: '',
-    //         clockInterval: 3000,
-    //         initialValue: 0,
-    //         modeIsEditing: true,
-    //         initialized: true,
-    //         children: []
-    //     }
-    // }
+    {
+        id: 'inputClockNode', 
+        position: {x: 146, y: 300}, 
+        type: 'clock', 
+        data: {
+            output: 0,
+            comment: false,
+            commentId: '',
+            clockInterval: 1000,
+            initialValue: 0,
+            initialized: true,
+            children: [],
+            modeIsEditing: true,
+            negateOutput: false,
+            propDelay: 0,
+        }
+    },
+    {
+        id: 'clockNode', 
+        position: {x: 146, y: 350}, 
+        type: 'clock', 
+        data: {
+            output: 0,
+            comment: false,
+            commentId: '',
+            clockInterval: 3000,
+            initialValue: 0,
+            initialized: true,
+            children: [],
+            modeIsEditing: true,
+            negateOutput: false,
+            propDelay: 0,
+        }
+    },
+    {
+        id: 'idNode',
+        position: {x: 146, y: 250},
+        type: 'inputGate',
+        data: {
+            output: 1,
+            comment: false,
+            commentId: '',
+            useClock: false,
+            clockInterval: null,
+            children: [],
+            modeIsEditing: true,
+            negateOutput: false,
+            propDelay: 0,
+        }
+    },
+    {
+        id: 'outputNode',
+        position: {x: 450, y: 250},
+        type: 'outputGate',
+        data: {
+            input: 0,
+            comment: false,
+            commentId: '',
+            useClock: false,
+            clockInterval: 0,
+            children: [],
+            modeIsEditing: true,
+            negateInput: false,
+        }
+    },
+    {
+        id: 'notOutputNode',
+        position: {x: 450, y: 350},
+        type: 'outputGate',
+        data: {
+            input: 0,
+            comment: false,
+            commentId: '',
+            useClock: false,
+            clockInterval: 0,
+            children: [],
+            modeIsEditing: true,
+            negateInput: false,
+        }
+    },
+    {
+        id: 'tOne',
+        position: {x: 300, y: 260},
+        type: 'tFlipFlop',
+        data: {
+            label: 'T Flip Flop',
+            inputOne: 0,
+            inputTwo: 0,
+            outputOne: 0,
+            outputTwo: 1,
+            initialState: 0,
+            initialNotState: 1,
+            falling: false,
+            comment: false,
+            commentId: '',
+            useClock: false,
+            clockInterval: 0,
+            children: [],
+            modeIsEditing: true,
+            negateInputOne: false,
+            negateInputTwo: false,
+            negateInputThree: false,
+            negateOutputOne: false,
+            negateOutputTwo: false,
+            propDelay: 0,
+            setupTime: 0,
+            holdTime: 0,
+        }
+    },
+    {
+        id: 'tTwo',
+        position: {x: 300, y: 460},
+        type: 'tFlipFlop',
+        data: {
+            label: 'T Flip Flop',
+            inputOne: 0,
+            inputTwo: 0,
+            outputOne: 0,
+            outputTwo: 1,
+            initialState: 0,
+            initialNotState: 1,
+            falling: true,
+            comment: false,
+            commentId: '',
+            useClock: false,
+            clockInterval: 0,
+            children: [],
+            modeIsEditing: true,
+            negateInputOne: false,
+            negateInputTwo: false,
+            negateInputThree: false,
+            negateOutputOne: false,
+            negateOutputTwo: false,
+            propDelay: 0,
+            setupTime: 0,
+            holdTime: 0,
+        }
+    }
 ];
 
 const initialSelected: Elements = [];

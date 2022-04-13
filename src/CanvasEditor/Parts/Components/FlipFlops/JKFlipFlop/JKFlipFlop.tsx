@@ -6,7 +6,6 @@ import './JKFlipFlop.scss';
 const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.outputOne);
     const [notOutput, setNotOutput] = useState<number | string>(data.outputTwo);
-    const [prevClock, setPrevClock] = useState<number | string>(data.initialClock);
     const inputPosition: Position[] = getInputPosition(sourcePosition, 3) as Position[];
     const outputPosition = getOutputPosition(sourcePosition, 2);
     const outputOnePosition: Position = outputPosition[0] as Position;
@@ -42,30 +41,17 @@ const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
     useEffect(() => {
         let clock: NodeJS.Timer;
         let previousClock = +!!!data.initialClock;
-        let interval: number = Number(data.clockInterval);
         if (!data.modeIsEditing && data.useClock) {
-            if (data.level) {
-                clock = setInterval(() => {
-                    if (data.negative && !!!data.inputTwo) {
-                        logic();
-                    } else if (!data.negative && !!data.inputTwo) {
-                        logic();
-                    }
-                }, 0);
-            } else {
-                clock = setInterval(() => {
-                    // console.log(data.inputTwo);
-                    if (data.negative && previousClock === 0 && data.inputTwo === 1) {
-                        logic();
-                    } else if (!data.negative && previousClock === 1 && data.inputTwo === 0) {
-                        logic();
-                    }
-                    previousClock = data.inputTwo;
-                }, interval);
-            }
+            clock = setInterval(() => {
+                if (data.falling && previousClock === 0 && data.inputTwo === 1) {
+                    logic();
+                } else if (!data.falling && previousClock === 1 && data.inputTwo === 0) {
+                    logic();
+                }
+                previousClock = data.inputTwo;
+            }, Number(data.clockInterval) + Number(data.propDelay));
         } else if (data.modeIsEditing) {
             data.inputOne = 'undefined';
-            // data.inputTwo = 'undefined';
             data.inputThree = 'undefined';
             data.outputOne = 'undefined';
             data.outputTwo = 'undefined';

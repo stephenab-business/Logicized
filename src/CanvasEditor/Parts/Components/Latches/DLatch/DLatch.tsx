@@ -32,7 +32,7 @@ const DLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
                     setOutput(data.outputOne);
                     setNotOutput(data.outputTwo);
                 }
-            }, 0);
+            }, data.propDelay);
         } else if (data.modeIsEditing) {
             data.input = 'undefined';
             data.outputOne = 'undefined';
