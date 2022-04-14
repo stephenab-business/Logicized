@@ -40,7 +40,7 @@ const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => 
             clock = setInterval(() => {
                 data.output = +!!!data.output;
                 setOutput(!!data.output);
-            }, data.clockInterval);
+            }, Number(data.clockInterval) + Number(data.propDelay));
         }
 
         else if (data.modeIsEditing && data.initialized) {

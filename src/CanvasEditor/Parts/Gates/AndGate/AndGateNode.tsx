@@ -10,18 +10,28 @@ const OrGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
     const inputPosition = getInputPosition(sourcePosition) as Position;
     const outputPosition = getOutputPosition(sourcePosition) as Position;
 
-    // Function that computes the actual output value of the AND gate
     useEffect(() => {
         let clock: NodeJS.Timer;
         if (!data.modeIsEditing && data.useClock) {
             clock = setInterval(() => {
-                let inputOne: number = data.inputOne;;
-                let inputTwo: number = data.inputTwo;
-                const boolOutput = !!inputOne || !!inputTwo;
-                const output = +boolOutput;
-                data.output = output;
-                setOutput(data.output);
-            }, 0);
+                if (data.inputOne !== 'undefined' && data.inputTwo !== 'undefined') {
+                    let inputOne: number = data.inputOne;
+                    let inputTwo: number = data.inputTwo;
+                    const boolOutput = !!inputOne && !!inputTwo;
+                    const output = +boolOutput;
+                    data.output = output;
+                    setOutput(output);
+                }
+                else {
+                    data.output = 'undefined';
+                    setOutput(data.output);
+                }
+            }, data.propDelay);
+        } else if (data.modeIsEditing) {
+            data.inputOne = 'undefined';
+            data.inputTwo = 'undefined';
+            data.output = 'undefined';
+            setOutput(data.output);
         }
 
         return () => {

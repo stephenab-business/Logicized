@@ -30,7 +30,7 @@ const SRLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop 
                 data.outputTwo = notState;
                 setOutput(state);
                 setNotOutput(notState);
-            }, 0);
+            }, data.propDelay);
         } else if (data.modeIsEditing) {
             data.inputOne = 0;
             data.inputTwo = 0;

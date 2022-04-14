@@ -41,7 +41,7 @@ const SRLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => 
                     setOutput(data.outputOne);
                     setNotOutput(data.outputTwo);
                 }
-            }, 0);
+            }, data.propDelay);
         } else if (data.modeIsEditing) {
             data.inputOne = 'undefined';
             data.inputTwo = 'undefined';

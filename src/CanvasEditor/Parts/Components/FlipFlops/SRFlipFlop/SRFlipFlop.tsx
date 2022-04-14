@@ -12,37 +12,65 @@ const SRFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
     const outputOnePosition: Position = outputPosition[0] as Position;
     const outputTwoPosition: Position = outputPosition[1] as Position;
 
+/*
+        if (data.inputOne !== 'undefined' && data.inputThree !== 'undefined') {
+            const j: boolean = !!data.inputOne;
+            const k: boolean = !!data.inputThree;
+            if (j && k && data.output !== 'undefined' && data.notOutput !== 'undefined') {
+                const state = data.outputTwo;
+                const notState = data.outputOne;
+                
+                data.outputOne = state;
+                data.outputTwo = notState;
+                setOutput(data.outputOne);
+                setNotOutput(data.outputTwo);
+            } else if (j || k) {
+                data.outputOne = +j;
+                data.outputTwo = +k;
+                setOutput(data.outputOne);
+                setNotOutput(data.outputTwo);   
+            }
+        }
+        else {
+            data.outputOne = 'undefined';
+            data.outputTwo = 'undefined';
+            setOutput(data.outputOne);
+            setNotOutput(data.outputTwo);
+        }
+*/
+
+    const logic = () => {
+        if (data.inputOne !== 'undefined' && data.inputThree !== 'undefined') {
+            const set: boolean = !!data.inputOne;
+            const reset: boolean = !!data.inputThree;
+            if (set && reset) {
+                data.outputOne = 'undefined';
+                data.outputTwo = 'undefined';
+                setOutput(data.outputOne);
+                setOutput(data.outputTwo);
+            } else if (set || reset) {
+                data.outputOne = +set;
+                data.outputTwo = +reset;
+                setOutput(data.outputOne);
+                setNotOutput(data.outputTwo);
+            }
+        }
+    }
+
     useEffect(() => {
         let clock: NodeJS.Timer;
+        let previousClock = +!!!data.initialClock;
         if (!data.modeIsEditing && data.useClock) {
             clock = setInterval(() => {
-                const clockInput: boolean = !!data.inputTwo;
-                if (clockInput) {
-                    if (data.inputOne !== 'undefined' && data.inputThree !== 'undefined') {
-                        const set: boolean = !!data.inputOne;
-                        const reset: boolean = !!data.inputThree;
-                        if (set && reset) {
-                            data.outputOne = 'undefined';
-                            data.outputTwo = 'undefined';
-                            setOutput(data.outputOne);
-                            setNotOutput(data.outputTwo);
-                        } else if (set || reset) {
-                            data.outputOne = +set;
-                            data.outputTwo = +reset;
-                            setOutput(data.outputOne);
-                            setNotOutput(data.outputTwo);
-                        }
-                    } else {
-                        data.outputOne = 'undefined';
-                        data.outputTwo = 'undefined';
-                        setOutput(data.outputOne);
-                        setNotOutput(data.outputTwo);
-                    }
+                if (data.falling && previousClock === 0 && data.inputTwo === 1) {
+                    logic();
+                } else if (!data.falling && previousClock === 1 && data.inputTwo === 0) {
+                    logic();
                 }
-            }, 0);
+                previousClock = data.inputTwo;
+            }, Number(data.clockInterval) + Number(data.propDelay));
         } else if (data.modeIsEditing) {
             data.inputOne = 'undefined';
-            data.inputTwo = 'undefined';
             data.inputThree = 'undefined';
             data.outputOne = 'undefined';
             data.outputTwo = 'undefined';

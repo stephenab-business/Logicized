@@ -25,7 +25,7 @@ const NorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
                     data.output = 'undefined';
                     setOutput(data.output);
                 }
-            }, 0);
+            }, data.propDelay);
         } else if (data.modeIsEditing) {
             data.inputOne = 'undefined';
             data.inputTwo = 'undefined';
