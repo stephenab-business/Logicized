@@ -1,17 +1,17 @@
-.canvas-editor {
-  flex-direction: row;
-  display: flex;
-  height: 100%;
-}
+// .canvas-editor {
+//   flex-direction: row;
+//   display: flex;
+//   height: 100%;
+// }
 
 /* .react-flow__edge__wrapper-path to edit the bounding box */
 
-.canvas-editor aside {
-  // border-right: 1px solid #eee;
-  padding: 15px 15px;
-  font-size: 12px;
-  background: #fcfcfc;
-}
+// .canvas-editor aside {
+//   // border-right: 1px solid #eee;
+//   padding: 15px 15px;
+//   font-size: 12px;
+//   background: #fcfcfc;
+// }
 
 
 
@@ -56,12 +56,25 @@
 //   width: 21.25%;
 // }
 
-.canvas-editor aside {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+// .canvas-editor aside {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+// }
+
+.parts-menu {
+  height: 100vh;
+  padding-left: 0;
+  padding-right: 0;
 }
 
+.parts-icons {
+  height: 100vh;
+}
+
+.actual-parts {
+  height: 100vh;
+}
 
 
 .dndnode-and,

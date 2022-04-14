@@ -25,6 +25,7 @@ import { undoNormalSelection } from './Functions/domFunctions';
 import { useSimulateLogic } from './Functions/useSimulateLogic';
 import { connectFunction } from './Functions/connectFunctions';
 import { PropertiesMenu } from './PropertiesMenu';
+import { Col, Container, Row } from 'react-bootstrap';
 
 
 interface CanvasEditorProps {
@@ -243,6 +244,12 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                         parentNodeChildren.splice(index, 1);
                         parentNode.data.children = parentNodeChildren;
                     }
+                }
+                if (elementsToRemove.find((node) => node.id === childNodeId) === undefined) {
+                    const childNode = elements.find((element) => element.id === childNodeId) as Node;
+                    const parentArray: string[] = childNode.data.parents;
+                    const index = parentArray.findIndex((element) => element === parentNodeId);
+                    childNode.data.parents.splice(index, 1);
                 }
             } else {
                 // If we delete a Node from the timeMapping, then we must also remove any children that it might have
@@ -528,44 +535,52 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
     }, [timeMapping])
 
     return(
-        <div className = "canvas-editor">
-            <ReactFlowProvider>
-                <PartsMenu editing = {editing} setEditing={setEditing} elements={elements} setElements={setElements} />
-                <PropertiesMenu selectedElements={selected} elements={elements} setElements={setElements} />
-                <div className = "reactflow-wrapper">
-                    <ReactFlow 
-                        elements = {elements}
-                        onConnect = {onConnect}
-                        onElementsRemove = {onElementsRemove}
-                        onEdgeUpdateStart={onEdgeUpdateStart}
-                        onEdgeUpdate={onEdgeUpdate}
-                        onEdgeUpdateEnd={onEdgeUpdateEnd}
-                        onLoad = {onLoad}
-                        onDrop = {onDrop}
-                        onDragOver = {onDragOver}
-                        style = {{height: window.innerHeight}}
-                        nodeTypes = {nodeTypes}
-                        className = 'flow-canvas'
-                        nodesConnectable = {true}
-                        onSelectionChange = {onSelectionChange}
-                        onNodeDoubleClick = {onNodeDoubleClick}
-                        multiSelectionKeyCode={['Control', 'MetaLeft']} // This is for multiple, individual selections
-                        selectionKeyCode={selectionKeys} // This is for drag selecting
-                        onPaneClick={onPaneClick}
-                        onDoubleClick = {onCanvasDoubleClick}
-                        onNodeDrag = {onNodeDrag}
-                        deleteKeyCode={['Backspace', 'Delete']}
-                        // onMove={onMove}
-                        onMoveStart={onMoveStart}
-                    >
-                        <Background 
-                            gap = {12}
-                            size = {1}
-                        />
-                    </ReactFlow>
-                </div>
-            </ReactFlowProvider>
-        </div>
+        <Container className = 'app-container' fluid={true}>
+            <Row>
+                <Col className = 'col-md-2'>
+                    <PartsMenu editing = {editing} setEditing={setEditing} elements={elements} setElements={setElements} />
+                </Col>
+                <Col>
+                    <ReactFlowProvider>
+                        <div className = "reactflow-wrapper">
+                            <ReactFlow 
+                                elements = {elements}
+                                onConnect = {onConnect}
+                                onElementsRemove = {onElementsRemove}
+                                onEdgeUpdateStart={onEdgeUpdateStart}
+                                onEdgeUpdate={onEdgeUpdate}
+                                onEdgeUpdateEnd={onEdgeUpdateEnd}
+                                onLoad = {onLoad}
+                                onDrop = {onDrop}
+                                onDragOver = {onDragOver}
+                                style = {{height: window.innerHeight}}
+                                nodeTypes = {nodeTypes}
+                                className = 'flow-canvas'
+                                nodesConnectable = {true}
+                                onSelectionChange = {onSelectionChange}
+                                onNodeDoubleClick = {onNodeDoubleClick}
+                                multiSelectionKeyCode={['Control', 'MetaLeft']} // This is for multiple, individual selections
+                                selectionKeyCode={selectionKeys} // This is for drag selecting
+                                onPaneClick={onPaneClick}
+                                onDoubleClick = {onCanvasDoubleClick}
+                                onNodeDrag = {onNodeDrag}
+                                deleteKeyCode={['Backspace', 'Delete']}
+                                // onMove={onMove}
+                                onMoveStart={onMoveStart}
+                            >
+                                <Background 
+                                    gap = {12}
+                                    size = {1}
+                                />
+                            </ReactFlow>
+                        </div>
+                    </ReactFlowProvider>
+                </Col>
+                <Col className = 'col-md-2'>
+                    <PropertiesMenu selectedElements={selected} elements={elements} setElements={setElements} />
+                </Col>
+            </Row>
+        </Container>
     );
 
 }

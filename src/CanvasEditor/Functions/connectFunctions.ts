@@ -58,7 +58,6 @@ function traceConnections(parentNode: Node, childNode: Node, timeMapping: TimeMa
 }
 
 export function connectFunction(sourceNodeId: string, targetNodeId: string, sourceHandleId: string, targetHandleId: string, elements: Elements, timeMapping: TimeMap, setTimeMapping: React.Dispatch<React.SetStateAction<TimeMap>>) {
-
     let newElements = elements;
     let newTimeMapping = timeMapping;
     const parentNode: Node = elements.find((element) => element.id === sourceNodeId) as Node;
@@ -67,7 +66,12 @@ export function connectFunction(sourceNodeId: string, targetNodeId: string, sour
     const childNode: Node = elements.find((element) => element.id === targetNodeId) as Node;
     const timeKeys = Array.from(timeMapping.keys());
     const connection = createConnection(sourceHandleId, targetNodeId, targetHandleId);
-    
+    const targetDataId = getDataId(targetHandleId);
+    const sourceDataId = getOutputDataId(sourceHandleId);
+    parentNode.data[sourceDataId + 'Connected'] = true;
+    childNode.data[targetDataId + 'Connected'] = true;
+    childNode.data.parents.push(parentNode.id);
+
     // Set the parentNode's child to include this new node
     if (newElements[parentNodeIndex].data.children !== undefined) {
         newElements[parentNodeIndex].data.children.push(connection);

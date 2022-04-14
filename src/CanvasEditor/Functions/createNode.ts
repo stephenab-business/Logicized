@@ -110,6 +110,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     negateInput: false,
                     negateOutput: false,
                     propDelay: 0,
+                    parents: []
                 };
                 const sourcePosition = Position.Left;
                 const newNode = {
@@ -133,6 +134,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     children: children,
                     modeIsEditing: modeIsEditing,
                     negateInput: false,
+                    parents: []
                 };
                 const newNode = {
                     id,
@@ -163,6 +165,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     negateInputTwo: false,
                     negateOutput: false,
                     propDelay: 0,
+                    parents: []
                  };
                 const newNode = {
                     id,
@@ -190,6 +193,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     negateInputTwo: false,
                     negateOutput: false,
                     propDelay: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -220,6 +224,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     negateInputTwo: false,
                     negateOutput: false,
                     propDelay: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -249,6 +254,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     negateInputTwo: false,
                     negateOutput: false,
                     propDelay: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -278,6 +284,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     negateInputTwo: false,
                     negateOutput: false,
                     propDelay: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -307,6 +314,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     negateInputTwo: false,
                     negateOutput: false,
                     propDelay: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -343,6 +351,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     propDelay: 0,
                     setupTime: 0,
                     holdTime: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -376,6 +385,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     propDelay: 0,
                     setupTime: 0,
                     holdTime: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -408,6 +418,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     propDelay: 0,
                     setupTime: 0,
                     holdTime: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -441,6 +452,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     propDelay: 0,
                     setupTime: 0,
                     holdTime: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -480,6 +492,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     propDelay: 0,
                     setupTime: 0,
                     holdTime: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -517,6 +530,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     propDelay: 0,
                     setupTime: 0,
                     holdTime: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -552,6 +566,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     propDelay: 0,
                     setupTime: 0,
                     holdTime: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {
@@ -589,6 +604,7 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     propDelay: 0,
                     setupTime: 0,
                     holdTime: 0,
+                    parents: []
                 }
                 const sourcePosition = Position.LeftTop;
                 const newNode = {

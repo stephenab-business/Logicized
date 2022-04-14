@@ -17,7 +17,7 @@ interface PartsMenuProps {
 export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, setElements}) => {
   const [hovering, setHovering] = useState<boolean>(false);
   const [tabClicked, setTabClicked] = useState<boolean[]>([true, false, false, false]);
-                                                // parts, components, displays, custom
+  // parts, components, displays, custom
 
   const onDragStart = (event: DragEvent, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType); 
@@ -79,184 +79,95 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing, setEditing, elements, se
   }
 
   return (
-    <aside className='parts-menu col-md-2' onMouseEnter={onMouseHover} onMouseLeave={onMouseExit}>
-        <div className='parts-menu-icons justify-content-center'>
-          <Container>
-            <Row>
-            <Col>
-              <Stack className='parts-stack justify-content-center' gap={4} style={{height: '100%'}}>
-                <div className='gates-icon' onClick={onPartsClick}><img src = {GatesIcon} draggable = {false}></img></div>
-                <div className='components-icon' onClick={onCompClick}><img src = {ComponentsIcon} draggable = {false}></img></div>
-                <div className='displays-icon' onClick={onDisplayClick}><img src = {DisplaysIcon} draggable = {false}></img></div>
-                <div className='custom-comp-icon' onClick={onCustomClick}><img src = {CustomComponentsIcon} draggable = {false}></img></div>
-              </Stack>
-            </Col>
-            {tabClicked[0] && 
-            <Col>
-              <div>
-                <h3>Parts</h3>
-                <div className = 'dndnode-and' onDragStart = {(event: DragEvent) => onDragStart(event, 'and')} draggable>
-                  AND
-                </div>
-                <div className="dndnode-not" onDragStart = {(event: DragEvent) => onDragStart(event, 'not')} draggable>
-                  NOT
-                </div>
-                <div className="dndnode-input" onDragStart={(event: DragEvent) => onDragStart(event, 'inputgate')} draggable>
-                  Input
-                </div>
-                <div className = "dndnode-ground" onDragStart={(event: DragEvent) => onDragStart(event, 'inputGround')} draggable>
-                  Input Ground
-                </div>
-                <div className = "dndnode-switch" onDragStart={(event: DragEvent) => onDragStart(event, 'switch')} draggable>
-                  Switch
-                </div>
-                <div className="dndnode-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'outputgate')} draggable>
-                  Output
-                </div>
-                <div className="dndnode-or" onDragStart = {(event: DragEvent) => onDragStart(event, 'or')} draggable>
-                  OR
-                </div>
-                <div className="dndnode-nor" onDragStart = {(event: DragEvent) => onDragStart(event, 'nor')} draggable>
-                  NOR
-                </div>
-                <div className="dndnode-nand" onDragStart = {(event: DragEvent) => onDragStart(event, 'nand')} draggable>
-                  NAND
-                </div>
-                <div className="dndnode-xor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xor')} draggable>
-                  XOR
-                </div>
-                <div className="dndnode-xnor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xnor')} draggable>
-                  XNOR
-                </div>
-                <div className="dndnode-clock" onDragStart = {(event: DragEvent) => onDragStart(event, 'clock')} draggable>
-                  Clock
-                </div>
+    <Container className = 'parts-menu' fluid={true}>
+      <Row>
+        <Col className = 'parts-icons col-md-5'>
+          <Stack className='parts-stack justify-content-center' gap={4} style={{height: '100%'}}>
+            <div className='gates-icon' onClick={onPartsClick}><img src = {GatesIcon} draggable = {false}></img></div>
+            <div className='components-icon' onClick={onCompClick}><img src = {ComponentsIcon} draggable = {false}></img></div>
+            <div className='displays-icon' onClick={onDisplayClick}><img src = {DisplaysIcon} draggable = {false}></img></div>
+            <div className='custom-comp-icon' onClick={onCustomClick}><img src = {CustomComponentsIcon} draggable = {false}></img></div>
+          </Stack>
+        </Col>
+        <Col className = 'd-flex align-items-center actual-parts col-md-5'>
+          {tabClicked[0] && 
+            <div>
+              <div className = 'dndnode-and' onDragStart = {(event: DragEvent) => onDragStart(event, 'and')} draggable>
+                AND
               </div>
-            </Col>
-            }
-            {tabClicked[1] &&
-            <Col>
-              <h3>Components</h3>
-              <div className="dndnode-sr" onDragStart = {(event: DragEvent) => onDragStart(event, 'srLatch')} draggable>
-                  SR-Latch
+              <div className="dndnode-not" onDragStart = {(event: DragEvent) => onDragStart(event, 'not')} draggable>
+                NOT
               </div>
-              <div className="dndnode-sre" onDragStart = {(event: DragEvent) => onDragStart(event, 'srLatchEnable')} draggable>
-                  SR-Latch-Enable
+              <div className="dndnode-input" onDragStart={(event: DragEvent) => onDragStart(event, 'inputgate')} draggable>
+                Input
               </div>
-              <div className="dndnode-d" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatch')} draggable>
-                  D-Latch
+              <div className = "dndnode-ground" onDragStart={(event: DragEvent) => onDragStart(event, 'inputGround')} draggable>
+                Input Ground
               </div>
-              <div className="dndnode-de" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatchEnable')} draggable>
-                  D-Latch-Enable
+              <div className = "dndnode-switch" onDragStart={(event: DragEvent) => onDragStart(event, 'switch')} draggable>
+                Switch
               </div>
-              <div className="dndnode-srff" onDragStart = {(event: DragEvent) => onDragStart(event, 'srFlipFlop')} draggable>
-                  SR-Flip-Flop
+              <div className="dndnode-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'outputgate')} draggable>
+                Output
               </div>
-              <div className="dndnode-jkff" onDragStart = {(event: DragEvent) => onDragStart(event, 'jkFlipFlop')} draggable>
-                  JK-Flip-Flop
+              <div className="dndnode-or" onDragStart = {(event: DragEvent) => onDragStart(event, 'or')} draggable>
+                OR
               </div>
-              <div className="dndnode-dff" onDragStart = {(event: DragEvent) => onDragStart(event, 'dFlipFlop')} draggable>
-                  D-Flip-Flop
+              <div className="dndnode-nor" onDragStart = {(event: DragEvent) => onDragStart(event, 'nor')} draggable>
+                NOR
               </div>
-              <div className="dndnode-tff" onDragStart = {(event: DragEvent) => onDragStart(event, 'tFlipFlop')} draggable>
-                  T-Flip-Flop
+              <div className="dndnode-nand" onDragStart = {(event: DragEvent) => onDragStart(event, 'nand')} draggable>
+                NAND
               </div>
-            </Col>
-            }
-            {tabClicked[2] && 
-            <Col>
-              <div>Displays</div>
-            </Col>
-            }
-            {tabClicked[3] && 
-            <Col>
-              <div>Custom</div>
-            </Col>
-            }
-            </Row>
-          </Container>
-        </div>
-{/* 
-      <Container>
-        <Row>
-          <Col></Col>
-          <Col>
-            <Row><div className='gates-icon'><img src = {GatesIcon}></img></div></Row>
-            <Row><div className='components-icon'><img src = {ComponentsIcon}></img></div></Row>
-            <Row><div className='displays-icon'><img src = {DisplaysIcon}></img></div></Row>
-            <Row><div className='custom-comp-icon'><img src = {CustomComponentsIcon}></img></div></Row>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container> */}
-            <button onClick={changeMode}>Change Mode</button>
-    </aside>
+              <div className="dndnode-xor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xor')} draggable>
+                XOR
+              </div>
+              <div className="dndnode-xnor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xnor')} draggable>
+                XNOR
+              </div>
+              <div className="dndnode-clock" onDragStart = {(event: DragEvent) => onDragStart(event, 'clock')} draggable>
+                Clock
+              </div>
+            </div>
+          }
+          {tabClicked[1] &&
+            <div>
+            <h3>Components</h3>
+            <div className="dndnode-sr" onDragStart = {(event: DragEvent) => onDragStart(event, 'srLatch')} draggable>
+                SR-Latch
+            </div>
+            <div className="dndnode-sre" onDragStart = {(event: DragEvent) => onDragStart(event, 'srLatchEnable')} draggable>
+                SR-Latch-Enable
+            </div>
+            <div className="dndnode-d" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatch')} draggable>
+                D-Latch
+            </div>
+            <div className="dndnode-de" onDragStart = {(event: DragEvent) => onDragStart(event, 'dLatchEnable')} draggable>
+                D-Latch-Enable
+            </div>
+            <div className="dndnode-srff" onDragStart = {(event: DragEvent) => onDragStart(event, 'srFlipFlop')} draggable>
+                SR-Flip-Flop
+            </div>
+            <div className="dndnode-jkff" onDragStart = {(event: DragEvent) => onDragStart(event, 'jkFlipFlop')} draggable>
+                JK-Flip-Flop
+            </div>
+            <div className="dndnode-dff" onDragStart = {(event: DragEvent) => onDragStart(event, 'dFlipFlop')} draggable>
+                D-Flip-Flop
+            </div>
+            <div className="dndnode-tff" onDragStart = {(event: DragEvent) => onDragStart(event, 'tFlipFlop')} draggable>
+                T-Flip-Flop
+            </div>
+            </div>
+          }
+          {tabClicked[2] && 
+            <div>Displays</div>
+          }
+          {tabClicked[3] && 
+            <div>Custom</div>
+          }
+        </Col>
+      </Row>
+      <button onClick={changeMode}>Change Mode</button>
+    </Container>
   );
 };
-
-
-/*
- * 
- * 
- *     <aside>
-      {editing && 
-      <div>
-        <h3>Parts</h3>
-        {/* <div className="react-flow__node-input" onDragStart = {(event: DragEvent) => onDragStart(event, 'input')} draggable>
-          Input Node
-        </div>
-        <div className="react-flow__node-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'output')} draggable>
-          Output Node
-        </div>
-        <div className = "dndnode-horizontal-input" onDragStart = {(event: DragEvent) => onDragStart(event, 'horizontal-input')} draggable>
-          Horizontal Input Node
-        </div>
-        <div className = 'dndnode-and' onDragStart = {(event: DragEvent) => onDragStart(event, 'and')} draggable>
-          AND
-        </div>
-        <div className="dndnode-not" onDragStart = {(event: DragEvent) => onDragStart(event, 'not')} draggable>
-          NOT
-        </div>
-        <div className="dndnode-input" onDragStart={(event: DragEvent) => onDragStart(event, 'inputgate')} draggable>
-          Input
-        </div>
-        <div className = "dndnode-ground" onDragStart={(event: DragEvent) => onDragStart(event, 'inputGround')} draggable>
-          Input Ground
-        </div>
-        <div className="dndnode-output" onDragStart = {(event: DragEvent) => onDragStart(event, 'outputgate')} draggable>
-          Output
-        </div>
-        <div className="dndnode-or" onDragStart = {(event: DragEvent) => onDragStart(event, 'or')} draggable>
-          OR
-        </div>
-        <div className="dndnode-nor" onDragStart = {(event: DragEvent) => onDragStart(event, 'nor')} draggable>
-          NOR
-        </div>
-        <div className="dndnode-nand" onDragStart = {(event: DragEvent) => onDragStart(event, 'nand')} draggable>
-          NAND
-        </div>
-        <div className="dndnode-xor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xor')} draggable>
-          XOR
-        </div>
-        <div className="dndnode-xnor" onDragStart = {(event: DragEvent) => onDragStart(event, 'xnor')} draggable>
-          XNOR
-        </div>
-        <div className="dndnode-clock" onDragStart = {(event: DragEvent) => onDragStart(event, 'clock')} draggable>
-          Clock
-        </div>
-      </div>
-      }
-
-      {!editing &&
-        <div>
-          <h3>Simulation Parts</h3>
-          <div className="dndnode-clock" onDragStart = {(event: DragEvent) => onDragStart(event, 'clock')} draggable>
-            Clock
-          </div>
-          <button></button>
-        </div>
-      }
-    </aside>
- *  
- * 
- */
