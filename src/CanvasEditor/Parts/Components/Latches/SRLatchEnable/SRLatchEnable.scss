@@ -1,9 +1,38 @@
-.sr__latch__enable {
-    background-color: white;
-    border: 1px solid #777;
-    border-radius: 5px;
+.sre__latch {
+    background-color: transparent;
+    /* border: 1px solid #777; */
+    /* border-radius: 5px; */
     text-align: center;
     width: 79px;
-    height: 65px;
+    height: 105px;
     padding: 10px;
+}
+
+.sre-latch-image {
+    width: 85px;
+    height: 90px;
+        /* user-drag: none; */
+        -webkit-user-drag: none;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+
+}
+
+.sre__input__one, .sre__input__two, .sre__input__three .sre__output {
+    width: 10px;
+    height: 10px;
+}
+
+/*.sre__input__one {
+
+}
+
+.sre_input__two {
+
+} */
+
+.sre__output {
+    right: 5px;
 }

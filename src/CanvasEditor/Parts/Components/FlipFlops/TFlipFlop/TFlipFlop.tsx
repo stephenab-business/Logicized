@@ -2,6 +2,7 @@ import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions'
 import './TFlipFlop.scss';
+import TFFSymbol from './T_FF_Icon.png';
 
 const TFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.initialState);
@@ -61,7 +62,8 @@ const TFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) =
             <div className = 't__flip__flop'>
                 <Handle id = 'tff__input__one' className = 'tff__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'tff__input__two' className = 'tff__input__two' type = 'target' position = {inputPosition} />
-                { data.label + ': ' + data.outputOne + ', ' + data.outputTwo}
+                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/}
+                <img className='t-flip-flop-image' src={TFFSymbol}></img>
                 <Handle id = 'tff__output__one' className = 'tff__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'tff__output__two' className = 'tff__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

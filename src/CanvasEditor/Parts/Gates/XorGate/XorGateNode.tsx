@@ -2,6 +2,7 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions'
 import './XorGateNode.css';
+import XorSymbol from './Xor_Gate_Icon.png';
 
 const XorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number>(data.output);
@@ -36,7 +37,8 @@ const XorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
             <div className = 'xor__gate'>
                 <Handle id = 'xor__input__one' className = 'xor__input__one' type = 'target' position = {sourcePosition}  />
                 <Handle id = 'xor__input__two' className = 'xor__input__two' type = 'target' position = {inputPosition} />
-                { data.label + ': ' + data.output }
+                {/* data.label + ': ' + data.output */}
+                <img className='xor-image' src={XorSymbol}></img>
                 <Handle id = 'xor__output' className = 'xor__output' type = 'source' position = {outputPosition}  />
             </div>
         </>

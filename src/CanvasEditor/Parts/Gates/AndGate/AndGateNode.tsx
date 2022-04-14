@@ -1,10 +1,12 @@
 import React, { memo, FC, useEffect, useState } from 'react';
-import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
-import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions';
-import './AndGateNode.css';
 
-const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
-    const [output, setOutput] = useState<number | string>(data.output);
+import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
+import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions'
+import './AndGateNode.css';
+import AndSymbol from './And_Gate_Icon.png'; // change
+
+const OrGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
+    const [output, setOutput] = useState<number>(data.output);
     const inputPosition = getInputPosition(sourcePosition) as Position;
     const outputPosition = getOutputPosition(sourcePosition) as Position;
 
@@ -33,6 +35,10 @@ const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
         }
 
         return () => {
+            data.inputOne = 0;
+            data.inputTwo = 0;
+            data.output = 0;
+            setOutput(0);
             clearInterval(clock);
         }
     }, [data]);
@@ -41,12 +47,13 @@ const AndGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop })
         <>
             <div className = 'and__gate'>
                 <Handle id = 'and__input__one' className = 'and__input__one' type = 'target' position = {sourcePosition} />
-                <Handle id = 'and__input__two' className = 'and__input__two' type = 'target' position = {inputPosition} />
-                { data.label + ': ' + data.output}
+                <Handle id = 'and__input__two' className = 'and__input__two' type = 'target' position = {inputPosition}/>
+                {/* { data.label + ': ' + data.output } */}
+                <img className='and-image' src={AndSymbol}></img>
                 <Handle id = 'and__output' className = 'and__output' type = 'source' position = {outputPosition} />
             </div>
         </>
     );
 }
 
-export default memo(AndGateNode);
+export default memo(OrGateNode);

@@ -2,6 +2,7 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions'
 import './XnorGateNode.css';
+import XnorSymbol from './Xnor_Gate_Icon.png';
 
 const XnorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.output);
@@ -39,11 +40,12 @@ const XnorGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }
 
     return(
         <>
-            <div className = 'or__gate'>
-                <Handle id = 'or__input__one' className = 'or__input__one' type = 'target' position = {sourcePosition} />
-                <Handle id = 'or__input__two' className = 'or__input__two' type = 'target' position = {inputPosition} />
-                { data.label + ': ' + data.output}
-                <Handle id = 'or__output' className = 'or__output' type = 'source' position = {outputPosition} />
+            <div className = 'xnor__gate'>
+                <Handle id = 'xnor__input__one' className = 'xnor__input__one' type = 'target' position = {sourcePosition} />
+                <Handle id = 'xnor__input__two' className = 'xnor__input__two' type = 'target' position = {inputPosition} />
+                { /*data.label + ': ' + data.output*/}
+                <img className='xnor-image' src={XnorSymbol}></img>
+                <Handle id = 'xnor__output' className = 'xnor__output' type = 'source' position = {outputPosition} />
             </div>
         </>
     );
