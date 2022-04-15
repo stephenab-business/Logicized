@@ -1,38 +1,57 @@
 .t__flip__flop {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 105px;
-    padding: 10px;
+    width: 132px;
+    height: 129px;
+    padding-top: 1px;
 }
 
-.t-flip-flop-image {
-    width: 85px;
-    height: 90px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
-}
-
-.t__input__one, .t__input__two, .t__output {
+.tff__input__one, .tff__input__two, .tff__output__one, .tff__output__two {
     width: 10px;
     height: 10px;
 }
 
-/*.t__input__one {
-
+.tff__input__one {
+    top: 12%;
+    left: -3.5%;
 }
 
-.t_input__two {
+.tff__input__two {
+    top: 88%;
+    left: -3.5%;
+}
 
-} */
+.tff__output__one {
+    top: 12%;
+}
 
-.t__output {
+.tff__output__two {
+    top: 88%;
+}
+
+.tff__output {
     right: 5px;
+}
+
+.tff-cls-1 {
+    fill: #fff;
+}
+
+.tff-cls-1, .tff-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
+}
+
+.tff-cls-2 {
+    fill: none;
+}
+
+.tff-cls-3 {
+    font-size: 48px;
+    fill:#231f20; 
+    font-family: Marion-Italic, Marion;
+    font-style: italic;
 }

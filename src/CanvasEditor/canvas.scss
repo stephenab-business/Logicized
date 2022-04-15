@@ -1,80 +1,52 @@
-// .canvas-editor {
-//   flex-direction: row;
-//   display: flex;
-//   height: 100%;
-// }
+.title {
+  padding-top: 8px;
+}
 
-/* .react-flow__edge__wrapper-path to edit the bounding box */
+.logo-col {
+  padding-right: 0;
+}
 
-// .canvas-editor aside {
-//   // border-right: 1px solid #eee;
-//   padding: 15px 15px;
-//   font-size: 12px;
-//   background: #fcfcfc;
-// }
+.title-col {
+  padding-left: 0;
+}
 
+.logo {
+  width: 60px;
+  height: 60px;
+  padding: 10px;
+}
 
+.logo-cls-1 {
+  fill:#f15a24;
+}
 
-/* .canvas-editor aside div > * {
-  margin-bottom: 10px;
-  cursor: grab;
-} */
-
-// .gates-icon {
-//   margin-top: 50%;
-// }
-
-// .components-icon {
-//   margin-top: 50%;
-// }
-
-// .displays-icon {
-//   margin-top: 50%;
-// }
-
-// .custom-comp-icon {
-//   margin-top: 50%;
-//   margin-bottom: 50%;
-// }
-
-// .parts-menu-icons {
-//   // display: flex;
-//   // flex-direction: column;
-//   // align-content: center;
-//   height: 100%;
-// }
-
-// .parts-stack {
-//   background-color: #c4c4c4;
-//   // position: fixed;
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 25px;
-// }
-
-// .canvas-editor aside:hover .parts-stack {
-//   width: 21.25%;
-// }
-
-// .canvas-editor aside {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-// }
+.logo-cls-2 {
+  fill:#fff;
+}
 
 .parts-menu {
-  height: 100vh;
+  height: 90vh;
   padding-left: 0;
   padding-right: 0;
 }
 
 .parts-icons {
-  height: 100vh;
+  height: 90vh;
 }
 
 .actual-parts {
-  height: 100vh;
+  height: 90vh;
+  
+img {
+      padding: 10px;
+    }
+  
 }
+
+.parts-stack div img {
+  width: 52px;
+}
+
 
 
 .dndnode-and,
@@ -88,7 +60,15 @@
 .dndnode-xor,
 .dndnode-xnor,
 .dndnode-clock,
-.dndnode-switch {
+.dndnode-switch,
+.dndnode-sr,
+.dndnode-sre,
+.dndnode-d,
+.dndnode-de,
+.dndnode-srff,
+.dndnode-jkff,
+.dndnode-dff,
+.dndnode-tff {
     padding: 10px;
     border-radius: 3px;
     width: 150px;
@@ -118,54 +98,3 @@
     background: #fff;
     border-color: #222;
 }
-
-.canvas-editor .reactflow-wrapper {
-  flex-grow: 1;
-  height: 100%;
-}
-
-// .canvas-editor aside {
-//   width: 7%;
-// }
-
-// .canvas-editor aside:hover {
-//   width: 20%;
-//   max-width: 384px;
-// }
-
-// @media screen and (min-width: 768px) {
-//   .canvas-editor {
-//     flex-direction: row;
-//   }
-// }
-
-/* 
-
-.react-flow__node-default,
-.react-flow__node-input,
-.react-flow__node-output {
-  padding: 10px;
-  border-radius: 3px;
-  width: 150px;
-  font-size: 12px;
-  color: #222;
-  text-align: center;
-  border-width: 1px;
-  border-style: solid;
-} 
-
-
-.react-flow__node-input {
-  background: #fff;
-  border-color: #0041d0;
-
-  &.selected,
-  &.selected:hover {
-    box-shadow: 0 0 0 0.5px #0041d0;
-  }
-
-  .react-flow__handle {
-    background: #0041d0;
-  }
-}
-*/

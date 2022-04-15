@@ -2,7 +2,35 @@
     background-color: white;
     border: 1px solid #777;
     border-radius: 5px;
-    text-align: center;
+    text-align: center; 
     width: 100px;
-    padding: 10px;
+    height: 50px;
+    padding-top: 1px;
+    padding-left: 1px;
+}
+
+.clock__output {
+    width: 10px;
+    height: 10px;
+}
+
+.clock-cls-1 {
+    fill: none;
+}
+
+.clock-cls-1, .clock-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
+}
+
+.clock-cls-2 {
+    fill: #fff;
+}
+
+.clock-cls-3 {
+    font-size: 48px;
+    fill: #231f20;
+    font-family: Marion-Italic, Marion;
+    font-style: italic;
 }

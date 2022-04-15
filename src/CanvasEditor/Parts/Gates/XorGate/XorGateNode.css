@@ -1,23 +1,10 @@
 .xor__gate {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 65px;
-    padding: 10px;
-}
-
-.xor-image {
-    width: 79px;
-    height: 65px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
+    width: 132px;
+    height: 64px;
 }
 
 .xor__input__one, .xor__input__two, .xor__output {
@@ -25,14 +12,28 @@
     height: 10px;
 }
 
-/*.xor__input__one {
-
+.xor__input__one {
+    top: 23%;
+    left: -5%;
 }
 
 .xor__input__two {
-
-} */
+    top: 77%;
+    left: -5%;
+}
 
 .xor__output {
-    right: 5px;
+    top: 50%;
+    right: -5%!important;
+}
+
+.xor-cls-1 {
+    fill: #fff;
+}
+
+.xor-cls-2 {
+    fill: none;
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
 }

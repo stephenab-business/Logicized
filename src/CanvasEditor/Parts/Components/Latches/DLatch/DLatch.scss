@@ -1,38 +1,50 @@
 .d__latch {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 105px;
-    padding: 10px;
+    width: 132px;
+    height: 129px;
+    padding-top: 1px;
 }
 
-.d-latch-image {
-    width: 85px;
-    height: 90px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
-}
-
-.d__input__one, .d__input__two, .d__output {
+.d__input__one, .d__output__two, .d__output__one {
     width: 10px;
     height: 10px;
 }
 
-/*.d__input__one {
+.d__input__one {
+    top: 12%;
+    left: -3.5%;
+}
+
+.d__output__one {
+    top: 12%;
 
 }
 
-.d_input__two {
+.d__output__two {
+    top: 88%;
+}
 
-} */
 
-.d__output {
-    right: 5px;
+.dl-cls-1 {
+    fill: #fff;
+}
+
+.dl-cls-1, .dl-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
+}
+
+.dl-cls-2 {
+    fill:none;
+}
+
+.dl-cls-3 {
+    font-size: 48px;
+    fill: #231f20;
+    font-family: Marion-Italic, Marion;
+    font-style: italic;
 }

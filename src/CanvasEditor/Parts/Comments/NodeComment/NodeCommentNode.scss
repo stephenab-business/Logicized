@@ -8,14 +8,13 @@ $node-comment-selected: blue;
 .node-comment {
 
   .node-comment-initial {
-    width: 95%;
+    width: 100%;
     height: 2rem;
-
   }
 
   .node-comment-submitted {
     background-color: $node-comment-border;
-    border: 1px solid $node-comment-border;
+    border: 2px solid $node-comment-border;
 
     font-size: 12;
     border-radius: 0;
@@ -28,8 +27,8 @@ $node-comment-selected: blue;
     box-sizing: border-box;
     padding-top: 16px;
     padding-bottom: 16px;
-    padding-left: 1px;
-    padding-right: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
 
       .node-comment-pointer {
         height: 0;
@@ -40,7 +39,7 @@ $node-comment-selected: blue;
         border-top: 8px solid $node-comment-border;
         position: absolute;
         left: 10px;
-        top: 95%;
+        top: 97%;
       }
     
       .node-comment-text-box {
@@ -50,8 +49,8 @@ $node-comment-selected: blue;
 
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
-        padding-top: 5px;
-        padding-bottom: 6px;        
+        padding-top: 4px;
+        padding-bottom: 4px;        
         border-left: 1px solid white;
         border-top: 1px solid white;
       }

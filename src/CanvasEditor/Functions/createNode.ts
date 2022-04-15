@@ -1,6 +1,37 @@
-import { OnLoadParams, Position, ElementId, Elements } from "inputs-and-outputs-renderer";
+import { OnLoadParams, Position, ElementId, Elements, XYPosition } from "inputs-and-outputs-renderer";
 import React from "react";
 import { ConnectionMap } from "../CanvasEditor";
+
+export function createClock(droppedPosition: XYPosition, clockTime: number, rising: boolean, reactFlowInstance: OnLoadParams<any> | undefined, getId: () => ElementId, setElements: React.Dispatch<React.SetStateAction<Elements<any>>>, modeIsEditing: boolean) {
+    if (reactFlowInstance) {
+        const position = reactFlowInstance.project({ x: droppedPosition.x - 285, y: droppedPosition.y - 20});
+        const id = getId();
+        const type = 'clock';
+        let output: number = 0;
+        if (!rising) {
+            output = 1;
+        }
+        const data = {
+            output: output,
+            comment: false,
+            commentId: '',
+            clockInterval: clockTime,
+            initialValue: output,
+            initialized: true,
+            children: [],
+            modeIsEditing: modeIsEditing,
+            negateOutput: false,
+            propDelay: 0,
+        };
+        const newNode = {
+            id,
+            type,
+            data,
+            position,
+        };
+        setElements((elements) => elements.concat(newNode));
+    }
+}
 
 export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadParams<any> | undefined, getId: () => ElementId, setElements: React.Dispatch<React.SetStateAction<Elements<any>>>, modeIsEditing: boolean) {
         if (reactFlowInstance) {
@@ -383,8 +414,6 @@ export function createNode(event: React.DragEvent, reactFlowInstance: OnLoadPara
                     negateInputTwo: false,
                     negateOutput: false,
                     propDelay: 0,
-                    setupTime: 0,
-                    holdTime: 0,
                     parents: []
                 }
                 const sourcePosition = Position.LeftTop;

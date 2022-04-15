@@ -1,4 +1,4 @@
-import { Node, Elements, Connection } from "inputs-and-outputs-renderer";
+import { Node, Elements } from "inputs-and-outputs-renderer";
 import { ConnectionMap, TimeMap } from "../CanvasEditor";
 import { getDataId, getOutputDataId } from "./createNode";
 
@@ -66,11 +66,11 @@ export function connectFunction(sourceNodeId: string, targetNodeId: string, sour
     const childNode: Node = elements.find((element) => element.id === targetNodeId) as Node;
     const timeKeys = Array.from(timeMapping.keys());
     const connection = createConnection(sourceHandleId, targetNodeId, targetHandleId);
-    const targetDataId = getDataId(targetHandleId);
-    const sourceDataId = getOutputDataId(sourceHandleId);
-    parentNode.data[sourceDataId + 'Connected'] = true;
-    childNode.data[targetDataId + 'Connected'] = true;
-    childNode.data.parents.push(parentNode.id);
+    // const targetDataId = getDataId(targetHandleId);
+    // const sourceDataId = getOutputDataId(sourceHandleId);
+    // parentNode.data[sourceDataId + 'Connected'] = true;
+    // childNode.data[targetDataId + 'Connected'] = true;
+    // childNode.data.parents.push(parentNode.id);
 
     // Set the parentNode's child to include this new node
     if (newElements[parentNodeIndex].data.children !== undefined) {

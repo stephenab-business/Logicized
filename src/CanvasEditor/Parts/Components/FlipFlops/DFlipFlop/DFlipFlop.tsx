@@ -2,7 +2,6 @@ import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
 import './DFlipFlop.scss';
-import DFFSymbol from './D_FF_Icon.png';
 
 const DFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.outputOne);
@@ -56,9 +55,19 @@ const DFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) =
         <>
             <div className = 'd__flip__flop'>
                 <Handle id = 'dff__input__one' className = 'dff__input__one' type = 'target' position = {sourcePosition} />
-                <Handle id = 'dff__input__two' className = 'dff__input__one' type = 'target' position = {inputPosition} />
-                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/}
-                <img className='d-flip-flop-image' src={DFFSymbol}></img>
+                <Handle id = 'dff__input__two' className = 'dff__input__two' type = 'target' position = {inputPosition} />
+                <svg viewBox="0 0 414.426 398.955">
+                    <rect className="dff-cls-1" x="75" y="2.5" width="264.426" height="393.955"/>
+                    <polygon className="dff-cls-1" points="100 346.73 75 332.296 75 361.164 100 346.73"/>
+                    <line className="dff-cls-2" x1="75" y1="347.21" y2="347.21"/>
+                    <line className="dff-cls-2" x1="75" y1="51.744" y2="51.744"/>
+                    <line className="dff-cls-2" x1="339.426" y1="51.744" x2="414.426" y2="51.744"/>
+                    <line className="dff-cls-2" x1="339.426" y1="347.21" x2="414.426" y2="347.21"/>
+                    <text className="dff-cls-3" transform="translate(273.941 65.537)">Q</text>
+                    <text className="dff-cls-3" transform="translate(269.957 364.289)">Q’</text>
+                    <text className="dff-cls-3" transform="translate(114.077 362.125)">Clk</text>
+                    <text className="dff-cls-3" transform="translate(101.24 65.767)">D</text>
+                </svg>
                 <Handle id = 'dff__output__one' className = 'dff__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'dff__output__two' className = 'dff__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

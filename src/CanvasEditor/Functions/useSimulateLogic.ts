@@ -1,5 +1,5 @@
 import React, { SetStateAction, useEffect } from "react";
-import { ElementId, Elements, getIncomers, getOutgoers, isNode, Node, removeElements } from "inputs-and-outputs-renderer";
+import { Elements, isNode, Node } from "inputs-and-outputs-renderer";
 import { ConnectionMap, TimeMap } from "../CanvasEditor";
 
 /* 

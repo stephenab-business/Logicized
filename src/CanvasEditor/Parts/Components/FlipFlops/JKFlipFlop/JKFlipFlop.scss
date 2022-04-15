@@ -1,38 +1,62 @@
 .jk__flip__flop {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 105px;
-    padding: 10px;
+    width: 132px;
+    height: 129px;
+    padding-top: 1px;
 }
 
-.jk-flip-flop-image {
-    width: 85px;
-    height: 90px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
-}
-
-.sr__input__one, .sr__input__two, .sr__output {
+.jkff__input__one, .jkff__input__two, .jkff__input__three, .jkff__output__one, .jkff__output__two {
     width: 10px;
     height: 10px;
 }
 
-/*.jk__input__one {
-
+.jkff__input__one {
+    top: 12%;
+    left: -3.5%;
 }
 
-.jk_input__two {
+.jkff__input__two {
+    top: 88%;
+    left: -3.5%;
+}
 
-} */
+.jkff__input__three {
+    top: 52%;
+    left: -3.5%;
+}
 
-.jk__output {
+.jkff__output__one {
+    top: 12%;
+}
+
+.jkff__output__two {
+    top: 88%;
+}
+
+.jkff__output {
     right: 5px;
+}
+
+.jkff-cls-1 {
+    fill: none;
+}
+
+.jkff-cls-1, .jkff-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
+}
+
+.jkff-cls-2 {
+    fill: #fff;
+}
+
+.jkff-cls-3 {
+    font-size: 48px;
+    fill:#231f20; 
+    font-family: Marion-Italic, Marion;
+    font-style: italic;
 }

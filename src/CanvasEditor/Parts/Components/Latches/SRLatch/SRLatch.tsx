@@ -2,7 +2,6 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
 import './SRLatch.scss';
-import SRSymbol from './SR_Latch_Icon.png'
 
 
 const SRLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
@@ -61,8 +60,17 @@ const SRLatch: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => 
             <div className = 'sr__latch'>
                 <Handle id = 'sr__input__one' className = 'sr__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'sr__input__two' className = 'sr__input__two' type = 'target' position = {inputPosition} />
-                { /* data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/ }
-                <img className='sr-latch-image' src={SRSymbol}></img>
+                <svg viewBox="0 0 414.426 398.955">
+                    <rect className="sr-cls-1" x="75" y="2.5" width="264.426" height="393.955"/>
+                    <line className="sr-cls-2" x1="75" y1="347.211" y2="347.211"/>
+                    <line className="sr-cls-2" x1="75" y1="51.745" y2="51.745"/>
+                    <line className="sr-cls-2" x1="339.426" y1="51.745" x2="414.426" y2="51.745"/>
+                    <line className="sr-cls-2" x1="339.426" y1="347.211" x2="414.426" y2="347.211"/>
+                    <text className="sr-cls-3" transform="translate(101.792 64.538)">S</text>
+                    <text className="sr-cls-3" transform="translate(273.424 65.538)">Q</text>
+                    <text className="sr-cls-3" transform="translate(269.44 364.29)">Q’</text>
+                    <text className="sr-cls-3" transform="translate(99.392 363.29)">R</text>
+                </svg>
                 <Handle id = 'sr__output__one' className = 'sr__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'sr__output__two' className = 'sr__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

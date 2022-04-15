@@ -4,35 +4,7 @@ import './ClockNode.css';
 
 const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => {
     const [initialized, setInitialized] = useState<boolean>(data.initialized);
-    const [rising, setRising] = useState<boolean>();
-    const [clockTime, setClockTime] = useState<number>(data.clockInterval);
     const [output, setOutput] = useState<boolean>(!!data.initialValue);
-
-    const onRisingClick = () => {
-        setRising(true);
-    }
-
-    const onFallingClick = () => {
-        setRising(false);
-    }
-
-    const onChange = (event: any) => {
-        setClockTime(event.target.value);
-    }
-
-    const submit = (event: React.FormEvent) => {
-        event.preventDefault();
-        data.clockInterval = clockTime;
-        if (rising) {
-            data.initialValue = 0;
-            data.output = 0;
-        } else {
-            data.initialValue = 1;
-            data.output = 1;
-        }
-        data.initialized = true;
-        setInitialized(true);
-    }
 
     useEffect(() => {
         let clock: NodeJS.Timer;
@@ -58,25 +30,13 @@ const ClockNode: FC<NodeProps> = ({ data, sourcePosition = Position.Right }) => 
             <div className = 'clock-node'>
                 {initialized && 
                 <div>
-                    <div>{data.output}</div>
-                    <Handle id = 'clock__handle' className = 'clock__handle' type = 'source' position = {sourcePosition} />
+                    <svg viewBox="0 0 222.532 105">
+                        <line className="clock-cls-1" x1="147.532" y1="52.5" x2="222.532" y2="52.5"/>
+                        <rect className="clock-cls-2" x="2.5" y="2.5" width="145.032" height="100"/>
+                        <text className="clock-cls-3" transform="translate(41.463 68.13)">Clk</text>
+                    </svg>
+                    <Handle id = 'clock__output' className = 'clock__output' type = 'source' position = {sourcePosition} />
                 </div>
-                }
-                {!initialized &&
-                    <div id = 'clock-modal' className='clock-modal'>
-                        <form onSubmit={submit}>
-                            <div>
-                                <input id='rising' type='radio' onClick={onRisingClick} name='risingOrFalling' required></input>
-                                <label htmlFor='rising'>Rising Edge</label>
-                            </div>
-                            <div>
-                                <input id='falling' type='radio' onClick={onFallingClick} name='risingOrFalling' required></input>
-                                <label htmlFor='falling'>Falling Edge</label>
-                            </div>
-                            <input type='number' onChange={onChange} required></input>
-                            <button onClick={submit}>Ok</button>
-                        </form>
-                    </div>
                 }
             </div>
         </>

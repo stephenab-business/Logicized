@@ -3,7 +3,6 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, useStoreState, Node } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
 import './SRLatchEnable.scss';
-import SRESymbol from './SR_Latch_Enable_Icon.png';
 
 
 const SRLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
@@ -32,11 +31,11 @@ const SRLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop 
                 setNotOutput(notState);
             }, data.propDelay);
         } else if (data.modeIsEditing) {
-            data.inputOne = 0;
-            data.inputTwo = 0;
-            data.inputThree = 0;
-            data.outputOne = 0;
-            data.outputTwo = 0;
+            data.inputOne = 'undefined';
+            data.inputTwo = 'undefined';
+            data.inputThree = 'undefined';
+            data.outputOne = 'undefined';
+            data.outputTwo = 'undefined';
             setOutput(data.output);
             setNotOutput(data.outputTwo);
         }
@@ -52,8 +51,19 @@ const SRLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop 
                 <Handle id = 'sre__input__one' className = 'sre__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'sre__input__two' className = 'sre__input__two' type = 'target' position = {inputPosition[1] as Position} />
                 <Handle id = 'sre__input__three' className = 'sre__input__three' type = 'target' position = { inputPosition[0] as Position } />
-                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/ }
-                <img className='sre-latch-image' src={SRESymbol}></img>
+                <svg viewBox="0 0 414.426 398.955">
+                    <rect className="sre-cls-1" x="75" y="2.5" width="264.426" height="393.955"/>
+                    <line className="sre-cls-2" x1="75" y1="347.211" y2="347.211"/>
+                    <line className="sre-cls-2" x1="75" y1="51.745" y2="51.745"/>
+                    <line className="sre-cls-2" x1="339.426" y1="51.745" x2="414.426" y2="51.745"/>
+                    <line className="sre-cls-2" x1="339.426" y1="347.211" x2="414.426" y2="347.211"/>
+                    <text className="sre-cls-3" transform="translate(101.792 64.538)">S</text>
+                    <text className="sre-cls-3" transform="translate(273.424 65.538)">Q</text>
+                    <text className="sre-cls-3" transform="translate(269.44 364.29)">Q’</text>
+                    <text className="sre-cls-3" transform="translate(99.392 363.29)">R</text>
+                    <text className="sre-cls-3" transform="translate(100.4 214.778)">E</text>
+                    <line className="sre-cls-2" x1="75" y1="199.477" y2="199.477"/>
+                </svg>
                 <Handle id = 'sre__output__one' className = 'sre__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'sre__output__two' className = 'sre__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

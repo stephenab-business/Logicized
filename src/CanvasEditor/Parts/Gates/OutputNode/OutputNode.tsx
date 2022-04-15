@@ -25,7 +25,7 @@ const OutputNodeGate: FC<NodeProps> = ({ data, sourcePosition = Position.Left })
     return(
         <>
             <div className = "output__gate">
-                <Handle id ='input__a' type = 'target' position = {sourcePosition} />
+                <Handle id ='input__a' className='input__a' type = 'target' position = {sourcePosition} />
                 {data.input}
             </div>
         </>

@@ -43,8 +43,8 @@ const NodeCommentNode: FC<NodeProps> = ({ data }) => {
         setEditing(false);
         data.edit = false;
         setSubmitted(true);
-        data.submitted = true;
         data.content = content;
+        data.submitted = true;
         data.typing = false;
     }
 

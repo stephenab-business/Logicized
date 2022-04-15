@@ -3,7 +3,6 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps, } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../Functions/gateFunctions'
 import './AndGateNode.css';
-import AndSymbol from './And_Gate_Icon.png'; // change
 
 const OrGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number>(data.output);
@@ -48,8 +47,12 @@ const OrGateNode: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
             <div className = 'and__gate'>
                 <Handle id = 'and__input__one' className = 'and__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'and__input__two' className = 'and__input__two' type = 'target' position = {inputPosition}/>
-                {/* { data.label + ': ' + data.output } */}
-                <img className='and-image' src={AndSymbol}></img>
+                <svg viewBox="0 0 287.935 136.32">
+                    <path className="and-cls-2" d="M222.049,68.16a65.664,65.664,0,0,1-65.66,65.66h-100V2.5h100A65.664,65.664,0,0,1,222.049,68.16Z"/>
+                    <line className="and-cls-1" x1="222.049" y1="68.16" x2="287.935" y2="68.16"/>
+                    <line className="and-cls-1" y1="34.853" x2="56.389" y2="34.853"/>
+                    <line className="and-cls-1" y1="101.466" x2="56.389" y2="101.466"/>
+                </svg>
                 <Handle id = 'and__output' className = 'and__output' type = 'source' position = {outputPosition} />
             </div>
         </>

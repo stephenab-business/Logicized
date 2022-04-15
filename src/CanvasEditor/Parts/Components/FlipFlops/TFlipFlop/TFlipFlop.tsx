@@ -2,7 +2,6 @@ import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions'
 import './TFlipFlop.scss';
-import TFFSymbol from './T_FF_Icon.png';
 
 const TFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.initialState);
@@ -62,8 +61,18 @@ const TFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) =
             <div className = 't__flip__flop'>
                 <Handle id = 'tff__input__one' className = 'tff__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'tff__input__two' className = 'tff__input__two' type = 'target' position = {inputPosition} />
-                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/}
-                <img className='t-flip-flop-image' src={TFFSymbol}></img>
+                <svg viewBox="0 0 414.426 398.955">
+                    <rect className="tff-cls-1" x="75" y="2.5" width="264.426" height="393.955"/>
+                    <polygon className="tff-cls-1" points="100 346.73 75 332.296 75 361.164 100 346.73"/>
+                    <line className="tff-cls-2" x1="75" y1="347.21" y2="347.21"/>
+                    <line className="tff-cls-2" x1="75" y1="51.744" y2="51.744"/>
+                    <line className="tff-cls-2" x1="339.426" y1="51.744" x2="414.426" y2="51.744"/>
+                    <line className="tff-cls-2" x1="339.426" y1="347.21" x2="414.426" y2="347.21"/>
+                    <text className="tff-cls-3" transform="translate(273.941 65.537)">Q</text>
+                    <text className="tff-cls-3" transform="translate(269.957 364.289)">Q’</text>
+                    <text className="tff-cls-3" transform="translate(114.077 362.125)">Clk</text>
+                    <text className="tff-cls-3" transform="translate(101.24 65.767)">T</text>
+                </svg>
                 <Handle id = 'tff__output__one' className = 'tff__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'tff__output__two' className = 'tff__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

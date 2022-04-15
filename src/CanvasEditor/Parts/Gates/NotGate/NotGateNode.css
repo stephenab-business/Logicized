@@ -1,38 +1,34 @@
 .not__gate {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px;
     text-align: center;
-    width: 79px;
-    height: 65px;
-    padding: 10px;
+    width: 100px;
+    height: 33px;
 }
 
-.not-image {
-    width: 79px;
-    height: 65px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
-}
-
-.not__input__one, .not__input__two, .not__output {
+.not__input, .not__output {
     width: 10px;
     height: 10px;
 }
 
-/*.not__input__one {
-
+.not__input {
+    left: -5px;
+}
+.not__output {
+    right: -5px;
 }
 
-.not_input__two {
+.not-cls-1 {
+    fill: #fff;
+}
 
-} */
+.not-cls-2 {
+    fill: none;
+}
 
-.not__output {
-    right: 5px;
+.not-cls-1, .not-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
 }

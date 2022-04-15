@@ -4,5 +4,26 @@
     border-radius: 5px;
     text-align: center;
     width: 100px;
-    padding: 10px;  
+    height: 46px;
+    padding-top: 1px;
+    padding-left: 1px;
+}
+
+.switch__output {
+    width: 10px;
+    height: 10px;
+}
+
+.switch-cls-1 {
+    fill: none;
+}
+
+.switch-cls-1, .switch-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
+}
+
+.switch-cls-2 {
+    fill: #fff;
 }

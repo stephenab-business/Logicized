@@ -1,23 +1,10 @@
 .xnor__gate {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 65px;
-    padding: 10px;
-}
-
-.xnor-image {
-    width: 79px;
-    height: 65px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
+    width: 132px;
+    height: 64px;
 }
 
 .xnor__input__one, .xnor__input__two, .xnor__output {
@@ -25,14 +12,31 @@
     height: 10px;
 }
 
-/*.xnor__input__one {
-
+.xnor__input__one {
+    top: 23%;
+    left: -5%;
 }
 
 .xnor__input__two {
-
-} */
+    top: 77%;
+    left: -5%;
+}
 
 .xnor__output {
-    right: 5px;
+    top: 50%;
+    right: -5%!important;
+}
+
+.xnor-cls-1, .xnor-cls-3 {
+    fill: #fff;
+}
+
+.xnor-cls-2, .xnor-cls-3 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
+}
+
+.xnor-cls-2 {
+    fill: none;
 }

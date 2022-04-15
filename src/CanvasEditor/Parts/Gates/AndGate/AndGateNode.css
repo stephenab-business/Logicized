@@ -1,23 +1,10 @@
 .and__gate {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 65px;
-    padding: 10px;
-}
-
-.and-image {
-    width: 79px;
-    height: 65px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
+    width: 132px;
+    height: 64px;
 }
 
 .and__input__one, .and__input__two, .and__output {
@@ -25,14 +12,31 @@
     height: 10px;
 }
 
-/*.and__input__one {
-
+.and__input__one {
+    top: 23%;
+    left: -5%;
 }
 
 .and__input__two {
-
-} */
+    top: 77%;
+    left: -5%;
+}
 
 .and__output {
-    right: 5px;
+    top: 50%;
+    right: -5%!important;
+}
+
+.and-cls-1 {
+    fill: none;
+}
+
+.and-cls-2 {
+    fill: #fff;
+}
+
+.and-cls-1, .and-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
 }

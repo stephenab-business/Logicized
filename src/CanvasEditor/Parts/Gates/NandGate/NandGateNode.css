@@ -1,38 +1,43 @@
 .nand__gate {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 65px;
-    padding: 10px;
+    width: 132px;
+    height: 64px;
 }
 
-.nand-image {
-    width: 79px;
-    height: 65px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
-}
 
 .nand__input__one, .nand__input__two, .nand__output {
     width: 10px;
     height: 10px;
 }
 
-/*.nand__input__one {
-
+.nand__input__one {
+    top: 23%;
+    left: -5%;
 }
 
 .nand__input__two {
-
-} */
+    top: 77%;
+    left: -5%;
+}
 
 .nand__output {
-    right: 5px;
+    top: 50%;
+    right: -5%!important;
+}
+
+.nand-cls-1, .nand-cls-3 {
+    fill: #fff;
+}
+
+.nand-cls-2 {
+    fill: none;
+}
+
+.nand-cls-2, .nand-cls-3 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
 }

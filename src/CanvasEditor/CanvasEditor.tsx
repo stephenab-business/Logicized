@@ -13,6 +13,7 @@ import ReactFlow, {
     updateEdge,
     XYPosition,
     isEdge,
+    isNode,
 } from 'inputs-and-outputs-renderer';
 import { PartsMenu } from './PartsMenu';
 
@@ -20,13 +21,11 @@ import { nodeTypes } from './Parts';
 
 import { useClipboardShortcuts } from './Functions/useClipboardShortcuts';
 import './canvas.scss';
-import { createNode } from './Functions/createNode';
+import { createClock, createNode } from './Functions/createNode';
 import { undoNormalSelection } from './Functions/domFunctions';
 import { useSimulateLogic } from './Functions/useSimulateLogic';
 import { connectFunction } from './Functions/connectFunctions';
-import { PropertiesMenu } from './PropertiesMenu';
-import { Col, Container, Row } from 'react-bootstrap';
-
+import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
 
 interface CanvasEditorProps {
     mode: string;
@@ -41,144 +40,7 @@ export type ConnectionMap = {
 export type TimeMap = Map<string, number>;
 
 const initialElements: Elements = [
-    {
-        id: 'inputClockNode', 
-        position: {x: 146, y: 300}, 
-        type: 'clock', 
-        data: {
-            output: 0,
-            comment: false,
-            commentId: '',
-            clockInterval: 1000,
-            initialValue: 0,
-            initialized: true,
-            children: [],
-            modeIsEditing: true,
-            negateOutput: false,
-            propDelay: 0,
-        }
-    },
-    {
-        id: 'clockNode', 
-        position: {x: 146, y: 350}, 
-        type: 'clock', 
-        data: {
-            output: 0,
-            comment: false,
-            commentId: '',
-            clockInterval: 3000,
-            initialValue: 0,
-            initialized: true,
-            children: [],
-            modeIsEditing: true,
-            negateOutput: false,
-            propDelay: 0,
-        }
-    },
-    {
-        id: 'idNode',
-        position: {x: 146, y: 250},
-        type: 'inputGate',
-        data: {
-            output: 1,
-            comment: false,
-            commentId: '',
-            useClock: false,
-            clockInterval: null,
-            children: [],
-            modeIsEditing: true,
-            negateOutput: false,
-            propDelay: 0,
-        }
-    },
-    {
-        id: 'outputNode',
-        position: {x: 450, y: 250},
-        type: 'outputGate',
-        data: {
-            input: 0,
-            comment: false,
-            commentId: '',
-            useClock: false,
-            clockInterval: 0,
-            children: [],
-            modeIsEditing: true,
-            negateInput: false,
-        }
-    },
-    {
-        id: 'notOutputNode',
-        position: {x: 450, y: 350},
-        type: 'outputGate',
-        data: {
-            input: 0,
-            comment: false,
-            commentId: '',
-            useClock: false,
-            clockInterval: 0,
-            children: [],
-            modeIsEditing: true,
-            negateInput: false,
-        }
-    },
-    {
-        id: 'tOne',
-        position: {x: 300, y: 260},
-        type: 'tFlipFlop',
-        data: {
-            label: 'T Flip Flop',
-            inputOne: 0,
-            inputTwo: 0,
-            outputOne: 0,
-            outputTwo: 1,
-            initialState: 0,
-            initialNotState: 1,
-            falling: false,
-            comment: false,
-            commentId: '',
-            useClock: false,
-            clockInterval: 0,
-            children: [],
-            modeIsEditing: true,
-            negateInputOne: false,
-            negateInputTwo: false,
-            negateInputThree: false,
-            negateOutputOne: false,
-            negateOutputTwo: false,
-            propDelay: 0,
-            setupTime: 0,
-            holdTime: 0,
-        }
-    },
-    {
-        id: 'tTwo',
-        position: {x: 300, y: 460},
-        type: 'tFlipFlop',
-        data: {
-            label: 'T Flip Flop',
-            inputOne: 0,
-            inputTwo: 0,
-            outputOne: 0,
-            outputTwo: 1,
-            initialState: 0,
-            initialNotState: 1,
-            falling: true,
-            comment: false,
-            commentId: '',
-            useClock: false,
-            clockInterval: 0,
-            children: [],
-            modeIsEditing: true,
-            negateInputOne: false,
-            negateInputTwo: false,
-            negateInputThree: false,
-            negateOutputOne: false,
-            negateOutputTwo: false,
-            propDelay: 0,
-            setupTime: 0,
-            holdTime: 0,
-        }
-    }
+
 ];
 
 const initialSelected: Elements = [];
@@ -188,6 +50,10 @@ const initialTimeMapping: TimeMap = new Map();
 
 let localSelection: Elements = [];
 let commentSelection: Node[] = [];
+
+let droppedPosition: XYPosition | null = null;
+let rising: boolean | null = null;
+let clockTime: number | null = null;
 
 // DEFINE MORE ID FUNCTIONS SO THAT WE DON'T GET THESE BLAND ID'S FOR OUR NODES AND CAN ACTUALLY SEE WHICH IS WHICH
 let id = 0;
@@ -200,12 +66,16 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
     const [selected, setSelected] = useState<Elements>(initialSelected);
     const [editing, setEditing] = useState<boolean>(mode === 'editing');
     const [timeMapping, setTimeMapping] = useState<TimeMap>(initialTimeMapping);
+    const [initializeClock, setInitializeClock] = useState<boolean>(false); 
     const onGoingEdgeUpdate = useRef(false);
     const nodeCommentOffset: number = 42;
     const selectionKeys = ['ShiftLeft', 'ShiftRight', 'Shift'];
     const selecting = useRef(false);
 
     const onConnect = (params: Edge | Connection) => {
+        if (!editing) {
+            return;
+        }
         let sourceNodeId = params.source;
         let sourceHandleId = params.sourceHandle;
         let targetNodeId = params.target;
@@ -227,6 +97,9 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
 
 
     const onElementsRemove = (elementsToRemove: Elements) => {
+        if (!editing) {
+            return;
+        }
         const timeKeys = Array.from(timeMapping.keys());
         elementsToRemove.forEach((element) => {
             // if the element is an edge, then it means we have either deleted just the edge or the childNode, which includes the edge
@@ -270,9 +143,10 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                 // If element is Node, and that Node is a Node Comment
                 else if (element.type === 'nodeComment') {
                     const commentId = element.data.id;
-                    const parentNode = elements.find((element) => element.id === commentId) as Node;
+                    const parentNode = elements.find((element) => element.data.commentId === commentId) as Node;
                     parentNode.data.comment = false;
                     parentNode.data.commentId = '';
+                    
                 }
             }
         });
@@ -295,7 +169,10 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
 
     const onEdgeUpdateEnd = useCallback((_, edge) => {
         if (onGoingEdgeUpdate.current) {
-            setElements((elements) => elements.filter((element) => element.id !== edge.id));
+            // setElements((elements) => elements.filter((element) => element.id !== edge.id));
+            // const edgeToDelete = elements.find((element) => element.id === edge.id);
+            // console.log(edge)
+            // setElements((elements) => removeElements([edge], elements));
         }
     }, []);
 
@@ -305,8 +182,15 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
     }
 
     const onDrop = (event: DragEvent) => {
-        event.preventDefault();  
-        createNode(event, reactFlowInstance, getId, setElements, editing);
+        const passedType = event.dataTransfer.getData('application/reactflow');
+        if (passedType === 'clock') {
+            event.preventDefault();
+            droppedPosition = {x: event.clientX, y: event.clientY};
+            setInitializeClock(true);
+        } else {
+            event.preventDefault();  
+            createNode(event, reactFlowInstance, getId, setElements, editing);
+        }
     }
 
     const onMoveStart = () => {
@@ -518,6 +402,50 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
 
     }
 
+    const onRisingClick = () => {
+        rising = true;
+    }
+
+    const onFallingClick = () => {
+        rising = false;
+    }
+
+    const onChange = (event: any) => {
+        clockTime = event.target.value;
+    }
+
+    const submit = (event: React.FormEvent) => {
+        event.preventDefault();
+        setInitializeClock(false);
+        if (clockTime !== null && rising !== null && droppedPosition !== null) {
+            createClock(droppedPosition, clockTime, rising, reactFlowInstance, getId, setElements, editing);
+        }
+    }
+
+    const cancelClock = () => {
+        setInitializeClock(false);
+        clockTime = null;
+        rising = null;
+        droppedPosition = null;
+    }
+
+    const changeMode = () => {
+        elements.forEach((element) => {
+          if (isNode(element) && element.data.modeIsEditing !== undefined) {
+            const newElements = elements;
+            const index = newElements.findIndex((node) => node.id === element.id);
+            setElements((elements) => removeElements(elements, elements));
+            newElements[index].data = {
+              ...element.data,
+              modeIsEditing: !editing,
+            }
+            setElements((elements) => elements.concat(newElements));
+          }
+        });
+    
+        setEditing(!editing);
+      }
+
     useSimulateLogic(elements, editing, timeMapping, setElements);
 
     useClipboardShortcuts(elements, selected, setSelected, onElementsRemove, setElements, getId);
@@ -538,7 +466,7 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
         <Container className = 'app-container' fluid={true}>
             <Row>
                 <Col className = 'col-md-2'>
-                    <PartsMenu editing = {editing} setEditing={setEditing} elements={elements} setElements={setElements} />
+                    <PartsMenu editing = {editing} />
                 </Col>
                 <Col>
                     <ReactFlowProvider>
@@ -572,13 +500,58 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                                     gap = {12}
                                     size = {1}
                                 />
+
+                            {!initializeClock &&
+                                <Modal.Dialog size='sm' style={{zIndex: 12, background: 'none', left: '40%', maxWidth: '15%'}}>
+                                    <Modal.Body>
+                                    {editing && 
+                                        <div>
+                                            <p>Mode: Editing</p>
+                                            <Button variant='primary' onClick={changeMode}>Start Simulating</Button>
+                                        </div>
+                                    }
+                                    {!editing &&
+                                        <div>
+                                            <p>Mode: Simulating</p>
+                                            <Button variant='danger' onClick={changeMode}>End Simulation</Button>
+                                        </div>
+                                    }
+                                    </Modal.Body>
+                                </Modal.Dialog>   
+                            }
+                            {initializeClock && 
+                            <Modal.Dialog style={{zIndex: 12}} >
+                                <Modal.Header>
+                                    <Modal.Title>Initialize Clock</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                <div id = 'clock-modal' className='clock-modal'>
+                                    <form onSubmit={submit}>
+                                        <div>
+                                            <input id='rising' type='radio' onClick={onRisingClick} name='risingOrFalling' required></input>
+                                            <label htmlFor='rising'>Rising Edge</label>
+                                        </div>
+                                        <div>
+                                            <input id='falling' type='radio' onClick={onFallingClick} name='risingOrFalling' required></input>
+                                            <label htmlFor='falling'>Falling Edge</label>
+                                        </div>
+                                        <input type='number' onChange={onChange} required></input>
+                                        <button onClick={submit}>Ok</button>
+                                    </form>
+                                </div>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <button onClick={cancelClock}>Cancel</button>
+                                </Modal.Footer>
+                            </Modal.Dialog>
+                            }
                             </ReactFlow>
                         </div>
                     </ReactFlowProvider>
                 </Col>
-                <Col className = 'col-md-2'>
-                    <PropertiesMenu selectedElements={selected} elements={elements} setElements={setElements} />
-                </Col>
+                {/* <Col className = 'col-md-2'>
+                    {/* <PropertiesMenu selectedElements={selected} elements={elements} setElements={setElements} editing = {editing} setEditing={setEditing} /> */}
+                
             </Row>
         </Container>
     );

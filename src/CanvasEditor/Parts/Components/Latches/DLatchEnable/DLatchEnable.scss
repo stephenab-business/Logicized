@@ -1,38 +1,53 @@
 .de__latch {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 105px;
-    padding: 10px;
+    width: 132px;
+    height: 129px;
+    padding-top: 1px;
 }
 
-.de-latch-image {
-    width: 85px;
-    height: 90px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
-}
-
-.de__input__one, .de__input__two, .de__output {
+.de__input__one, .de__input__two, .de__output__one, .de__output__two {
     width: 10px;
     height: 10px;
 }
 
-/*.de__input__one {
-
+.de__input__one {
+    top: 12%;
+    left: -3.5%;
 }
 
-.de_input__two {
+.de__input__two {
+    top: 88%;
+    left: -3.5%
+}
 
-} */
+.de__output__one {
+    top: 12%;
+}
 
-.de__output {
-    right: 5px;
+.de__output__two {
+    top: 88%;
+}
+
+.de-cls-1 {
+    fill: #fff;
+}
+
+.de-cls-1, .de-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
+}
+
+.de-cls-2 {
+    fill: none;
+}
+
+.de-cls-3 {
+    font-size: 48px;
+    fill: #231f20;
+    font-family: Marion-Italic, Marion;
+    font-style: italic;
 }

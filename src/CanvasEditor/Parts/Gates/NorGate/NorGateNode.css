@@ -1,23 +1,10 @@
 .nor__gate {
-    background-color: transparent;
-    /* border: 1px solid #777; */
-    /* border-radius: 5px; */
+    background-color: #fff;
+    border: 1px solid #777;
+    border-radius: 5px; 
     text-align: center;
-    width: 79px;
-    height: 65px;
-    padding: 10px;
-}
-
-.nor-image {
-    width: 79px;
-    height: 65px;
-        /* user-drag: none; */
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-
+    width: 132px;
+    height: 64px;
 }
 
 .nor__input__one, .nor__input__two, .nor__output {
@@ -25,14 +12,31 @@
     height: 10px;
 }
 
-/*.nor__input__one {
-
+.nor__input__one {
+    top: 23%;
+    left: -5%;
 }
 
-.nor_input__two {
-
-} */
+.nor__input__two {
+    top: 77%;
+    left: -5%;
+}
 
 .nor__output {
-    right: 5px;
+    top: 50%;
+    right: -5%!important;
+}
+
+.nor-cls-1 {
+    fill: #fff;
+}
+
+.nor-cls-2 {
+    fill: none;
+}
+
+.nor-cls-1, .nor-cls-2 {
+    stroke: #231f20;
+    stroke-miterlimit: 10;
+    stroke-width: 5px;
 }

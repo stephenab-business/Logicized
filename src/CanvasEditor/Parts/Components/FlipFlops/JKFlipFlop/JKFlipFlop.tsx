@@ -2,7 +2,6 @@ import React, { memo, FC, useState, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
 import './JKFlipFlop.scss';
-import JKFFSymbol from './JK_FF_Icon.png';
 
 const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
     const [output, setOutput] = useState<number | string>(data.outputOne);
@@ -71,8 +70,20 @@ const JKFlipFlop: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) 
                 <Handle id = 'jkff__input__one' className = 'jkff__input__one' type = 'target' position = {sourcePosition} />
                 <Handle id = 'jkff__input__two' className = 'jkff__input__two' type = 'target' position = {inputPosition[1]} />
                 <Handle id = 'jkff__input__three' className = 'jkff__input__three' type = 'target' position = {inputPosition[0]} />
-                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/ }
-                <img className='jk-flip-flop-image' src={JKFFSymbol}></img>
+                <svg viewBox="0 0 414.426 398.955">
+                    <line className="jkff-cls-1" x1="75" y1="199.477" y2="199.477"/>
+                    <rect className="jkff-cls-2" x="75" y="2.5" width="264.426" height="393.955"/>
+                    <polygon className="jkff-cls-2" points="100 199.477 75 185.043 75 213.911 100 199.477"/>
+                    <line className="jkff-cls-1" x1="75" y1="347.21" y2="347.21"/>
+                    <line className="jkff-cls-1" x1="75" y1="51.744" y2="51.744"/>
+                    <line className="jkff-cls-1" x1="339.426" y1="51.744" x2="414.426" y2="51.744"/>
+                    <line className="jkff-cls-1" x1="339.426" y1="347.21" x2="414.426" y2="347.21"/>
+                    <text className="jkff-cls-3" transform="translate(101.309 64.537)">J</text>
+                    <text className="jkff-cls-3" transform="translate(273.941 65.537)">Q</text>
+                    <text className="jkff-cls-3" transform="translate(269.957 364.289)">Q’</text>
+                    <text className="jkff-cls-3" transform="translate(98.909 363.289)">K</text>
+                    <text className="jkff-cls-3" transform="translate(114.077 214.873)">Clk</text>
+                </svg>
                 <Handle id = 'jkff__output__one' className = 'jkff__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'jkff__output__two' className = 'jkff__output__two' type = 'source' position = {outputTwoPosition} />
             </div>

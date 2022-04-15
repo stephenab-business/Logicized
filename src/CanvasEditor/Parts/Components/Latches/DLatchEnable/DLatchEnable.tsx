@@ -2,7 +2,6 @@ import React, { memo, FC, useEffect, useState } from 'react';
 import { Handle, Position, NodeProps } from 'inputs-and-outputs-renderer';
 import { getInputPosition, getOutputPosition } from '../../../../Functions/gateFunctions';
 import './DLatchEnable.scss';
-import DLESymbol from './D_Latch_Enable_Icon.png';
 
 
 const DLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }) => {
@@ -20,12 +19,6 @@ const DLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }
                 if (data.inputOne !== 'undefined' && data.inputTwo !== 'undefined') {
                     let d: boolean = !!data.inputOne;
                     let enable: boolean = !!data.inputTwo;
-                    // const enableD: boolean = d && enable;
-                    // const enableNotD: boolean = !d && enable;
-                    // let stateBool: boolean | string;
-                    // let notStateBool: boolean | string;
-                    // stateBool = enableNotD ? false : (enableD ? true : (notOutput === 'undefined' ? 'undefined' : !!notOutput));
-                    // notStateBool = enableD ? false : (enableNotD ? true : (output === 'undefined' ? 'undefined' : !!output));
                     let stateBool : boolean | string;
                     let notStateBool : boolean | string;
                     if (enable) {
@@ -33,7 +26,8 @@ const DLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }
                         notStateBool = !d;
                     }
                     else {
-                        stateBool = !!output;
+                        const prevState = data.output;
+                        stateBool = !!prevState;
                         notStateBool = !!data.notOutput;
                     }
                     const state: number = +stateBool;
@@ -68,9 +62,18 @@ const DLatchEnable: FC<NodeProps> = ({ data, sourcePosition = Position.LeftTop }
         <>
             <div className = 'de__latch'>
                 <Handle id = 'de__input__one' className = 'de__input__one' type = 'target' position = {sourcePosition} />
-                <Handle id = 'de__input__two' className = 'd__input__two' type = 'target' position = {inputPosition} />
-                { /*data.label + ': ' + data.outputOne + ', ' + data.outputTwo*/ }
-                <img className='de-latch-image' src={DLESymbol}></img>
+                <Handle id = 'de__input__two' className = 'de__input__two' type = 'target' position = {inputPosition} />
+                <svg viewBox="0 0 414.426 398.955">
+                    <rect className="de-cls-1" x="75" y="2.5" width="264.426" height="393.955"/>
+                    <line className="de-cls-2" x1="75" y1="347.211" y2="347.211"/>
+                    <line className="de-cls-2" x1="75" y1="51.745" y2="51.745"/>
+                    <line className="de-cls-2" x1="339.426" y1="51.745" x2="414.426" y2="51.745"/>
+                    <line className="de-cls-2" x1="339.426" y1="347.211" x2="414.426" y2="347.211"/>
+                    <text className="de-cls-3" transform="translate(101.24 364.519)">E</text>
+                    <text className="de-cls-3" transform="translate(101.24 65.767)">D</text>
+                    <text className="de-cls-3" transform="translate(273.432 65.767)">Q</text>
+                    <text className="de-cls-3" transform="translate(269.449 364.519)">Q’</text>
+                </svg>
                 <Handle id = 'de__output__one' className = 'de__output__one' type = 'source' position = {outputOnePosition} />
                 <Handle id = 'de__output__two' className = 'de__output__two' type = 'source' position = {outputTwoPosition} />
             </div>
