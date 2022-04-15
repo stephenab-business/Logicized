@@ -527,21 +527,34 @@ const CanvasEditor: FC<CanvasEditorProps> = ({ mode }) => {
                                 <Modal.Body>
                                 <div id = 'clock-modal' className='clock-modal'>
                                     <form onSubmit={submit}>
-                                        <div>
-                                            <input id='rising' type='radio' onClick={onRisingClick} name='risingOrFalling' required></input>
-                                            <label htmlFor='rising'>Rising Edge</label>
-                                        </div>
-                                        <div>
-                                            <input id='falling' type='radio' onClick={onFallingClick} name='risingOrFalling' required></input>
-                                            <label htmlFor='falling'>Falling Edge</label>
-                                        </div>
-                                        <input type='number' onChange={onChange} required></input>
-                                        <button onClick={submit}>Ok</button>
+                                        <Container>
+                                            <Row>
+                                                <Col>
+                                                <label htmlFor='rising' style={{paddingRight: '10px'}}>Rising Edge</label>
+                                                <input id='rising' type='radio' onClick={onRisingClick} name='risingOrFalling' required></input>
+                                                </Col>
+                                                <Col>
+                                                <label htmlFor='falling' style={{paddingRight: '10px'}}>Falling Edge</label>
+                                                <input id='falling' type='radio' onClick={onFallingClick} name='risingOrFalling' required></input>
+                                                </Col>
+                                            </Row>
+                                            <Row style={{padding: '10px'}}>
+                                                <Col>
+                                                <label htmlFor='timing' style={{paddingRight: '10px'}}>Clock Interval:</label>
+                                        <input id='timing' type='number' onChange={onChange} required></input>
+                                                </Col>
+                                            </Row>
+                                        </Container>
+
+
+                                        
+                                        
                                     </form>
                                 </div>
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <button onClick={cancelClock}>Cancel</button>
+                                    <Button variant='primary' onClick={submit}>Submit</Button>
+                                    <Button variant='danger' onClick={cancelClock}>Cancel</Button>
                                 </Modal.Footer>
                             </Modal.Dialog>
                             }

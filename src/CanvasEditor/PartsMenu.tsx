@@ -74,7 +74,7 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing}) => {
       </Row>
       {editing &&
         <Row>
-        <Col className = 'parts-icons col-md-4'>
+        <Col className = 'parts-icons col-md-3'>
           <Stack className='parts-stack justify-content-center' gap={4} style={{height: '100%'}}>
             {tabClicked[0] && 
               <div><img src = {GatesIconClicked} draggable = {false}></img></div>
@@ -102,7 +102,7 @@ export const PartsMenu: FC<PartsMenuProps> = ({editing}) => {
             }
           </Stack>
         </Col>
-        <Col className = 'align-items-center actual-parts col-md-6' style={{width: '66%', padding: '10px', overflowY: 'scroll'}}>
+        <Col className = 'align-items-center actual-parts col-md-6' style={{width: '67%', padding: '10px', overflowY: 'scroll'}}>
           {tabClicked[0] && 
             <div>
               <div className="dndnode-input" onDragStart={(event: DragEvent) => onDragStart(event, 'inputgate')} draggable>
